@@ -6,12 +6,16 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Card from 'react-bootstrap/Card';
 import * as formik from 'formik';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useContext } from 'react';
+import { logIn } from '../store/authSlice.js';
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const { Formik } = formik;
 
   const schema = yup.object().shape({
-    name: yup
+    username: yup
       .string()
       .min(3, 'Должно быть не меньше 3 символов')
       .max(15, 'Имя не должно превышать 15 символов')
@@ -32,10 +36,10 @@ const LoginPage = () => {
           <Formik
             validationSchema={schema}
             onSubmit={(values) => {
-              console.log(values);
+              dispatch(logIn(values));
             }}
             initialValues={{
-              name: '',
+              username: '',
               password: '',
             }}
           >
@@ -50,13 +54,13 @@ const LoginPage = () => {
                     <Form.Control
                       type='text'
                       placeholder='Имя'
-                      name='name'
-                      value={values.name}
+                      name='username'
+                      value={values.username}
                       onChange={handleChange}
-                      isInvalid={!!errors.name}
+                      isInvalid={!!errors.username}
                     />
                     <Form.Control.Feedback type='invalid'>
-                      {errors.name}
+                      {errors.username}
                     </Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>
@@ -94,67 +98,5 @@ const LoginPage = () => {
     </Card>
   );
 };
-
-// const LoginPage = () => {
-//   const formik = useFormik({
-//     initialValues: {
-//       firstName: '',
-//       lastName: '',
-//       email: '',
-//     },
-//     validationSchema: yup.object({
-//       name: yup
-//         .string()
-//         .min(3, 'Must be 15 characters or less')
-//         .max(15, 'Имя не должно превышать 15 символов')
-//         .required('Заполните имя'),
-//       password: yup
-//         .string()
-//         .min(5, 'Must be 20 characters or less')
-//         .required('Введите пароль'),
-//     }),
-//     onSubmit: (values) => {
-//       alert(JSON.stringify(values, null, 2));
-//     },
-//   });
-
-//   return (
-//     <Card style={{ width: '32rem' }}>
-//       <Card.Body>
-//         <Card.Title>
-//           <h1 className='text-center mb-3'>Войти</h1>
-//         </Card.Title>
-//         <Card.Text>
-//           <Form onSubmit={formik.handleSubmit}>
-//             <FloatingLabel
-//               controlId='floatingInput'
-//               label='Имя'
-//               className='mb-3'
-//             >
-//               <Form.Control
-//                 type='text'
-//                 placeholder='Имя'
-//                 {...formik.getFieldProps('name')}
-//               />
-//             </FloatingLabel>
-//             <FloatingLabel controlId='floatingPassword' label='Пароль'>
-//               <Form.Control
-//                 type='password'
-//                 placeholder='Пароль'
-//                 {...formik.getFieldProps('password')}
-//               />
-//             </FloatingLabel>
-//           </Form>
-//         </Card.Text>
-//         <Button variant='outline-primary' className='w-100'>
-//           Войти
-//         </Button>
-//       </Card.Body>
-//       <Card.Footer className='text-muted text-center'>
-//         Зарегистрироваться
-//       </Card.Footer>
-//     </Card>
-//   );
-// };
 
 export default LoginPage;
