@@ -5,25 +5,19 @@ import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Card from 'react-bootstrap/Card';
 import * as formik from 'formik';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../store/authSlice.js';
 
 const LoginPage = () => {
+  const { feedback } = useSelector((state) => state.authorization);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Formik } = formik;
 
   const schema = yup.object().shape({
-    username: yup
-      .string()
-      .min(3, 'Должно быть не меньше 3 символов')
-      .max(15, 'Имя не должно превышать 15 символов')
-      .required('Заполните имя'),
-    password: yup
-      .string()
-      .min(5, 'Должно быть не меньше 5 символов')
-      .required('Введите пароль'),
+    username: yup.string().required('Заполните имя'),
+    password: yup.string().required('Введите пароль'),
   });
 
   return (
@@ -36,7 +30,11 @@ const LoginPage = () => {
           <Formik
             validationSchema={schema}
             onSubmit={(values) => {
-              dispatch(logIn(values));
+              dispatch(logIn(values)).then((result) => {
+                if (!result.error) {
+                  navigate('/', { replace: false });
+                }
+              });
             }}
             initialValues={{
               username: '',
@@ -54,6 +52,7 @@ const LoginPage = () => {
                     <Form.Control
                       type='text'
                       placeholder='Имя'
+                      required
                       name='username'
                       value={values.username}
                       onChange={handleChange}
@@ -70,13 +69,15 @@ const LoginPage = () => {
                     <Form.Control
                       type='password'
                       placeholder='Пароль'
+                      required
                       name='password'
                       value={values.password}
                       onChange={handleChange}
-                      isInvalid={!!errors.password}
+                      isInvalid={!!errors.password | !!feedback}
                     />
                     <Form.Control.Feedback type='invalid'>
                       {errors.password}
+                      {feedback}
                     </Form.Control.Feedback>
                   </FloatingLabel>
                 </Form.Group>

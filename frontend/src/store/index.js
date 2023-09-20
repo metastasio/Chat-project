@@ -3,6 +3,6 @@ import authReducer from './authSlice.js';
 
 export default configureStore({
   reducer: {
-    logIn: authReducer,
+    authorization: authReducer,
   },
 });

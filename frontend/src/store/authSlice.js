@@ -1,22 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { redirect } from 'react-router-dom';
 
-import recieveToken from '../services/tokenReciever';
+import { getUserToken } from '../services/tokenReceiver';
 
 export const logIn = createAsyncThunk(
   'authorization/logIn',
-  function (userData, { dispatch }) {
+  async function (userData, { dispatch }) {
     dispatch(setError(''));
-    const token = recieveToken(userData);
-    return token;
+    const { data } = await getUserToken(userData);
+    return data;
   },
 );
 
 const authSlice = createSlice({
   name: 'authorization',
   initialState: {
-    token: '',
+    token: null,
+    username: '',
     feedback: '',
     status: 'idle',
   },
@@ -28,18 +28,19 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(logIn.fulfilled, (state, action) => {
-        const { token } = action.payload.data;
+        const { token, username } = action.payload;
         state.token = token;
+        state.username = username;
         state.status = 'authorized';
-        redirect("/");
       })
       .addCase(logIn.pending, (state) => {
         state.feedback = 'Loading';
         state.status = 'loading';
       })
-      .addCase(logIn.rejected, (state, action) => {
-        state.feedback = 'Неверноые имя пользователя или пароль';
+      .addCase(logIn.rejected, (state) => {
+        state.feedback = 'Неверное имя пользователя или пароль';
         state.status = 'unauthorized';
+        state.username = '';
       });
   },
 });
