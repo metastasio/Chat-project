@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+
 const getUserToken = (userData) => axios.post('/login', userData);
 
-export { getUserToken };
+const getChatContent = (token) =>
+  axios.get('/data', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+export { getUserToken, getChatContent };

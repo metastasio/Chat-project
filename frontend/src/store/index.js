@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice.js';
-import channelsReducer from './channelsSlice.js';
+import contentReducer from './contentSlice.js';
 
 export default configureStore({
   reducer: {
     authorization: authReducer,
-    channels: channelsReducer,
+    content: contentReducer,
   },
 });

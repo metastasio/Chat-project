@@ -8,26 +8,24 @@ import Header from './components/Header.jsx';
 
 const App = () => {
   return (
-    <div class='h-100'>
-      <div class='h-100' id='chat'>
-        <div class='d-flex flex-column h-100'>
-          <BrowserRouter>
-            <Header />
-            <Routes>
-              <Route
-                path='/'
-                element={
-                  <RequireAuth>
-                    <MainPage />
-                  </RequireAuth>
-                }
-              />
-              <Route path='login' element={<LoginPage />} />
-              <Route path='registration' element={<RegistrationPage />} />
-              <Route path='*' element={<NotFound />} />
-            </Routes>{' '}
-          </BrowserRouter>
-        </div>
+    <div className='h-100'>
+      <div className='d-flex flex-column h-100'>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <RequireAuth>
+                  <MainPage />
+                </RequireAuth>
+              }
+            />
+            <Route path='login' element={<LoginPage />} />
+            <Route path='registration' element={<RegistrationPage />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
       </div>
     </div>
   );
