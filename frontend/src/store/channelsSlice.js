@@ -3,26 +3,28 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getChatContent } from '../services/tokenReceiver';
 
-export const setChatContent = createAsyncThunk(
-  'channels/getChatContent',
+export const addChannels = createAsyncThunk(
+  'channels/getChannelContent',
   async function (chatData) {
     const { data } = await getChatContent(chatData);
     return data;
   },
 );
 
-const contentSlice = createSlice({
+// const channelsAdapter = createEntityAdapter();
+// const initialState = channelsAdapter.getInitialState();
+
+const channelSlice = createSlice({
   name: 'channels',
   initialState: {
-    channels: [],
-    messages: [],
+    ids: [],
+    entities: [],
     currentChannel: '',
     feedback: '',
     status: '',
   },
   reducers: {
     changeChannel(state, action) {
-      console.log(action.payload, 'PAYLOAD');
       state.currentChannel = action.payload;
     },
     addChannel(state, action) {},
@@ -31,17 +33,19 @@ const contentSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(setChatContent.fulfilled, (state, action) => {
-        const { channels, messages, currentChannelId } = action.payload;
-        state.channels = channels;
-        state.messages = messages;
+      .addCase(addChannels.fulfilled, (state, action) => {
+        const { channels, currentChannelId } = action.payload;
+        if (channels.length) {
+          state.ids = channels.map((channel) => channel.id);
+        }
         state.currentChannel = currentChannelId;
+        state.entities = channels;
       })
-      .addCase(setChatContent.pending, (state) => {
+      .addCase(addChannels.pending, (state) => {
         state.feedback = 'Loading';
         state.status = 'loading';
       })
-      .addCase(setChatContent.rejected, (state) => {
+      .addCase(addChannels.rejected, (state) => {
         state.feedback = 'Error';
         state.status = 'error';
         state.username = '';
@@ -50,6 +54,6 @@ const contentSlice = createSlice({
 });
 
 export const { addChannel, removeChannel, changeChannel } =
-  contentSlice.actions;
+  channelSlice.actions;
 
-export default contentSlice.reducer;
+export default channelSlice.reducer;

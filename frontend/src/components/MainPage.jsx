@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setChatContent } from '../store/channelsSlice';
+import { addChannels } from '../store/channelsSlice';
 import Channels from './Channels';
 import Chat from './Chat';
 
@@ -10,7 +10,7 @@ const MainPage = () => {
   const { token } = useSelector((state) => state.authorization);
 
   useEffect(() => {
-    dispatch(setChatContent(token));
+    dispatch(addChannels(token));
   });
 
   return (

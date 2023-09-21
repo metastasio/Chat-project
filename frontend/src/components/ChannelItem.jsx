@@ -5,7 +5,7 @@ import { changeChannel } from '../store/channelsSlice';
 
 const ChannelItem = ({ name, removable, id }) => {
   const dispatch = useDispatch();
-  const { currentChannel } = useSelector((state) => state.content);
+  const { currentChannel } = useSelector((state) => state.channels);
 
   const classNames = cn({
     'w-100': true,

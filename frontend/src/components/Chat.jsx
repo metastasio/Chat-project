@@ -1,18 +1,22 @@
 import { useSelector } from 'react-redux';
 
 const Chat = () => {
-  // const { channels, currentChannel } = useSelector((state) => state.content);
-  // const getActiveChannel = (element) => element.id === currentChannel;
-  // const { name } = channels.find(getActiveChannel);
+  const { entities, currentChannel } = useSelector((state) => state.channels);
+  const { messages } = useSelector((state) => state.chats);
+
+  const getActiveChannel = (element) => element.id === currentChannel;
+  const name = entities.find(getActiveChannel);
+
+  const chatMessages = messages.filter(message => message.channelId === currentChannel);
 
   return (
     <div className='col p-0 h-100'>
       <div className='d-flex flex-column h-100'>
         <div className='bg-light mb-4 p-3 shadow-sm small'>
           <p className='m-0'>
-            <b># {name}</b>
+            <b># {name?.name}</b>
           </p>
-          <span className='text-muted'>0 сообщений</span>
+          <span className='text-muted'>{chatMessages.length} сообщений</span>
         </div>
         <div
           id='messages-box'
