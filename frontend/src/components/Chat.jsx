@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+// import { Container, Col } from 'react-bootstrap';
 
 const Chat = () => {
   const { entities, currentChannel } = useSelector((state) => state.channels);

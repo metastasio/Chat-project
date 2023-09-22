@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button, Navbar } from 'react-bootstrap';
 
 import { changeChannel } from '../store/channelsSlice';
 
@@ -16,16 +17,27 @@ const ChannelItem = ({ name, removable, id }) => {
   });
 
   return (
-    <li className='nav-item w-100'>
-      <button
-        type='button'
-        className={classNames}
-        onClick={() => dispatch(changeChannel(id))}
-      >
-        <span className='me-1'>#</span>
-        {name}
-      </button>
-    </li>
+
+      <Navbar.Brand className='w-100'>
+        <Button
+          className={classNames}
+          onClick={() => dispatch(changeChannel(id))}
+        >
+          # {name}
+        </Button>
+      </Navbar.Brand>
+
   );
 };
 export default ChannelItem;
+
+// <li className='nav-item w-100'>
+//   <button
+//     type='button'
+//     className={classNames}
+//     onClick={() => dispatch(changeChannel(id))}
+//   >
+//     <span className='me-1'>#</span>
+//     {name}
+//   </button>
+// </li>;

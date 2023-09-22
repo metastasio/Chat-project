@@ -1,15 +1,24 @@
+import { useDispatch } from 'react-redux';
+import { Button, Navbar, Container } from 'react-bootstrap';
+
+import { logOut } from '../store/authSlice';
+
 const Header = () => {
+  const dispatch = useDispatch();
+
   return (
-    <nav className='shadow-sm navbar navbar-expand-lg navbar-light bg-white'>
-      <div className='container'>
-        <a className='navbar-brand' href='/'>
-          Chat
-        </a>
-        <button type='button' className='btn btn-primary'>
+    <Navbar className='shadow-sm navbar navbar-expand-lg navbar-light bg-white'>
+      <Container>
+        <Navbar.Brand href='/'>Chat</Navbar.Brand>
+        <Button
+          type='button'
+          variant='primary'
+          onClick={() => dispatch(logOut())}
+        >
           Выйти
-        </button>
-      </div>
-    </nav>
+        </Button>
+      </Container>
+    </Navbar>
   );
 };
 

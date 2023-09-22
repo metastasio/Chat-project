@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Container, Row } from 'react-bootstrap';
 
 import { addChannels } from '../store/channelsSlice';
+import { setMessages } from '../store/chatSlice';
 import Channels from './Channels';
 import Chat from './Chat';
 
@@ -11,15 +13,16 @@ const MainPage = () => {
 
   useEffect(() => {
     dispatch(addChannels(token));
+    dispatch(setMessages(token));
   });
 
   return (
-    <div className='container h-100 my-4 overflow-hidden rounded shadow'>
-      <div className='row h-100 bg-white flex-md-row'>
+    <Container className=' h-100 my-4 overflow-hidden rounded shadow'>
+      <Row className='h-100 bg-white flex-md-row'>
         <Channels />
         <Chat />
-      </div>
-    </div>
+      </Row>
+    </Container>
   );
 };
 export default MainPage;
