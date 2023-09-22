@@ -11,16 +11,12 @@ export const addChannels = createAsyncThunk(
   },
 );
 
-// const channelsAdapter = createEntityAdapter();
-// const initialState = channelsAdapter.getInitialState();
-
 const channelSlice = createSlice({
   name: 'channels',
   initialState: {
     ids: [],
     entities: [],
     currentChannel: '',
-    feedback: '',
     status: '',
   },
   reducers: {
@@ -29,6 +25,9 @@ const channelSlice = createSlice({
     },
     addChannel(state, action) {},
     removeChannel(state, action) {},
+    getNewChannels(state, action) {
+      state.entities = [...action.payload, ...state.entities];
+    },
   },
 
   extraReducers: (builder) => {
@@ -40,15 +39,13 @@ const channelSlice = createSlice({
         }
         state.currentChannel = currentChannelId;
         state.entities = channels;
+        state.status = 'idle';
       })
       .addCase(addChannels.pending, (state) => {
-        state.feedback = 'Loading';
         state.status = 'loading';
       })
       .addCase(addChannels.rejected, (state) => {
-        state.feedback = 'Error';
         state.status = 'error';
-        state.username = '';
       });
   },
 });

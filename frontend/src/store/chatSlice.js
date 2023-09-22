@@ -15,29 +15,29 @@ const chatSlice = createSlice({
   name: 'chats',
   initialState: {
     messages: [],
-    feedback: '',
     status: '',
   },
   reducers: {
     sendMessage(state, action) {},
+    getNewMessages(state, action) {
+      state.messages.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(setMessages.fulfilled, (state, action) => {
         state.messages = action.payload.messages;
+        state.status = 'idle';
       })
       .addCase(setMessages.pending, (state) => {
-        state.feedback = 'Loading';
         state.status = 'loading';
       })
       .addCase(setMessages.rejected, (state) => {
-        state.feedback = 'Error';
         state.status = 'error';
-        state.username = '';
       });
   },
 });
 
-export const { sendMessage } = chatSlice.actions;
+export const { sendMessage, getNewMessages } = chatSlice.actions;
 
 export default chatSlice.reducer;

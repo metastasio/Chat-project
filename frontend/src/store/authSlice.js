@@ -15,7 +15,7 @@ export const logIn = createAsyncThunk(
 const authSlice = createSlice({
   name: 'authorization',
   initialState: {
-    token: null,
+    token: '',
     username: '',
     feedback: '',
     status: 'idle',
@@ -34,7 +34,7 @@ const authSlice = createSlice({
         const { token, username } = action.payload;
         state.token = token;
         state.username = username;
-        state.status = 'authorized';
+        state.status = 'idle';
       })
       .addCase(logIn.pending, (state) => {
         state.feedback = 'Loading';
