@@ -21,13 +21,3 @@ const ChannelItem = ({ name, removable, id }) => {
 };
 export default ChannelItem;
 
-// <li className='nav-item w-100'>
-//   <button
-//     type='button'
-//     className={classNames}
-//     onClick={() => dispatch(changeChannel(id))}
-//   >
-//     <span className='me-1'>#</span>
-//     {name}
-//   </button>
-// </li>;

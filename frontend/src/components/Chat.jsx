@@ -1,6 +1,8 @@
 import { useSelector } from 'react-redux';
 import { socket } from '../socket';
-// import { Container, Col } from 'react-bootstrap';
+import { Container, Col, Row, Button, InputGroup, Form } from 'react-bootstrap';
+
+import MessageItem from './MessageItem';
 
 const Chat = () => {
   const { entities, currentChannel } = useSelector((state) => state.channels);
@@ -10,7 +12,7 @@ const Chat = () => {
   const getActiveChannel = (element) => element.id === currentChannel;
   const chat = entities.find(getActiveChannel);
 
-  const chatMessages = messages.filter(
+  const currentChatMessages = messages.filter(
     (message) => message.channelId === currentChannel,
   );
 
@@ -21,47 +23,75 @@ const Chat = () => {
       body: data.get('body'),
       channelId: currentChannel,
       username,
+    }, (payload) => {
+      console.log(payload.status)
     });
   };
 
   return (
-    <div className='col p-0 h-100'>
-      <div className='d-flex flex-column h-100'>
-        <div className='bg-light mb-4 p-3 shadow-sm small'>
-          <p className='m-0'>
-            <b># {chat?.name}</b>
-          </p>
-          <span className='text-muted'>{chatMessages.length} сообщений</span>
-        </div>
-        <div
-          id='messages-box'
-          className='chat-messages overflow-auto px-5 '
-        ></div>
-        <div className='mt-auto px-5 py-3'>
-          <form
-            noValidate
-            className='py-1 border rounded-2'
-            onSubmit={handleSubmit}
-          >
-            <div className='input-group has-validation'>
-              <input
-                name='body'
+    <Col className='p-0 h-100 d-flex flex-column h-100'>
+      <Container className='bg-light mb-4 p-3 shadow-sm small d-flex flex-column'>
+        <span className='m-0 fw-bold'># {chat?.name}</span>
+        <span className='text-muted'>
+          {currentChatMessages.length} сообщений
+        </span>
+      </Container>
+
+      <Container className='d-flex flex-column align-items-start overflow-auto px-5'>
+        {currentChatMessages.map((message) => (
+          <MessageItem key={message.id} {...message} />
+        ))}
+      </Container>
+
+      <Container className='mt-auto'>
+        <Row className='d-flex fluid px-3'>
+          <Form onSubmit={handleSubmit}>
+            <InputGroup className='mb-3'>
+              <Form.Control
+                aria-describedby='basic-addon2'
                 aria-label='Новое сообщение'
                 placeholder='Введите сообщение...'
-                className='border-0 p-0 ps-2 form-control'
+                name='body'
               />
-              <button
-                type='submit'
-                disabled=''
-                className='btn btn-group-vertical'
-              >
-                <span className='me-1'>Отправить</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+              <Button variant='info' type='submit'>
+                Отправить
+              </Button>
+            </InputGroup>
+          </Form>
+        </Row>
+      </Container>
+    </Col>
   );
 };
 export default Chat;
+
+//  <div className='col p-0 h-100'>
+//    <div className='d-flex flex-column h-100'>
+//      <div className='bg-light mb-4 p-3 shadow-sm small'>
+//        <p className='m-0'>
+//          <b># {chat?.name}</b>
+//        </p>
+//        <span className='text-muted'>{chatMessages.length} сообщений</span>
+//      </div>
+//      <div id='messages-box' className='chat-messages overflow-auto px-5 '></div>
+//      <div className='mt-auto px-5 py-3'>
+//        <form
+//          noValidate
+//          className='py-1 border rounded-2'
+//          onSubmit={handleSubmit}
+//        >
+//          <div className='input-group has-validation'>
+//            <input
+//              name='body'
+//              aria-label='Новое сообщение'
+//              placeholder='Введите сообщение...'
+//              className='border-0 p-0 ps-2 form-control'
+//            />
+//            <button type='submit' disabled='' className='btn btn-group-vertical'>
+//              <span className='me-1'>Отправить</span>
+//            </button>
+//          </div>
+//        </form>
+//      </div>
+//    </div>
+//  </div>;
