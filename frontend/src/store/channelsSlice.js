@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { findIndex, set } from 'lodash-es';
 
 import { getChatContent } from '../services/tokenReceiver';
 
@@ -30,7 +31,14 @@ const channelSlice = createSlice({
       state.names.push(action.payload.name);
     },
     removeChannel(state, action) {},
-    changeChannelName(state, action) {},
+    renameChannel(state, action) {
+      console.log(action.payload, 'PAYLOAD');
+      const path = findIndex(state.entities, function (entity) {
+        return entity.id === action.payload.id;
+      });
+      state.entities = set(state.entities, path, action.payload);
+      console.log(path);
+    },
   },
 
   extraReducers: (builder) => {
@@ -58,7 +66,7 @@ export const {
   getNewChannel,
   removeChannel,
   changeActiveChannel,
-  changeChannelName,
+  renameChannel,
 } = channelSlice.actions;
 
 export default channelSlice.reducer;

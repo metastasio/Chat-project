@@ -3,13 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { socket } from '../socket.js';
 
-import { addChannels } from '../store/channelsSlice';
+import {
+  addChannels,
+  getNewChannel,
+  renameChannel,
+} from '../store/channelsSlice';
 import { setMessages, getNewMessages } from '../store/chatSlice';
-import { getNewChannel } from '../store/channelsSlice';
 import Channels from './Channels';
 import Chat from './Chat';
 import ModalWindow from './Modal.jsx';
 import ModalNotification from './ModalNotification.jsx';
+import RenameModal from './RenameModal.jsx';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -24,13 +28,18 @@ const MainPage = () => {
     const onNewChannel = (value) => {
       dispatch(getNewChannel(value));
     };
+    const onRenameChannel = (value) => {
+      dispatch(renameChannel(value));
+    };
 
     socket.on('newMessage', onNewMessages);
     socket.on('newChannel', onNewChannel);
+    socket.on('renameChannel', onRenameChannel);
 
     return () => {
       socket.off('newMessage', onNewMessages);
       socket.off('newChannel', onNewChannel);
+      socket.off('renameChannel', onRenameChannel);
       socket.disconnect();
     };
   }, [dispatch]);
@@ -49,6 +58,7 @@ const MainPage = () => {
         </Row>
       </Container>
       <ModalWindow />
+      <RenameModal />
       <ModalNotification />
     </>
   );
