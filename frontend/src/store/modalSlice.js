@@ -5,7 +5,10 @@ const modalSlice = createSlice({
   initialState: {
     open: false,
     type: '',
-    message: '',
+    toast: {
+      open: false,
+      message: '',
+    }
   },
   reducers: {
     createNewChannel(state, action) {
@@ -16,25 +19,18 @@ const modalSlice = createSlice({
       state.type = '';
       state.open = false;
     },
-    showNotificationCreated(state) {
-      state.type = 'channelCreated';
-      state.open = true;
-      state.message = 'Канал добавлен!';
+    showToast(state, action) {
+      state.toast.open = true;
+      state.toast.message = action.payload;
     },
-    showWarning(state) {
-      state.type = 'networkError';
-      state.open = true;
-      state.message =
-        'Не удается отправить сообщение, проверьте интернет-соединение';
+    closeToast(state) {
+      state.toast.open = false;
+      state.toast.message = '';
     },
   },
 });
 
-export const {
-  createNewChannel,
-  closeModal,
-  showNotificationCreated,
-  showWarning,
-} = modalSlice.actions;
+export const { createNewChannel, closeModal, showToast, closeToast } =
+  modalSlice.actions;
 
 export default modalSlice.reducer;

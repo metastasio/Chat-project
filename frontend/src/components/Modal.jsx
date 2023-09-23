@@ -4,7 +4,7 @@ import { socket } from '../socket';
 import * as yup from 'yup';
 import * as formik from 'formik';
 
-import { closeModal } from '../store/modalSlice';
+import { closeModal, showToast } from '../store/modalSlice';
 import { changeActiveChannel } from '../store/channelsSlice';
 
 const ModalWindow = () => {
@@ -14,7 +14,7 @@ const ModalWindow = () => {
   const { names } = useSelector((state) => state.channels);
 
   const schema = yup.object().shape({
-    channelName: yup
+    name: yup
       .string()
       .required('Введите название канала')
       .notOneOf(names, 'Канал с таким названием уже создан')
@@ -23,19 +23,12 @@ const ModalWindow = () => {
       .trim('The contact name cannot include leading and trailing spaces'),
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    socket.emit(
-      'newChannel',
-      {
-        name: data.get('channelName'),
-      },
-      ({ data }) => {
-        dispatch(changeActiveChannel(data.id));
-      },
-    );
+  const onSubmit = (value) => {
+    socket.emit('newChannel', value, ({ data }) => {
+      dispatch(changeActiveChannel(data.id));
+    });
     dispatch(closeModal());
+    dispatch(showToast('Канал добавлен!'));
   };
 
   return (
@@ -45,11 +38,12 @@ const ModalWindow = () => {
       </Modal.Header>
       <Formik
         validationSchema={schema}
+        onSubmit={onSubmit}
         initialValues={{
-          channelName: '',
+          name: '',
         }}
       >
-        {({ errors, values, handleChange }) => (
+        {({ errors, values, handleChange, handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Group
@@ -61,13 +55,13 @@ const ModalWindow = () => {
                   type='text'
                   autoFocus
                   required
-                  name='channelName'
-                  value={values.channelName}
+                  name='name'
+                  value={values.name}
                   onChange={handleChange}
-                  isInvalid={!!errors.channelName}
+                  isInvalid={!!errors.name}
                 />
                 <Form.Control.Feedback type='invalid'>
-                  {errors.channelName}
+                  {errors.name}
                 </Form.Control.Feedback>
               </Form.Group>
             </Modal.Body>
@@ -81,7 +75,7 @@ const ModalWindow = () => {
               <Button variant='primary' type='submit'>
                 Добавить
               </Button>
-            </Modal.Footer>{' '}
+            </Modal.Footer>
           </Form>
         )}
       </Formik>
