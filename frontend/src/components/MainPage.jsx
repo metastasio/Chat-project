@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { socket } from '../socket.js';
 
-import { addChannels } from '../store/channelsSlice';
+import { addChannels, changeActiveChannel } from '../store/channelsSlice';
 import { setMessages, getNewMessages } from '../store/chatSlice';
 import { getNewChannel } from '../store/channelsSlice';
 import Channels from './Channels';
@@ -16,14 +16,12 @@ const MainPage = () => {
 
   useEffect(() => {
     socket.connect();
-    dispatch(addChannels(token));
-    dispatch(setMessages(token));
 
     const onNewMessages = (value) => {
       dispatch(getNewMessages(value));
     };
     const onNewChannel = (value) => {
-      dispatch(getNewChannel(value))
+      dispatch(getNewChannel(value));
     };
 
     socket.on('newMessage', onNewMessages);
@@ -34,6 +32,11 @@ const MainPage = () => {
       socket.off('newChannel', onNewChannel);
       socket.disconnect();
     };
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(addChannels(token));
+    dispatch(setMessages(token));
   }, [dispatch, token]);
 
   return (

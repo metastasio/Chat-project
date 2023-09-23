@@ -26,11 +26,11 @@ const channelSlice = createSlice({
     },
     getNewChannel(state, action) {
       state.entities.push(action.payload);
+      state.ids.push(action.payload.id);
+      state.names.push(action.payload.name);
     },
     removeChannel(state, action) {},
-    // getNewChannels(state, action) {
-    //   state.entities = [...action.payload, ...state.entities];
-    // },
+    changeChannelName(state, action) {},
   },
 
   extraReducers: (builder) => {
@@ -54,7 +54,11 @@ const channelSlice = createSlice({
   },
 });
 
-export const { getNewChannel, removeChannel, changeActiveChannel } =
-  channelSlice.actions;
+export const {
+  getNewChannel,
+  removeChannel,
+  changeActiveChannel,
+  changeChannelName,
+} = channelSlice.actions;
 
 export default channelSlice.reducer;

@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Navbar, Nav } from 'react-bootstrap';
+import { Button, Navbar, Nav, Container } from 'react-bootstrap';
 
 import ChannelItem from './ChannelItem';
 import { createNewChannel } from '../store/modalSlice';
@@ -21,9 +21,11 @@ const Channels = () => {
           +
         </Button>
       </Nav.Item>
-      {entities.map((channel) => (
-        <ChannelItem key={channel.id} {...channel} />
-      ))}
+      <Container className='d-flex flex-column overflow-auto'>
+        {entities.map((channel) => (
+          <ChannelItem key={channel.id} {...channel} />
+        ))}
+      </Container>
     </Navbar>
   );
 };
