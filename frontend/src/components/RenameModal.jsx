@@ -4,12 +4,12 @@ import { socket } from '../socket';
 import * as yup from 'yup';
 import * as formik from 'formik';
 
-import { closeRenameModal, closeModal, showToast } from '../store/modalSlice';
+import { closeModal, showToast } from '../store/modalSlice';
 
 const RenameModal = () => {
   const { Formik } = formik;
   const dispatch = useDispatch();
-  const { open, channelId } = useSelector((state) => state.modal.rename);
+  const { open, meta } = useSelector((state) => state.modal);
 //   const { names } = useSelector((state) => state.channels);
 
   const schema = yup.object().shape({
@@ -23,13 +23,13 @@ const RenameModal = () => {
   });
 
   const onSubmit = (value) => {
-    socket.emit('renameChannel', { id: channelId, name: value.name });
-    dispatch(closeRenameModal());
+    socket.emit('renameChannel', { id: meta, name: value.name });
+    dispatch(closeModal());
     dispatch(showToast('Канал переименован!'));
   };
 
   return (
-    <Modal show={open} onHide={() => dispatch(closeRenameModal())}>
+    <Modal show={open} onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
         <Modal.Title>Переименование канала</Modal.Title>
       </Modal.Header>
@@ -65,7 +65,7 @@ const RenameModal = () => {
             <Modal.Footer>
               <Button
                 variant='outline-primary'
-                onClick={() => dispatch(closeRenameModal())}
+                onClick={() => dispatch(closeModal())}
               >
                 Отменить
               </Button>

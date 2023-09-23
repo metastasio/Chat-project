@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Navbar, Nav, Container } from 'react-bootstrap';
+import { Button, Navbar, Nav } from 'react-bootstrap';
 
 import ChannelItem from './ChannelItem';
-import { createNewChannel } from '../store/modalSlice';
+import { openModal } from '../store/modalSlice';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -16,16 +16,16 @@ const Channels = () => {
           type='button'
           variant='outline-primary'
           size='sm'
-          onClick={() => dispatch(createNewChannel())}
+          onClick={() => dispatch(openModal({ type: 'createChannel' }))}
         >
           +
         </Button>
       </Nav.Item>
-      <Container className='d-flex flex-column overflow-auto'>
+      <div className='w-100 h-100 overflow-visible'>
         {entities.map((channel) => (
           <ChannelItem key={channel.id} {...channel} />
         ))}
-      </Container>
+      </div>
     </Navbar>
   );
 };

@@ -30,14 +30,17 @@ const channelSlice = createSlice({
       state.ids.push(action.payload.id);
       state.names.push(action.payload.name);
     },
-    removeChannel(state, action) {},
+    removeChannel(state, action) {
+      state.entities = state.entities.filter(
+        (entity) => entity.id !== action.payload.id,
+      );
+    },
     renameChannel(state, action) {
-      console.log(action.payload, 'PAYLOAD');
-      const path = findIndex(state.entities, function (entity) {
-        return entity.id === action.payload.id;
-      });
+      const path = findIndex(
+        state.entities,
+        (entity) => entity.id === action.payload.id,
+      );
       state.entities = set(state.entities, path, action.payload);
-      console.log(path);
     },
   },
 

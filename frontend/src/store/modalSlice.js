@@ -5,34 +5,25 @@ const modalSlice = createSlice({
   initialState: {
     open: false,
     type: '',
+    meta: null,
     toast: {
       open: false,
       message: '',
     },
-    rename: {
-      open: false,
-      channelId: null,
-    },
   },
   reducers: {
-    createNewChannel(state) {
-      state.type = 'newChannel';
+    openModal(state, action) {
+      state.type = action.payload.type;
       state.open = true;
+      state.meta = action.payload?.meta;
     },
-    renameChannel(state, action) {
-      state.type = 'renameChannel';
-      state.rename.open = true;
-      state.rename.channelId = action.payload;
-    },
+
     closeModal(state) {
       state.type = '';
       state.open = false;
-      state.channelId = null;
+      state.meta = null;
     },
-    closeRenameModal(state){
-      state.type = '';
-      state.rename.open = false;
-    },
+
     showToast(state, action) {
       state.toast.open = true;
       state.toast.message = action.payload;
@@ -44,13 +35,7 @@ const modalSlice = createSlice({
   },
 });
 
-export const {
-  createNewChannel,
-  renameChannel,
-  closeModal,
-  showToast,
-  closeToast,
-  closeRenameModal,
-} = modalSlice.actions;
+export const { openModal, closeModal, showToast, closeToast } =
+  modalSlice.actions;
 
 export default modalSlice.reducer;

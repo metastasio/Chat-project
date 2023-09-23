@@ -7,13 +7,13 @@ import {
   addChannels,
   getNewChannel,
   renameChannel,
+  removeChannel,
 } from '../store/channelsSlice';
 import { setMessages, getNewMessages } from '../store/chatSlice';
 import Channels from './Channels';
 import Chat from './Chat';
-import ModalWindow from './Modal.jsx';
 import ModalNotification from './ModalNotification.jsx';
-import RenameModal from './RenameModal.jsx';
+import ModalSwitcher from './ModalSwitcher.jsx';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -31,15 +31,20 @@ const MainPage = () => {
     const onRenameChannel = (value) => {
       dispatch(renameChannel(value));
     };
+    const onRemoveChannel = (value) => {
+      dispatch(removeChannel(value));
+    };
 
     socket.on('newMessage', onNewMessages);
     socket.on('newChannel', onNewChannel);
     socket.on('renameChannel', onRenameChannel);
+    socket.on('removeChannel', onRemoveChannel);
 
     return () => {
       socket.off('newMessage', onNewMessages);
       socket.off('newChannel', onNewChannel);
       socket.off('renameChannel', onRenameChannel);
+      socket.off('removeChannel', onRemoveChannel);
       socket.disconnect();
     };
   }, [dispatch]);
@@ -57,8 +62,7 @@ const MainPage = () => {
           <Chat />
         </Row>
       </Container>
-      <ModalWindow />
-      <RenameModal />
+      <ModalSwitcher />
       <ModalNotification />
     </>
   );
