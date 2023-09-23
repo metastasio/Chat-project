@@ -5,8 +5,10 @@ import { socket } from '../socket.js';
 
 import { addChannels } from '../store/channelsSlice';
 import { setMessages, getNewMessages } from '../store/chatSlice';
+import { getNewChannel } from '../store/channelsSlice';
 import Channels from './Channels';
 import Chat from './Chat';
+import ModalWindow from './Modal.jsx';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -20,22 +22,30 @@ const MainPage = () => {
     const onNewMessages = (value) => {
       dispatch(getNewMessages(value));
     };
+    const onNewChannel = (value) => {
+      dispatch(getNewChannel(value))
+    };
 
     socket.on('newMessage', onNewMessages);
+    socket.on('newChannel', onNewChannel);
 
     return () => {
       socket.off('newMessage', onNewMessages);
+      socket.off('newChannel', onNewChannel);
       socket.disconnect();
     };
   }, [dispatch, token]);
 
   return (
-    <Container className=' h-100 my-4 overflow-hidden rounded shadow'>
-      <Row className='h-100 bg-white flex-md-row'>
-        <Channels />
-        <Chat />
-      </Row>
-    </Container>
+    <>
+      <ModalWindow />
+      <Container className=' h-100 my-4 overflow-hidden rounded shadow'>
+        <Row className='h-100 bg-white flex-md-row'>
+          <Channels />
+          <Chat />
+        </Row>
+      </Container>
+    </>
   );
 };
 export default MainPage;

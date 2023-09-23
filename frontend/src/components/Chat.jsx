@@ -29,7 +29,7 @@ const Chat = () => {
   };
 
   return (
-    <Col className='p-0 h-100 d-flex flex-column h-100'>
+    <Col className='p-0 h-100 d-flex flex-column'>
       <Container className='bg-light mb-4 p-3 shadow-sm small d-flex flex-column'>
         <span className='m-0 fw-bold'># {chat?.name}</span>
         <span className='text-muted'>
@@ -37,14 +37,14 @@ const Chat = () => {
         </span>
       </Container>
 
-      <Container className='d-flex flex-column align-items-start overflow-auto px-5'>
+      <Container className='d-flex flex-column overflow-auto px-5'>
         {currentChatMessages.map((message) => (
           <MessageItem key={message.id} {...message} />
         ))}
       </Container>
 
       <Container className='mt-auto'>
-        <Row className='d-flex fluid px-3'>
+        <Row className='px-3'>
           <Form onSubmit={handleSubmit}>
             <InputGroup className='mb-3'>
               <Form.Control

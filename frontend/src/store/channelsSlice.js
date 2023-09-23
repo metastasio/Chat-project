@@ -16,18 +16,21 @@ const channelSlice = createSlice({
   initialState: {
     ids: [],
     entities: [],
+    names: [],
     currentChannel: '',
     status: '',
   },
   reducers: {
-    changeChannel(state, action) {
+    changeActiveChannel(state, action) {
       state.currentChannel = action.payload;
     },
-    addChannel(state, action) {},
-    removeChannel(state, action) {},
-    getNewChannels(state, action) {
-      state.entities = [...action.payload, ...state.entities];
+    getNewChannel(state, action) {
+      state.entities.push(action.payload);
     },
+    removeChannel(state, action) {},
+    // getNewChannels(state, action) {
+    //   state.entities = [...action.payload, ...state.entities];
+    // },
   },
 
   extraReducers: (builder) => {
@@ -36,6 +39,7 @@ const channelSlice = createSlice({
         const { channels, currentChannelId } = action.payload;
         if (channels.length) {
           state.ids = channels.map((channel) => channel.id);
+          state.names = channels.map((channel) => channel.name);
         }
         state.currentChannel = currentChannelId;
         state.entities = channels;
@@ -50,7 +54,7 @@ const channelSlice = createSlice({
   },
 });
 
-export const { addChannel, removeChannel, changeChannel } =
+export const { getNewChannel, removeChannel, changeActiveChannel } =
   channelSlice.actions;
 
 export default channelSlice.reducer;
