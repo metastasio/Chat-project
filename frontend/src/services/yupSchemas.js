@@ -1,35 +1,51 @@
 import * as yup from 'yup';
 
+import { newInstance } from '../services/locales';
+
 const singUpSchema = yup.object().shape({
   username: yup
     .string()
-    .required('Заполните имя')
-    .min(3, 'Не должно быть меньше 3 символов')
-    .max(20, 'Не должно быть больше 20 символов '),
+    .required(newInstance.t('enterUserName'))
+    .min(3, newInstance.t('min'))
+    .max(20, newInstance.t('max'))
+    .trim(),
   password: yup
     .string()
-    .required('Введите пароль')
-    .min(6, 'Должно быть не меньше 6 символов'),
+    .required(newInstance.t('enterPassword'))
+    .min(6, newInstance.t('min6'))
+    .trim(),
   passwordConfirmation: yup
     .string()
-    .required('Подтвердите пароль')
-    .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
+    .required(newInstance.t('passwordConfirmation'))
+    .oneOf([yup.ref('password')], newInstance.t('passwordsMatch'))
+    .trim(),
 });
 
 const logInSchema = yup.object().shape({
-  username: yup.string().required('Введите имя пользователя'),
-  password: yup.string().required('Введите пароль'),
+  username: yup.string().required('Введите имя пользователя').trim(),
+  password: yup.string().required(newInstance.t('enterPassword')).trim(),
 });
 
+const addChannelSchema = (names) =>
+  yup.object().shape({
+    name: yup
+      .string()
+      .required(newInstance.t('enterChannelName'))
+      .notOneOf(names, newInstance.t('alreadyCreated'))
+      .min(2, newInstance.t('min'))
+      .max(20, newInstance.t('max'))
+      .trim(),
+  });
 
-// const addChannelSchema = yup.object().shape({
-//   name: yup
-//     .string()
-//     .required('Введите название канала')
-//     .notOneOf(names, 'Канал с таким названием уже создан')
-//     .min(2, 'Минимум 2 символа')
-//     .max(50, 'Максимум 50 символов')
-//     .trim('The contact name cannot include leading and trailing spaces'),
-// });
+const renameChannelSchema = (names) =>
+  yup.object().shape({
+    name: yup
+      .string()
+      .required(newInstance.t('enterChannelName'))
+      .notOneOf(names, newInstance.t('alreadyCreated'))
+      .min(2, newInstance.t('min'))
+      .max(50, newInstance.t('max'))
+      .trim(),
+  });
 
-export { singUpSchema, logInSchema };
+export { singUpSchema, logInSchema, addChannelSchema, renameChannelSchema };

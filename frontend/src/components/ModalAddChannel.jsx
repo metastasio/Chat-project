@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { socket } from '../socket';
-import * as yup from 'yup';
 import * as formik from 'formik';
 
 import { closeModal, showToast } from '../store/modalSlice';
 import { changeActiveChannel } from '../store/channelsSlice';
 import { newInstance } from '../services/locales';
 import { useEffect, useRef } from 'react';
+import { addChannelSchema } from '../services/yupSchemas';
 
 const ModalAddChannel = () => {
   const { Formik } = formik;
@@ -16,16 +16,7 @@ const ModalAddChannel = () => {
   const { open } = useSelector((state) => state.modal);
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
-
-  const schema = yup.object().shape({
-    name: yup
-      .string()
-      .required('Введите название канала')
-      .notOneOf(names, 'Канал с таким названием уже создан')
-      .min(2, 'Минимум 2 символа')
-      .max(50, 'Максимум 50 символов')
-      .trim('The contact name cannot include leading and trailing spaces'),
-  });
+  const schema = addChannelSchema(names);
 
   const onSubmit = (value) => {
     socket.emit('newChannel', value, ({ data }) => {
