@@ -1,11 +1,11 @@
 // import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { Button, Form, FloatingLabel, Card, Container } from 'react-bootstrap';
 import * as formik from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logIn, register } from '../store/accessSlice.js';
+import { register } from '../store/accessSlice.js';
 import { newInstance } from '../services/locales/index.js';
+import { singUpSchema } from '../services/yupSchemas.js';
 
 const SignUp = () => {
   const { feedback } = useSelector((state) => state.authorization);
@@ -13,21 +13,7 @@ const SignUp = () => {
   const dispatch = useDispatch();
   const { Formik } = formik;
 
-  const schema = yup.object().shape({
-    username: yup
-      .string()
-      .required('Заполните имя')
-      .min(3, 'Не должно быть меньше 3 символов')
-      .max(20, 'Не должно быть больше 20 символов '),
-    password: yup
-      .string()
-      .required('Введите пароль')
-      .min(6, 'Должно быть не меньше 6 символов'),
-    passwordConfirmation: yup
-      .string()
-      .required('Подтвердите пароль')
-      .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
-  });
+  const schema = singUpSchema;
 
   return (
     <Container className='row mx-auto my-auto col-3'>

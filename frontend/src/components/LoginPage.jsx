@@ -1,11 +1,11 @@
 // import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { Button, Form, FloatingLabel, Card, Container } from 'react-bootstrap';
 import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../store/accessSlice.js';
 import { newInstance } from '../services/locales/index.js';
+import { logInSchema } from '../services/yupSchemas.js';
 
 const LoginPage = () => {
   const { feedback } = useSelector((state) => state.authorization);
@@ -13,16 +13,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const { Formik } = formik;
 
-  const schema = yup.object().shape({
-    username: yup
-      .string()
-      .required('Заполните имя')
-      .min(3, 'Не должно быть меньше 3 символов')
-      .max(20, 'Не должно быть больше 20 символов '),
-    password: yup
-      .string()
-      .required('Введите пароль')
-  });
+  const schema = logInSchema;
 
   return (
     <Container className='row mx-auto my-auto col-3'>
