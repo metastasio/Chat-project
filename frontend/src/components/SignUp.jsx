@@ -6,14 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../store/accessSlice.js';
 import { newInstance } from '../services/locales/index.js';
 import { singUpSchema } from '../services/yupSchemas.js';
+import { useEffect, useRef } from 'react';
 
 const SignUp = () => {
   const { feedback } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Formik } = formik;
+  const focus = useRef();
 
   const schema = singUpSchema;
+
+  useEffect(() => focus.current && focus.current.focus());
 
   return (
     <Container className='row mx-auto my-auto col-3'>
@@ -50,6 +54,7 @@ const SignUp = () => {
                         value={values.username}
                         onChange={handleChange}
                         isInvalid={!!errors.username | !!feedback}
+                        ref={focus}
                       />
                       <Form.Control.Feedback type='invalid'>
                         {errors.username}

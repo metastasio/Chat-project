@@ -6,14 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../store/accessSlice.js';
 import { newInstance } from '../services/locales/index.js';
 import { logInSchema } from '../services/yupSchemas.js';
+import { useEffect, useRef } from 'react';
 
 const LoginPage = () => {
   const { feedback } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Formik } = formik;
+  const focus = useRef();
 
   const schema = logInSchema;
+
+  useEffect(() => focus.current && focus.current.focus());
 
   return (
     <Container className='row mx-auto my-auto col-3'>
@@ -39,9 +43,8 @@ const LoginPage = () => {
             >
               {({ handleSubmit, handleChange, values, touched, errors }) => (
                 <Form noValidate onSubmit={handleSubmit}>
-                  <Form.Group controlId='validationFormik03'>
+                  <Form.Group>
                     <FloatingLabel
-                      controlId='floatingInput'
                       label='Имя'
                       className='mb-3'
                     >
@@ -53,6 +56,7 @@ const LoginPage = () => {
                         value={values.username}
                         onChange={handleChange}
                         isInvalid={!!errors.username}
+                        ref={focus}
                       />
                       <Form.Control.Feedback type='invalid'>
                         {errors.username}
@@ -62,7 +66,6 @@ const LoginPage = () => {
 
                   <Form.Group controlId='validationFormik04'>
                     <FloatingLabel
-                      controlId='floatingPassword'
                       label='Пароль'
                       className='mb-3'
                     >
