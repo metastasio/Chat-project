@@ -16,13 +16,8 @@ const singUpSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
 });
 
-
 const logInSchema = yup.object().shape({
-  username: yup
-    .string()
-    .required('Заполните имя')
-    .min(3, 'Не должно быть меньше 3 символов')
-    .max(20, 'Не должно быть больше 20 символов '),
+  username: yup.string().required('Введите имя пользователя'),
   password: yup.string().required('Введите пароль'),
 });
 
