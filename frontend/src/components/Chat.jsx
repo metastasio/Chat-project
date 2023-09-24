@@ -5,6 +5,7 @@ import { Container, Col, Row, Button, InputGroup, Form } from 'react-bootstrap';
 import MessageItem from './MessageItem';
 import { showToast } from '../store/modalSlice';
 import { useRef } from 'react';
+import { newInstance } from '../services/locales';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,8 @@ const Chat = () => {
   const currentChatMessages = messages.filter(
     (message) => message.channelId === currentChannel,
   );
-const formRef = useRef();
+  const messagesInChat = currentChatMessages.length;
+  const formRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,7 +48,7 @@ const formRef = useRef();
       <Container className='bg-light mb-4 p-3 shadow-sm small d-flex flex-column'>
         <span className='m-0 fw-bold'># {chat?.name}</span>
         <span className='text-muted'>
-          {currentChatMessages.length} сообщений
+          {newInstance.t('key', { count: messagesInChat })}
         </span>
       </Container>
 
@@ -68,7 +70,7 @@ const formRef = useRef();
                 name='body'
               />
               <Button variant='info' type='submit'>
-                Отправить
+                {newInstance.t('sendMessage')}
               </Button>
             </InputGroup>
           </Form>

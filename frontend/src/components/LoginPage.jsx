@@ -5,6 +5,7 @@ import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logIn } from '../store/authSlice.js';
+import { newInstance } from '../services/locales/index.js';
 
 const LoginPage = () => {
   const { feedback } = useSelector((state) => state.authorization);
@@ -22,7 +23,7 @@ const LoginPage = () => {
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className='text-center mb-3'>Войти</h1>
+            <h1 className='text-center mb-3'>{newInstance.t('enter')}</h1>
           </Card.Title>
           <Card.Text as='div'>
             <Formik
@@ -49,7 +50,7 @@ const LoginPage = () => {
                     >
                       <Form.Control
                         type='text'
-                        placeholder='Имя'
+                        placeholder={newInstance.t('userName')}
                         required
                         name='username'
                         value={values.username}
@@ -70,7 +71,7 @@ const LoginPage = () => {
                     >
                       <Form.Control
                         type='password'
-                        placeholder='Пароль'
+                        placeholder={newInstance.t('password')}
                         required
                         name='password'
                         value={values.password}
@@ -88,7 +89,7 @@ const LoginPage = () => {
                     variant='outline-primary'
                     className='w-100'
                   >
-                    Войти
+                    {newInstance.t('enter')}
                   </Button>
                 </Form>
               )}
@@ -96,7 +97,7 @@ const LoginPage = () => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className='text-muted text-center'>
-          <Link to='/registration'>Зарегистрироваться</Link>
+          <Link to='/registration'>{newInstance.t('register')}</Link>
         </Card.Footer>
       </Card>
     </Container>

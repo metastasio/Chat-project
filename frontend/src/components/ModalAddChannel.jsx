@@ -6,6 +6,7 @@ import * as formik from 'formik';
 
 import { closeModal, showToast } from '../store/modalSlice';
 import { changeActiveChannel } from '../store/channelsSlice';
+import { newInstance } from '../services/locales';
 
 const ModalAddChannel = () => {
   const { Formik } = formik;
@@ -35,7 +36,7 @@ const ModalAddChannel = () => {
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавление канала</Modal.Title>
+        <Modal.Title>{newInstance.t('addChannel')}</Modal.Title>
       </Modal.Header>
       <Formik
         validationSchema={schema}
@@ -51,7 +52,7 @@ const ModalAddChannel = () => {
                 className='mb-3'
                 controlId='exampleForm.ControlInput1'
               >
-                <Form.Label>Назвать канал:</Form.Label>
+                <Form.Label>{newInstance.t('channelName')}</Form.Label>
                 <Form.Control
                   type='text'
                   autoFocus
@@ -71,10 +72,10 @@ const ModalAddChannel = () => {
                 variant='outline-primary'
                 onClick={() => dispatch(closeModal())}
               >
-                Отменить
+                {newInstance.t('cancel')}
               </Button>
               <Button variant='primary' type='submit'>
-                Добавить
+                {newInstance.t('add')}
               </Button>
             </Modal.Footer>
           </Form>

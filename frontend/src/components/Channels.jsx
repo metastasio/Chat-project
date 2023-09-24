@@ -3,6 +3,7 @@ import { Button, Navbar, Nav } from 'react-bootstrap';
 
 import ChannelItem from './ChannelItem';
 import { openModal } from '../store/modalSlice';
+import { newInstance } from '../services/locales';
 
 const Channels = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const Channels = () => {
   return (
     <Navbar className='col-4 bg-light col-md-2 h-100 flex-column px-2'>
       <Nav.Item className='w-100 d-flex justify-content-between mb-1 p-4'>
-        <span className='fw-bold'>Каналы</span>
+        <span className='fw-bold'>{newInstance.t('channels')}</span>
         <Button
           type='button'
           variant='outline-primary'

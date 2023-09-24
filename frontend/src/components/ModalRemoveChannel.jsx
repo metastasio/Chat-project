@@ -4,6 +4,7 @@ import { socket } from '../socket';
 
 import { closeModal, showToast } from '../store/modalSlice';
 import { changeActiveChannel } from '../store/channelsSlice';
+import { newInstance } from '../services/locales';
 
 const ModalRemoveChannel = () => {
   const dispatch = useDispatch();
@@ -19,18 +20,18 @@ const ModalRemoveChannel = () => {
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
-        <Modal.Title>Удалить канал</Modal.Title>
+        <Modal.Title>{newInstance.t('deleteChannel')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Уверены?</Modal.Body>
+      <Modal.Body>{newInstance.t('confirmDelete')}</Modal.Body>
       <Modal.Footer>
         <Button
           variant='outline-secondary'
           onClick={() => dispatch(closeModal())}
         >
-          Отменить
+          {newInstance.t('cancel')}
         </Button>
         <Button variant='danger' onClick={onClick}>
-          Удалить
+          {newInstance.t('delete')}
         </Button>
       </Modal.Footer>
     </Modal>

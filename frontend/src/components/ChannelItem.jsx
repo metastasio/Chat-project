@@ -3,6 +3,7 @@ import { Button, Nav, Dropdown, ButtonGroup } from 'react-bootstrap';
 
 import { changeActiveChannel } from '../store/channelsSlice';
 import { openModal } from '../store/modalSlice';
+import { newInstance } from '../services/locales';
 
 const ChannelItem = ({ name, removable, id }) => {
   const dispatch = useDispatch();
@@ -32,14 +33,14 @@ const ChannelItem = ({ name, removable, id }) => {
                   dispatch(openModal({ type: 'renameChannel', meta: id }))
                 }
               >
-                Переименовать
+                {newInstance.t('rename')}
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() =>
                   dispatch(openModal({ type: 'removeChannel', meta: id }))
                 }
               >
-                Удалить
+                {newInstance.t('delete')}
               </Dropdown.Item>
             </Dropdown.Menu>
           </>
