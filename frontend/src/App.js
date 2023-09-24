@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/LoginPage.jsx';
 import MainPage from './components/MainPage.jsx';
 import NotFound from './components/NotFound.jsx';
-import RegistrationPage from './components/RegistrationPage.jsx';
 import RequireAuth from './components/RequireAuth.jsx';
 import Header from './components/Header.jsx';
+import SignUp from './components/SignUp.jsx';
 
 const App = () => {
   return (
@@ -22,7 +22,7 @@ const App = () => {
               }
             />
             <Route path='login' element={<LoginPage />} />
-            <Route path='registration' element={<RegistrationPage />} />
+            <Route path='/signup' element={<SignUp />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
         </BrowserRouter>

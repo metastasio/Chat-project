@@ -1,6 +1,6 @@
 const translation = {
   translation: {
-    chat: 'Chat',
+    chat: 'Hexlet Chat',
     logOut: 'Выйти',
     channels: 'Каналы',
     messagesCount: '!!!!!!!!',
@@ -21,10 +21,12 @@ const translation = {
     confirmDelete: 'Уверены?',
     delete: 'Удалить',
     enter: 'Войти',
-    userName: 'Имя',
+    userName: 'Имя пользователя',
     password: 'Пароль',
+    passwordConfirmation: 'Подтвердите пароль',
     register: 'Зарегистрироваться',
     notFound: 'Страница не найдена :c',
+    signUp: 'Регистрация',
   },
 };
 
