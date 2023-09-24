@@ -17,8 +17,6 @@ const ModalAddChannel = () => {
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
 
-  useEffect(() => focus.current && focus.current.focus());
-
   const schema = yup.object().shape({
     name: yup
       .string()
@@ -37,12 +35,10 @@ const ModalAddChannel = () => {
     dispatch(showToast('Канал добавлен!'));
   };
 
+  useEffect(() => focus.current && focus.current.focus());
+
   return (
-    <Modal
-      show={open}
-      onHide={() => dispatch(closeModal())}
-      centered
-    >
+    <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
         <Modal.Title>{newInstance.t('addChannel')}</Modal.Title>
       </Modal.Header>
@@ -56,10 +52,7 @@ const ModalAddChannel = () => {
         {({ errors, values, handleChange, handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group
-                className='mb-3'
-                controlId='exampleForm.ControlInput1'
-              >
+              <Form.Group className='mb-3' controlId='formControlInputAdd'>
                 <Form.Label>{newInstance.t('channelName')}</Form.Label>
                 <Form.Control
                   type='text'
@@ -68,6 +61,7 @@ const ModalAddChannel = () => {
                   name='name'
                   value={values.name}
                   onChange={handleChange}
+                  isInvalid={!!errors.name}
                 />
                 <Form.Control.Feedback type='invalid'>
                   {errors.name}

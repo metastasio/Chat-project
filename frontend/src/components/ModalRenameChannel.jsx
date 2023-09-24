@@ -12,11 +12,9 @@ const ModalRenameChannel = () => {
   const { Formik } = formik;
   const dispatch = useDispatch();
   const focus = useRef();
-  const { open, meta } = useSelector((state) => state.modal);
+  const { open, meta, extra } = useSelector((state) => state.modal);
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
-
-  useEffect(() => focus.current && focus.current.focus());
 
   const schema = yup.object().shape({
     name: yup
@@ -34,10 +32,14 @@ const ModalRenameChannel = () => {
     dispatch(showToast('Канал переименован!'));
   };
 
+  useEffect(() => focus.current && focus.current.focus());
+
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{newInstance.t('renameChannel')}</Modal.Title>
+        <Modal.Title>
+          {newInstance.t('renameChannel')} '{extra}'
+        </Modal.Title>
       </Modal.Header>
       <Formik
         validationSchema={schema}
@@ -49,10 +51,7 @@ const ModalRenameChannel = () => {
         {({ errors, values, handleChange, handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group
-                className='mb-3'
-                controlId='exampleForm.ControlInput1'
-              >
+              <Form.Group className='mb-3' controlId='formControlInputRename'>
                 <Form.Label>{newInstance.t('channelName')}</Form.Label>
                 <Form.Control
                   type='text'

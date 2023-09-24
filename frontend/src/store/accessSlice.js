@@ -31,8 +31,8 @@ const accessSlice = createSlice({
     status: 'idle',
   },
   reducers: {
-    setError(state, action) {
-      state.feedback = action.payload;
+    setError(state, { payload }) {
+      state.feedback = payload;
     },
     logOut(state) {
       state.token = null;
@@ -40,8 +40,8 @@ const accessSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(logIn.fulfilled, (state, action) => {
-        const { token, username } = action.payload;
+      .addCase(logIn.fulfilled, (state, { payload }) => {
+        const { token, username } = payload;
         state.token = token;
         state.username = username;
         state.status = 'idle';
@@ -55,8 +55,8 @@ const accessSlice = createSlice({
         state.status = 'unauthorized';
         state.username = '';
       })
-      .addCase(register.fulfilled, (state, action) => {
-        const { token, username } = action.payload;
+      .addCase(register.fulfilled, (state, { payload }) => {
+        const { token, username } = payload;
         state.token = token;
         state.username = username;
         state.status = 'idle';

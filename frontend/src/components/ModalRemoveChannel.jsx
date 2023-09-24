@@ -8,7 +8,7 @@ import { newInstance } from '../services/locales';
 
 const ModalRemoveChannel = () => {
   const dispatch = useDispatch();
-  const { open, meta } = useSelector((state) => state.modal);
+  const { open, meta, extra } = useSelector((state) => state.modal);
 
   const onClick = () => {
     socket.emit('removeChannel', { id: meta });
@@ -20,7 +20,7 @@ const ModalRemoveChannel = () => {
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{newInstance.t('deleteChannel')}</Modal.Title>
+        <Modal.Title>{newInstance.t('deleteChannel')} '{extra}'</Modal.Title>
       </Modal.Header>
       <Modal.Body>{newInstance.t('confirmDelete')}</Modal.Body>
       <Modal.Footer>

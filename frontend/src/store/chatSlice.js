@@ -19,8 +19,8 @@ const chatSlice = createSlice({
     status: '',
   },
   reducers: {
-    getNewMessages(state, action) {
-      state.messages.push(action.payload);
+    getNewMessages(state, { payload }) {
+      state.messages.push(payload);
     },
   },
   extraReducers: (builder) => {
@@ -40,7 +40,7 @@ const chatSlice = createSlice({
         state.messages = state.messages.filter(
           (message) => message.channelId !== channelId,
         );
-      })
+      });
   },
 });
 

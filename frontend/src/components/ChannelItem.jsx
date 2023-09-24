@@ -30,14 +30,14 @@ const ChannelItem = ({ name, removable, id }) => {
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={() =>
-                  dispatch(openModal({ type: 'renameChannel', meta: id }))
+                  dispatch(openModal({ type: 'renameChannel', meta: id, extra: name }))
                 }
               >
                 {newInstance.t('rename')}
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() =>
-                  dispatch(openModal({ type: 'removeChannel', meta: id }))
+                  dispatch(openModal({ type: 'removeChannel', meta: id, extra: name }))
                 }
               >
                 {newInstance.t('delete')}

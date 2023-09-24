@@ -6,27 +6,30 @@ const modalSlice = createSlice({
     open: false,
     type: '',
     meta: null,
+    extra: null,
     toast: {
       open: false,
       message: '',
     },
   },
   reducers: {
-    openModal(state, action) {
-      state.type = action.payload.type;
+    openModal(state, { payload }) {
+      state.type = payload.type;
       state.open = true;
-      state.meta = action.payload?.meta;
+      state.meta = payload?.meta;
+      state.extra = payload.extra;
     },
 
     closeModal(state) {
       state.type = '';
       state.open = false;
       state.meta = null;
+      state.extra = null;
     },
 
-    showToast(state, action) {
+    showToast(state, { payload }) {
       state.toast.open = true;
-      state.toast.message = action.payload;
+      state.toast.message = payload;
     },
     closeToast(state) {
       state.toast.open = false;

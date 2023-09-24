@@ -9,11 +9,11 @@ const ToastNotification = () => {
   const { open, message } = useSelector((state) => state.modal.toast);
   const classNames = cn({
     'bg-danger':
-      message === 'Сообщение не отправлено, проверьте интернет-содениение',
+      message === 'Канал удален',
   });
 
   return (
-    <ToastContainer position='top-center'>
+    <ToastContainer position='middle-start'>
       <Toast
         onClose={() => dispatch(closeToast())}
         show={open}
