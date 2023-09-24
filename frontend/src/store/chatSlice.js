@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getChatContent } from '../services/tokenReceiver';
+import { removeChannel } from './channelsSlice';
 
 export const setMessages = createAsyncThunk(
   'chats/getChatContent',
@@ -18,15 +19,14 @@ const chatSlice = createSlice({
     status: '',
   },
   reducers: {
-    sendMessage(state, action) {},
     getNewMessages(state, action) {
       state.messages.push(action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(setMessages.fulfilled, (state, action) => {
-        state.messages = action.payload.messages;
+      .addCase(setMessages.fulfilled, (state, { payload }) => {
+        state.messages = payload.messages;
         state.status = 'idle';
       })
       .addCase(setMessages.pending, (state) => {
@@ -34,10 +34,16 @@ const chatSlice = createSlice({
       })
       .addCase(setMessages.rejected, (state) => {
         state.status = 'error';
+      })
+      .addCase(removeChannel, (state, { payload }) => {
+        const channelId = payload.id;
+        state.messages = state.messages.filter(
+          (message) => message.channelId !== channelId,
+        );
       });
   },
 });
 
-export const { sendMessage, getNewMessages } = chatSlice.actions;
+export const { getNewMessages } = chatSlice.actions;
 
 export default chatSlice.reducer;

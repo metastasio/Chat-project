@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { socket } from '../socket';
 
 import { closeModal, showToast } from '../store/modalSlice';
+import { changeActiveChannel } from '../store/channelsSlice';
 
 const RemoveModal = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,7 @@ const RemoveModal = () => {
     socket.emit('removeChannel', { id: meta });
     dispatch(closeModal());
     dispatch(showToast('Канал удален'));
+    dispatch(changeActiveChannel(1));
   };
 
   return (
