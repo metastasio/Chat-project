@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { createNewUser, getUserToken } from '../services/tokenReceiver';
+import { createNewUser, getUserToken } from '../services/requestsToServer.js';
 
 export const logIn = createAsyncThunk(
   'access/logIn',
@@ -17,7 +17,7 @@ export const register = createAsyncThunk(
   async function (userData, { dispatch }) {
     dispatch(setError(''));
     const { data } = await createNewUser(userData);
-    console.log(data, 'DTA')
+    console.log(data, 'DTA');
     return data;
   },
 );

@@ -16,6 +16,7 @@ const singUpSchema = yup.object().shape({
     .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
 });
 
+
 const logInSchema = yup.object().shape({
   username: yup
     .string()

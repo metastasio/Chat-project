@@ -18,7 +18,7 @@ const ModalRemoveChannel = () => {
   };
 
   return (
-    <Modal show={open} onHide={() => dispatch(closeModal())}>
+    <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
         <Modal.Title>{newInstance.t('deleteChannel')}</Modal.Title>
       </Modal.Header>

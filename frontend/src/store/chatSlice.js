@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getChatContent } from '../services/tokenReceiver';
+import { getChatContent } from '../services/requestsToServer.js';
 import { removeChannel } from './channelsSlice';
 
 export const setMessages = createAsyncThunk(
@@ -40,7 +40,7 @@ const chatSlice = createSlice({
         state.messages = state.messages.filter(
           (message) => message.channelId !== channelId,
         );
-      });
+      })
   },
 });
 
