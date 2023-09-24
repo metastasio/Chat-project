@@ -5,33 +5,37 @@ import * as yup from 'yup';
 import * as formik from 'formik';
 
 import { closeModal, showToast } from '../store/modalSlice';
+import { changeActiveChannel } from '../store/channelsSlice';
 
-const RenameModal = () => {
+const ModalAddChannel = () => {
   const { Formik } = formik;
   const dispatch = useDispatch();
-  const { open, meta } = useSelector((state) => state.modal);
-//   const { names } = useSelector((state) => state.channels);
+  const { open } = useSelector((state) => state.modal);
+  const { entities } = useSelector((state) => state.channels);
+  const names = entities.map((entity) => entity.name);
 
   const schema = yup.object().shape({
     name: yup
       .string()
       .required('Введите название канала')
-    //   .notOneOf(names, 'Канал с таким названием уже создан')
+      .notOneOf(names, 'Канал с таким названием уже создан')
       .min(2, 'Минимум 2 символа')
       .max(50, 'Максимум 50 символов')
       .trim('The contact name cannot include leading and trailing spaces'),
   });
 
   const onSubmit = (value) => {
-    socket.emit('renameChannel', { id: meta, name: value.name });
+    socket.emit('newChannel', value, ({ data }) => {
+      dispatch(changeActiveChannel(data.id));
+    });
     dispatch(closeModal());
-    dispatch(showToast('Канал переименован!'));
+    dispatch(showToast('Канал добавлен!'));
   };
 
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименование канала</Modal.Title>
+        <Modal.Title>Добавление канала</Modal.Title>
       </Modal.Header>
       <Formik
         validationSchema={schema}
@@ -47,7 +51,7 @@ const RenameModal = () => {
                 className='mb-3'
                 controlId='exampleForm.ControlInput1'
               >
-                <Form.Label>Переименовать канал:</Form.Label>
+                <Form.Label>Назвать канал:</Form.Label>
                 <Form.Control
                   type='text'
                   autoFocus
@@ -70,7 +74,7 @@ const RenameModal = () => {
                 Отменить
               </Button>
               <Button variant='primary' type='submit'>
-                Переименовать
+                Добавить
               </Button>
             </Modal.Footer>
           </Form>
@@ -79,4 +83,4 @@ const RenameModal = () => {
     </Modal>
   );
 };
-export default RenameModal;
+export default ModalAddChannel;

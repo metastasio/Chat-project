@@ -1,10 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { socket } from '../socket';
 import { Container, Col, Row, Button, InputGroup, Form } from 'react-bootstrap';
 
 import MessageItem from './MessageItem';
+import { showToast } from '../store/modalSlice';
+import { useRef } from 'react';
 
 const Chat = () => {
+  const dispatch = useDispatch();
   const { entities, currentChannel } = useSelector((state) => state.channels);
   const { messages } = useSelector((state) => state.chats);
   const { username } = useSelector((state) => state.authorization);
@@ -15,17 +18,27 @@ const Chat = () => {
   const currentChatMessages = messages.filter(
     (message) => message.channelId === currentChannel,
   );
+const formRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    socket.emit('newMessage', {
-      body: data.get('body'),
-      channelId: currentChannel,
-      username,
-    }, (payload) => {
-      console.log(payload.status)
-    });
+    socket.emit(
+      'newMessage',
+      {
+        body: data.get('body'),
+        channelId: currentChannel,
+        username,
+      },
+      (payload) => {
+        if (payload.status !== 'ok') {
+          dispatch(
+            showToast('Сообщение не отправлено, проверьте интернет-содениение'),
+          );
+        }
+      },
+    );
+    formRef.current.reset();
   };
 
   return (
@@ -45,9 +58,10 @@ const Chat = () => {
 
       <Container className='mt-auto'>
         <Row className='px-3'>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} ref={formRef}>
             <InputGroup className='mb-3'>
               <Form.Control
+                autoFocus
                 aria-describedby='basic-addon2'
                 aria-label='Новое сообщение'
                 placeholder='Введите сообщение...'

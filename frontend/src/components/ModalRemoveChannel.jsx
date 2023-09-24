@@ -5,7 +5,7 @@ import { socket } from '../socket';
 import { closeModal, showToast } from '../store/modalSlice';
 import { changeActiveChannel } from '../store/channelsSlice';
 
-const RemoveModal = () => {
+const ModalRemoveChannel = () => {
   const dispatch = useDispatch();
   const { open, meta } = useSelector((state) => state.modal);
 
@@ -36,4 +36,4 @@ const RemoveModal = () => {
     </Modal>
   );
 };
-export default RemoveModal;
+export default ModalRemoveChannel;

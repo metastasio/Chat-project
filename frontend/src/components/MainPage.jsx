@@ -12,8 +12,8 @@ import {
 import { setMessages, getNewMessages } from '../store/chatSlice';
 import Channels from './Channels';
 import Chat from './Chat';
-import ModalNotification from './ModalNotification.jsx';
 import ModalSwitcher from './ModalSwitcher.jsx';
+import ToastNotification from './ToastNotification.jsx';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ const MainPage = () => {
         </Row>
       </Container>
       <ModalSwitcher />
-      <ModalNotification />
+      <ToastNotification />
     </>
   );
 };

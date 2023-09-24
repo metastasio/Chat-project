@@ -1,20 +1,20 @@
 import { useSelector } from 'react-redux';
-import ModalWindow from './Modal';
-import RemoveModal from './RemoveModal.jsx';
-import RenameModal from './RenameModal.jsx';
+import ModalAddChannel from './ModalAddChannel.jsx';
+import ModalRenameChannel from './ModalRenameChannel.jsx';
+import ModalRemoveChannel from './ModalRemoveChannel.jsx';
 
 const ModalSwitcher = () => {
   const { type } = useSelector((state) => state.modal);
 
-  if (type === 'createChannel') {
-    return <ModalWindow />;
+  switch (type) {
+    case 'createChannel':
+      return <ModalAddChannel />;
+    case 'renameChannel':
+      return <ModalRenameChannel />;
+    case 'removeChannel':
+      return <ModalRemoveChannel />;
+    default:
+      return;
   }
-  if (type === 'renameChannel') {
-    return <RenameModal />;
-  }
-  if (type === 'removeChannel') {
-    return <RemoveModal />;
-  }
-
 };
 export default ModalSwitcher;
