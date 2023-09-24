@@ -7,13 +7,17 @@ import * as formik from 'formik';
 import { closeModal, showToast } from '../store/modalSlice';
 import { changeActiveChannel } from '../store/channelsSlice';
 import { newInstance } from '../services/locales';
+import { useEffect, useRef } from 'react';
 
 const ModalAddChannel = () => {
   const { Formik } = formik;
   const dispatch = useDispatch();
+  const focus = useRef();
   const { open } = useSelector((state) => state.modal);
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
+
+  useEffect(() => focus.current && focus.current.focus());
 
   const schema = yup.object().shape({
     name: yup
@@ -34,7 +38,11 @@ const ModalAddChannel = () => {
   };
 
   return (
-    <Modal show={open} onHide={() => dispatch(closeModal())} centered>
+    <Modal
+      show={open}
+      onHide={() => dispatch(closeModal())}
+      centered
+    >
       <Modal.Header closeButton>
         <Modal.Title>{newInstance.t('addChannel')}</Modal.Title>
       </Modal.Header>
@@ -55,12 +63,11 @@ const ModalAddChannel = () => {
                 <Form.Label>{newInstance.t('channelName')}</Form.Label>
                 <Form.Control
                   type='text'
-                  autoFocus
+                  ref={focus}
                   required
                   name='name'
                   value={values.name}
                   onChange={handleChange}
-                  isInvalid={!!errors.name}
                 />
                 <Form.Control.Feedback type='invalid'>
                   {errors.name}

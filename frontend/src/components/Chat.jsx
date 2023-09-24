@@ -4,14 +4,18 @@ import { Container, Col, Row, Button, InputGroup, Form } from 'react-bootstrap';
 
 import MessageItem from './MessageItem';
 import { showToast } from '../store/modalSlice';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { newInstance } from '../services/locales';
 
 const Chat = () => {
+  
   const dispatch = useDispatch();
   const { entities, currentChannel } = useSelector((state) => state.channels);
   const { messages } = useSelector((state) => state.chats);
   const { username } = useSelector((state) => state.authorization);
+  const focus = useRef();
+
+  useEffect(() => focus.current && focus.current.focus());
 
   const getActiveChannel = (element) => element.id === currentChannel;
   const chat = entities.find(getActiveChannel);
@@ -68,6 +72,7 @@ const Chat = () => {
                 aria-label='Новое сообщение'
                 placeholder='Введите сообщение...'
                 name='body'
+                ref={focus}
               />
               <Button variant='info' type='submit'>
                 {newInstance.t('sendMessage')}

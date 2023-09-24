@@ -21,4 +21,15 @@ const logInSchema = yup.object().shape({
   password: yup.string().required('Введите пароль'),
 });
 
+
+// const addChannelSchema = yup.object().shape({
+//   name: yup
+//     .string()
+//     .required('Введите название канала')
+//     .notOneOf(names, 'Канал с таким названием уже создан')
+//     .min(2, 'Минимум 2 символа')
+//     .max(50, 'Максимум 50 символов')
+//     .trim('The contact name cannot include leading and trailing spaces'),
+// });
+
 export { singUpSchema, logInSchema };
