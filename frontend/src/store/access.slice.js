@@ -1,12 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { createNewUser, getUserToken } from '../services/requestsToServer.js';
 
 export const logIn = createAsyncThunk(
   'access/logIn',
-  async function (userData, { dispatch }) {
-    dispatch(setError(''));
+  async (userData, { dispatch }) => {
+    dispatch(setError('')); // eslint-disable-line no-use-before-define
     const { data } = await getUserToken(userData);
     return data;
   },
@@ -14,8 +13,8 @@ export const logIn = createAsyncThunk(
 
 export const register = createAsyncThunk(
   'access/register',
-  async function (userData, { dispatch }) {
-    dispatch(setError(''));
+  async (userData, { dispatch }) => {
+    dispatch(setError('')); // eslint-disable-line no-use-before-define
     const { data } = await createNewUser(userData);
     console.log(data, 'DTA');
     return data;

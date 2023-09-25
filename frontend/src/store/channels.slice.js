@@ -1,12 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findIndex, set } from 'lodash-es';
 
 import { getChatContent } from '../services/requestsToServer.js';
 
 export const addChannels = createAsyncThunk(
   'channels/getChannelContent',
-  async function (chatData, { getState }) {
+  async (chatData) => {
     const { data } = await getChatContent(chatData);
     return data;
   },

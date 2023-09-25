@@ -5,7 +5,7 @@ const RequireAuth = ({ children }) => {
   const { token } = useSelector((state) => state.authorization);
 
   if (!token) {
-    return <Navigate to='/login' replace />;
+    return <Navigate to="/login" replace />;
   }
   return children;
 };

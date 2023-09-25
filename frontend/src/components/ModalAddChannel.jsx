@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { socket } from '../socket';
 import * as formik from 'formik';
-
-import { closeModal, showToast } from '../store/modalSlice';
-import { changeActiveChannel } from '../store/channelsSlice';
-import { newInstance } from '../services/locales';
 import { useEffect, useRef } from 'react';
+
+import { socket } from './socket';
+import { closeModal, showToast } from '../store/modal.slice';
+import { changeActiveChannel } from '../store/channels.slice';
+import { newInstance } from './services/locales';
 import { addChannelSchema } from '../services/yupSchemas';
 
 const ModalAddChannel = () => {
@@ -40,33 +40,35 @@ const ModalAddChannel = () => {
           name: '',
         }}
       >
-        {({ errors, values, handleChange, handleSubmit }) => (
+        {({
+          errors, values, handleChange, handleSubmit,
+        }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group className='mb-3' controlId='formControlInputAdd'>
+              <Form.Group className="mb-3" controlId="formControlInputAdd">
                 <Form.Label>{newInstance.t('channelName')}</Form.Label>
                 <Form.Control
-                  type='text'
+                  type="text"
                   ref={focus}
                   required
-                  name='name'
+                  name="name"
                   value={values.name}
                   onChange={handleChange}
                   isInvalid={!!errors.name}
                 />
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.name}
                 </Form.Control.Feedback>
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
               <Button
-                variant='outline-primary'
+                variant="outline-primary"
                 onClick={() => dispatch(closeModal())}
               >
                 {newInstance.t('cancel')}
               </Button>
-              <Button variant='primary' type='submit'>
+              <Button variant="primary" type="submit">
                 {newInstance.t('add')}
               </Button>
             </Modal.Footer>

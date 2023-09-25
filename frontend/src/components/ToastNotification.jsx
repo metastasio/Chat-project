@@ -2,7 +2,7 @@ import { Toast, ToastContainer } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
-import { closeToast } from '../store/modalSlice';
+import { closeToast } from '../store/modal.slice';
 
 const ToastNotification = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const ToastNotification = () => {
   });
 
   return (
-    <ToastContainer position='middle-start'>
+    <ToastContainer position="middle-start">
       <Toast
         onClose={() => dispatch(closeToast())}
         show={open}

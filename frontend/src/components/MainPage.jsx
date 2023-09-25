@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
-import { socket } from '../socket.js';
+import { socket } from './socket.js';
 
 import {
   addChannels,
   getNewChannel,
   renameChannel,
   removeChannel,
-} from '../store/channelsSlice';
-import { setMessages, getNewMessages } from '../store/chatSlice';
+} from '../store/channels.slice';
+import { setMessages, getNewMessages } from '../store/chat.slice';
 import Channels from './Channels';
 import Chat from './Chat';
 import ModalSwitcher from './ModalSwitcher.jsx';
@@ -56,8 +56,8 @@ const MainPage = () => {
 
   return (
     <>
-      <Container className=' h-100 my-4 overflow-hidden rounded shadow'>
-        <Row className='h-100 bg-white flex-md-row'>
+      <Container className="h-100 my-4 overflow-hidden rounded shadow">
+        <Row className="h-100 bg-white flex-md-row">
           <Channels />
           <Chat />
         </Row>

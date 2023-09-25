@@ -37,8 +37,7 @@ const translation = {
   },
 };
 
-
-//КРАСИВОЕ 
+// КРАСИВОЕ
 
 // const translation = {
 //   translation: {

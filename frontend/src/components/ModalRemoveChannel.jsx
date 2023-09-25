@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
-import { socket } from '../socket';
+import { socket } from './socket';
 
-import { closeModal, showToast } from '../store/modalSlice';
-import { changeActiveChannel } from '../store/channelsSlice';
-import { newInstance } from '../services/locales';
+import { closeModal, showToast } from '../store/modal.slice';
+import { changeActiveChannel } from '../store/channels.slice';
+import { newInstance } from './services/locales';
 
 const ModalRemoveChannel = () => {
   const dispatch = useDispatch();
@@ -20,17 +20,22 @@ const ModalRemoveChannel = () => {
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{newInstance.t('deleteChannel')} '{extra}'</Modal.Title>
+        <Modal.Title>
+          {newInstance.t('deleteChannel')}
+          &lsquo;
+          {extra}
+          &lsquo;
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>{newInstance.t('confirmDelete')}</Modal.Body>
       <Modal.Footer>
         <Button
-          variant='outline-secondary'
+          variant="outline-secondary"
           onClick={() => dispatch(closeModal())}
         >
           {newInstance.t('cancel')}
         </Button>
-        <Button variant='danger' onClick={onClick}>
+        <Button variant="danger" onClick={onClick}>
           {newInstance.t('delete')}
         </Button>
       </Modal.Footer>

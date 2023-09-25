@@ -1,6 +1,4 @@
-import { newInstance } from "../services/locales";
+import { newInstance } from './services/locales';
 
-const NotFound = () => {
-  return <h1>{newInstance.t('notFound')}</h1>;
-};
+const NotFound = () => <h1>{newInstance.t('notFound')}</h1>;
 export default NotFound;

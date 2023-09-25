@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { newInstance } from '../services/locales';
+import newInstance from '../services/locales'
 
 const singUpSchema = yup.object().shape({
   username: yup
@@ -26,26 +26,26 @@ const logInSchema = yup.object().shape({
   password: yup.string().required(newInstance.t('enterPassword')).trim(),
 });
 
-const addChannelSchema = (names) =>
-  yup.object().shape({
-    name: yup
-      .string()
-      .required(newInstance.t('enterChannelName'))
-      .notOneOf(names, newInstance.t('alreadyCreated'))
-      .min(2, newInstance.t('min'))
-      .max(20, newInstance.t('max'))
-      .trim(),
-  });
+const addChannelSchema = (names) => yup.object().shape({
+  name: yup
+    .string()
+    .required(newInstance.t('enterChannelName'))
+    .notOneOf(names, newInstance.t('alreadyCreated'))
+    .min(2, newInstance.t('min'))
+    .max(20, newInstance.t('max'))
+    .trim(),
+});
 
-const renameChannelSchema = (names) =>
-  yup.object().shape({
-    name: yup
-      .string()
-      .required(newInstance.t('enterChannelName'))
-      .notOneOf(names, newInstance.t('alreadyCreated'))
-      .min(2, newInstance.t('min'))
-      .max(50, newInstance.t('max'))
-      .trim(),
-  });
+const renameChannelSchema = (names) => yup.object().shape({
+  name: yup
+    .string()
+    .required(newInstance.t('enterChannelName'))
+    .notOneOf(names, newInstance.t('alreadyCreated'))
+    .min(2, newInstance.t('min'))
+    .max(50, newInstance.t('max'))
+    .trim(),
+});
 
-export { singUpSchema, logInSchema, addChannelSchema, renameChannelSchema };
+export {
+  singUpSchema, logInSchema, addChannelSchema, renameChannelSchema,
+};

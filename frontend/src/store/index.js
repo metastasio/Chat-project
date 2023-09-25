@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
-import accessReducer from './accessSlice.js';
-import channelReducer from './channelsSlice.js';
-import chatReducer from './chatSlice.js';
-import modalReducer from './modalSlice.js';
+import accessReducer from './access.slice.js';
+import channelReducer from './channels.slice.js';
+import chatReducer from './chat.slice.js';
+import modalReducer from './modal.slice.js';
 
 export default configureStore({
   reducer: {

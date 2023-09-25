@@ -1,12 +1,14 @@
 // import { useFormik } from 'formik';
-import { Button, Form, FloatingLabel, Card, Container } from 'react-bootstrap';
+import {
+  Button, Form, FloatingLabel, Card, Container,
+} from 'react-bootstrap';
 import * as formik from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../store/accessSlice.js';
-import { newInstance } from '../services/locales/index.js';
-import { singUpSchema } from '../services/yupSchemas.js';
 import { useEffect, useRef } from 'react';
+import { register } from '../store/access.slice.js';
+import { newInstance } from './services/locales/index.js';
+import { singUpSchema } from '../services/yupSchemas.js';
 
 const SignUp = () => {
   const { feedback } = useSelector((state) => state.authorization);
@@ -20,13 +22,13 @@ const SignUp = () => {
   useEffect(() => focus.current && focus.current.focus());
 
   return (
-    <Container className='row mx-auto my-auto col-3'>
+    <Container className="row mx-auto my-auto col-3">
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className='text-center mb-3'>{newInstance.t('signUp')}</h1>
+            <h1 className="text-center mb-3">{newInstance.t('signUp')}</h1>
           </Card.Title>
-          <Card.Text as='div'>
+          <Card.Text as="div">
             <Formik
               validationSchema={schema}
               onSubmit={(values) => {
@@ -42,21 +44,23 @@ const SignUp = () => {
                 passwordConfirmation: '',
               }}
             >
-              {({ handleSubmit, handleChange, values, touched, errors }) => (
+              {({
+                handleSubmit, handleChange, values, errors,
+              }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel label='Имя' className='mb-3'>
+                    <FloatingLabel label="Имя" className="mb-3">
                       <Form.Control
-                        type='text'
+                        type="text"
                         placeholder={newInstance.t('userName')}
                         required
-                        name='username'
+                        name="username"
                         value={values.username}
                         onChange={handleChange}
-                        isInvalid={!!errors.username | !!feedback}
+                        isInvalid={!!errors.username | !!feedback} // eslint-disable-line no-bitwise
                         ref={focus}
                       />
-                      <Form.Control.Feedback type='invalid'>
+                      <Form.Control.Feedback type="invalid">
                         {errors.username}
                         {feedback}
                       </Form.Control.Feedback>
@@ -64,17 +68,17 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group>
-                    <FloatingLabel label='Пароль' className='mb-3'>
+                    <FloatingLabel label="Пароль" className="mb-3">
                       <Form.Control
-                        type='password'
+                        type="password"
                         placeholder={newInstance.t('password')}
                         required
-                        name='password'
+                        name="password"
                         value={values.password}
                         onChange={handleChange}
                         isInvalid={!!errors.password}
                       />
-                      <Form.Control.Feedback type='invalid'>
+                      <Form.Control.Feedback type="invalid">
                         {errors.password}
                       </Form.Control.Feedback>
                     </FloatingLabel>
@@ -83,27 +87,27 @@ const SignUp = () => {
                   <Form.Group>
                     <FloatingLabel
                       label={newInstance.t('passwordConfirmation')}
-                      className='mb-3'
+                      className="mb-3"
                     >
                       <Form.Control
-                        type='password'
+                        type="password"
                         placeholder={newInstance.t('passwordConfirmation')}
                         required
-                        name='passwordConfirmation'
+                        name="passwordConfirmation"
                         value={values.passwordConfirmation}
                         onChange={handleChange}
                         isInvalid={!!errors.passwordConfirmation}
                       />
-                      <Form.Control.Feedback type='invalid'>
+                      <Form.Control.Feedback type="invalid">
                         {errors.passwordConfirmation}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
 
                   <Button
-                    type='submit'
-                    variant='outline-primary'
-                    className='w-100'
+                    type="submit"
+                    variant="outline-primary"
+                    className="w-100"
                   >
                     {newInstance.t('register')}
                   </Button>

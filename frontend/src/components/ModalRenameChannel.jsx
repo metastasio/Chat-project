@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import { socket } from '../socket';
 import * as formik from 'formik';
-
-import { closeModal, showToast } from '../store/modalSlice';
-import { newInstance } from '../services/locales';
 import { useEffect, useRef } from 'react';
-import { renameChannelSchema } from '../services/yupSchemas';
+
+import socket from '../socket';
+import { closeModal, showToast } from '../store/modal.slice';
+import { newInstance } from './services/locales';
+import { renameChannelSchema } from '../services/yup.schemas';
 
 const ModalRenameChannel = () => {
   const { Formik } = formik;
@@ -30,7 +30,10 @@ const ModalRenameChannel = () => {
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
         <Modal.Title>
-          {newInstance.t('renameChannel')} '{extra}'
+          {newInstance.t('renameChannel')}
+          &lsquo;
+          {extra}
+          &lsquo;
         </Modal.Title>
       </Modal.Header>
       <Formik
@@ -40,33 +43,35 @@ const ModalRenameChannel = () => {
           name: '',
         }}
       >
-        {({ errors, values, handleChange, handleSubmit }) => (
+        {({
+          errors, values, handleChange, handleSubmit,
+        }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group className='mb-3' controlId='formControlInputRename'>
+              <Form.Group className="mb-3" controlId="formControlInputRename">
                 <Form.Label>{newInstance.t('channelName')}</Form.Label>
                 <Form.Control
-                  type='text'
+                  type="text"
                   ref={focus}
                   required
-                  name='name'
+                  name="name"
                   value={values.name}
                   onChange={handleChange}
                   isInvalid={!!errors.name}
                 />
-                <Form.Control.Feedback type='invalid'>
+                <Form.Control.Feedback type="invalid">
                   {errors.name}
                 </Form.Control.Feedback>
               </Form.Group>
             </Modal.Body>
             <Modal.Footer>
               <Button
-                variant='outline-primary'
+                variant="outline-primary"
                 onClick={() => dispatch(closeModal())}
               >
                 {newInstance.t('cancel')}
               </Button>
-              <Button variant='primary' type='submit'>
+              <Button variant="primary" type="submit">
                 {newInstance.t('rename')}
               </Button>
             </Modal.Footer>
