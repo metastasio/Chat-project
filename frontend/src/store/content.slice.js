@@ -16,7 +16,7 @@ const channelSlice = createSlice({
   initialState: {
     ids: [],
     entities: [],
-    names: [],
+    messages: [],
     currentChannel: '',
     status: '',
   },
@@ -27,11 +27,17 @@ const channelSlice = createSlice({
     getNewChannel(state, { payload }) {
       state.entities.push(payload);
       state.ids.push(payload.id);
-      state.names.push(payload.name);
+    },
+    getNewMessages(state, { payload }) {
+      state.messages.push(payload);
     },
     removeChannel(state, { payload }) {
+      const channelId = payload.id;
       state.entities = state.entities.filter(
-        (entity) => entity.id !== payload.id,
+        (entity) => entity.id !== channelId,
+      );
+      state.messages = state.messages.filter(
+        (message) => message.channelId !== channelId,
       );
     },
     renameChannel(state, { payload }) {
@@ -49,9 +55,9 @@ const channelSlice = createSlice({
         const { channels, currentChannelId } = payload;
         if (channels.length) {
           state.ids = channels.map((channel) => channel.id);
-          state.names = channels.map((channel) => channel.name);
         }
         state.currentChannel = currentChannelId;
+        state.messages = payload.messages;
         state.entities = channels;
         state.status = 'idle';
       })
@@ -69,6 +75,7 @@ export const {
   removeChannel,
   changeActiveChannel,
   renameChannel,
+  getNewMessages,
 } = channelSlice.actions;
 
 export default channelSlice.reducer;

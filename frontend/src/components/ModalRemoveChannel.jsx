@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import socket from '../socket.js';
 import { closeModal, showToast } from '../store/modal.slice';
-import { changeActiveChannel } from '../store/channels.slice';
+import { changeActiveChannel } from '../store/content.slice.js';
 
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();

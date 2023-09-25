@@ -4,9 +4,8 @@ import {
   Button, Nav, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 
-import { changeActiveChannel } from '../store/channels.slice';
+import { changeActiveChannel } from '../store/content.slice';
 import { openModal } from '../store/modal.slice';
-// import { newInstance } from './services/locales';
 
 const ChannelItem = ({ name, removable, id }) => {
   const { t } = useTranslation();

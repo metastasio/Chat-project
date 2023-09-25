@@ -12,8 +12,7 @@ import { showToast } from '../store/modal.slice';
 const Chat = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { entities, currentChannel } = useSelector((state) => state.channels);
-  const { messages } = useSelector((state) => state.chats);
+  const { entities, currentChannel, messages } = useSelector((state) => state.channels);
   const { username } = useSelector((state) => state.authorization);
   const focus = useRef();
 

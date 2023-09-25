@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 
 import socket from '../socket.js';
-import { getNewMessages } from '../store/chat.slice';
 import Channels from './Channels';
 import Chat from './Chat';
 import ModalSwitcher from './ModalSwitcher.jsx';
@@ -13,7 +12,8 @@ import {
   getNewChannel,
   renameChannel,
   removeChannel,
-} from '../store/channels.slice';
+  getNewMessages,
+} from '../store/content.slice.js';
 
 const MainPage = () => {
   const dispatch = useDispatch();

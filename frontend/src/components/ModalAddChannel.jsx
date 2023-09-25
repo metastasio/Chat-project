@@ -6,8 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 import socket from '../socket';
 import { closeModal, showToast } from '../store/modal.slice';
-import { changeActiveChannel } from '../store/channels.slice';
-// import { newInstance } from './services/locales';
+import { changeActiveChannel } from '../store/content.slice';
 import { addChannelSchema } from '../services/yupSchemas';
 
 const ModalAddChannel = () => {
@@ -33,7 +32,7 @@ const ModalAddChannel = () => {
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{t('addChannel')}</Modal.Title>
+        <Modal.Title>{t('modal.addChannel')}</Modal.Title>
       </Modal.Header>
       <Formik
         validationSchema={schema}
@@ -48,7 +47,7 @@ const ModalAddChannel = () => {
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Group className="mb-3" controlId="formControlInputAdd">
-                <Form.Label>{t('channelName')}</Form.Label>
+                <Form.Label>{t('modal.channelName')}</Form.Label>
                 <Form.Control
                   type="text"
                   ref={focus}
@@ -68,10 +67,10 @@ const ModalAddChannel = () => {
                 variant="outline-primary"
                 onClick={() => dispatch(closeModal())}
               >
-                {t('cancel')}
+                {t('modal.cancel')}
               </Button>
               <Button variant="primary" type="submit">
-                {t('add')}
+                {t('modal.add')}
               </Button>
             </Modal.Footer>
           </Form>

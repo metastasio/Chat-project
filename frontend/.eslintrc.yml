@@ -21,8 +21,7 @@ plugins:
 overrides:
   - files:
       - src/store/access.slice.js
-      - src/store/channels.slice.js
-      - src/store/chat.slice.js
+      - src/store/content.slice.js
       - src/store/modal.slice.js
     rules:
       no-param-reassign:
