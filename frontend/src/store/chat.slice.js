@@ -1,12 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { getChatContent } from '../services/requestsToServer.js';
-import { removeChannel } from './channelsSlice';
+import { removeChannel } from './channels.slice.js';
 
 export const setMessages = createAsyncThunk(
   'chats/getChatContent',
-  async function (chatData) {
+  async (chatData) => {
     const { data } = await getChatContent(chatData);
     return data;
   },

@@ -14,4 +14,8 @@ const newInstance = i18n.createInstance(
   },
 );
 
-export { newInstance };
+export default newInstance;
+
+// export default {
+// ru,
+// };

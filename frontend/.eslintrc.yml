@@ -5,7 +5,7 @@ env:
 extends:
   - airbnb
   - plugin:react/recommended
-  - plugin:functional/recommended
+  - plugin:functional/external-vanilla-recommended
   - plugin:react-hooks/recommended
 
 parserOptions:
@@ -17,6 +17,17 @@ parserOptions:
 plugins:
   - react
   - functional
+
+overrides:
+  - files:
+      - src/store/access.slice.js
+      - src/store/channels.slice.js
+      - src/store/chat.slice.js
+      - src/store/modal.slice.js
+    rules:
+      no-param-reassign:
+        - error
+        - props: false
 
 rules:
   import/extensions: 0
