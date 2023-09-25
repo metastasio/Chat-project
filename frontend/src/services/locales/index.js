@@ -14,11 +14,4 @@ const newInstance = i18n.createInstance(
   },
 );
 
-// const setLocales = () => {
-//   elements.getInterfaceLanguages().forEach((locale) => {
-//     const initialLocale = locale;
-//     initialLocale.textContent = newInstance.t(locale.dataset.i18n);
-//   });
-// };
-
 export { newInstance };

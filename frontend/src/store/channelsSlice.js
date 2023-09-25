@@ -7,7 +7,6 @@ import { getChatContent } from '../services/requestsToServer.js';
 export const addChannels = createAsyncThunk(
   'channels/getChannelContent',
   async function (chatData, { getState }) {
-    // const { messages } = getState().chats;
     const { data } = await getChatContent(chatData);
     return data;
   },
