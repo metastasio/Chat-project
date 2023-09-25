@@ -5,9 +5,9 @@ import {
   Container, Col, Row, Button, InputGroup, Form,
 } from 'react-bootstrap';
 
-import socket from '../socket';
+import socket from '../../socket';
 import MessageItem from './MessageItem';
-import { showToast } from '../store/modal.slice';
+import { showToast } from '../../store/modal.slice';
 
 const Chat = () => {
   const { t } = useTranslation();
@@ -15,6 +15,7 @@ const Chat = () => {
   const { entities, currentChannel, messages } = useSelector((state) => state.channels);
   const { username } = useSelector((state) => state.authorization);
   const focus = useRef();
+  const formRef = useRef();
 
   useEffect(() => focus.current && focus.current.focus());
 
@@ -25,7 +26,6 @@ const Chat = () => {
     (message) => message.channelId === currentChannel,
   );
   const messagesInChat = currentChatMessages.length;
-  const formRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();

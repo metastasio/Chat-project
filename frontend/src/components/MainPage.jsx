@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 
 import socket from '../socket.js';
-import Channels from './Channels';
-import Chat from './Chat';
-import ModalSwitcher from './ModalSwitcher.jsx';
-import ToastNotification from './ToastNotification.jsx';
+import Channels from './Channels/Channels';
+import Chat from './Chat/Chat';
+import ModalSwitcher from './Modals/ModalSwitcher.jsx';
+import ToastNotification from './Modals/ToastNotification.jsx';
 import {
   addChannels,
   getNewChannel,

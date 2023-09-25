@@ -2,7 +2,7 @@ import { Toast, ToastContainer } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
-import { closeToast } from '../store/modal.slice';
+import { closeToast } from '../../store/modal.slice';
 
 const ToastNotification = () => {
   const dispatch = useDispatch();

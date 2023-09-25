@@ -1,17 +1,17 @@
 // import { useFormik } from 'formik';
-import {
-  Button, Form, FloatingLabel, Card, Container,
-} from 'react-bootstrap';
 import * as formik from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  Button, Form, FloatingLabel, Card, Container,
+} from 'react-bootstrap';
+import * as yup from 'yup';
 
-import { register } from '../store/access.slice.js';
-import { singUpSchema } from '../services/yupSchemas.js';
+import { logIn } from '../../store/access.slice.js';
 
-const SignUp = () => {
+const LoginPage = () => {
   const { t } = useTranslation();
   const { feedback, status } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
@@ -19,7 +19,10 @@ const SignUp = () => {
   const { Formik } = formik;
   const focus = useRef();
 
-  const schema = singUpSchema;
+  const schema = yup.object().shape({
+    username: yup.string().required(t('form.errors.enterUserName')).trim(),
+    password: yup.string().required(t('form.errors.enterPassword')).trim(),
+  });
 
   useEffect(() => focus.current && focus.current.focus());
 
@@ -28,13 +31,13 @@ const SignUp = () => {
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className="text-center mb-3">{t('form.signUp')}</h1>
+            <h1 className="text-center mb-3">{t('enter')}</h1>
           </Card.Title>
           <Card.Text as="div">
             <Formik
               validationSchema={schema}
               onSubmit={(values) => {
-                dispatch(register(values)).then((result) => {
+                dispatch(logIn(values)).then((result) => {
                   if (!result.error) {
                     navigate('/', { replace: false });
                   }
@@ -43,7 +46,6 @@ const SignUp = () => {
               initialValues={{
                 username: '',
                 password: '',
-                passwordConfirmation: '',
               }}
             >
               {({
@@ -51,77 +53,65 @@ const SignUp = () => {
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel label="Имя" className="mb-3">
+                    <FloatingLabel
+                      label="Имя"
+                      className="mb-3"
+                    >
                       <Form.Control
                         type="text"
-                        placeholder={t('.form.userName')}
+                        placeholder={t('userName')}
                         required
                         name="username"
                         value={values.username}
                         onChange={handleChange}
-                        isInvalid={!!errors.username | !!feedback} // eslint-disable-line no-bitwise
+                        isInvalid={!!errors.username}
                         ref={focus}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.username}
-                        {feedback}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
 
-                  <Form.Group>
-                    <FloatingLabel label="Пароль" className="mb-3">
-                      <Form.Control
-                        type="password"
-                        placeholder={t('form.password')}
-                        required
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        isInvalid={!!errors.password}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.password}
-                      </Form.Control.Feedback>
-                    </FloatingLabel>
-                  </Form.Group>
-
-                  <Form.Group>
+                  <Form.Group controlId="validationFormik04">
                     <FloatingLabel
-                      label={t('form.passwordConfirmation')}
+                      label="Пароль"
                       className="mb-3"
                     >
                       <Form.Control
                         type="password"
-                        placeholder={t('form.passwordConfirmation')}
+                        placeholder={t('password')}
                         required
-                        name="passwordConfirmation"
-                        value={values.passwordConfirmation}
+                        name="password"
+                        value={values.password}
                         onChange={handleChange}
-                        isInvalid={!!errors.passwordConfirmation}
+                        isInvalid={!!errors.password | !!feedback} // eslint-disable-line no-bitwise
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.passwordConfirmation}
+                        {errors.password}
+                        {feedback}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
-
                   <Button
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
                     disabled={status === 'loading'}
                   >
-                    {t('form.register')}
+                    {t('enter')}
                   </Button>
                 </Form>
               )}
             </Formik>
           </Card.Text>
         </Card.Body>
+        <Card.Footer className="text-muted text-center">
+          <Link to="/signup">{t('form.register')}</Link>
+        </Card.Footer>
       </Card>
     </Container>
   );
 };
 
-export default SignUp;
+export default LoginPage;

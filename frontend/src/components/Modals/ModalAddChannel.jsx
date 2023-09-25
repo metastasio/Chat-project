@@ -3,11 +3,11 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
-import socket from '../socket';
-import { closeModal, showToast } from '../store/modal.slice';
-import { changeActiveChannel } from '../store/content.slice';
-import { addChannelSchema } from '../services/yupSchemas';
+import socket from '../../socket';
+import { closeModal, showToast } from '../../store/modal.slice';
+import { changeActiveChannel } from '../../store/content.slice';
 
 const ModalAddChannel = () => {
   const { t } = useTranslation();
@@ -17,7 +17,16 @@ const ModalAddChannel = () => {
   const { open } = useSelector((state) => state.modal);
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
-  const schema = addChannelSchema(names);
+
+  const schema = yup.object().shape({
+    name: yup
+      .string()
+      .required(t('form.errors.enterChannelName'))
+      .notOneOf(names, t('form.errors.alreadyCreated'))
+      .min(2, t('form.errors.min'))
+      .max(20, t('form.errors.max'))
+      .trim(),
+  });
 
   const onSubmit = (value) => {
     socket.emit('newChannel', value, ({ data }) => {

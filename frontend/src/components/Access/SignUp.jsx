@@ -1,18 +1,17 @@
 // import { useFormik } from 'formik';
-import * as formik from 'formik';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
+import * as formik from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
-import { logIn } from '../store/access.slice.js';
-// import { newInstance } from './services/locales/index.js';
-import { logInSchema } from '../services/yupSchemas.js';
+import { register } from '../../store/access.slice.js';
 
-const LoginPage = () => {
+const SignUp = () => {
   const { t } = useTranslation();
   const { feedback, status } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
@@ -20,7 +19,24 @@ const LoginPage = () => {
   const { Formik } = formik;
   const focus = useRef();
 
-  const schema = logInSchema;
+  const schema = yup.object().shape({
+    username: yup
+      .string()
+      .required(t('form.errors.enterUserName'))
+      .min(3, t('form.errors.min'))
+      .max(20, t('form.errors.max'))
+      .trim(),
+    password: yup
+      .string()
+      .required(t('form.errors.enterPassword'))
+      .min(6, t('form.errors.min6'))
+      .trim(),
+    passwordConfirmation: yup
+      .string()
+      .required(t('form.errors.passwordConfirmation'))
+      .oneOf([yup.ref('password')], t('form.errors.passwordsMatch'))
+      .trim(),
+  });
 
   useEffect(() => focus.current && focus.current.focus());
 
@@ -29,13 +45,13 @@ const LoginPage = () => {
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className="text-center mb-3">{t('enter')}</h1>
+            <h1 className="text-center mb-3">{t('form.signUp')}</h1>
           </Card.Title>
           <Card.Text as="div">
             <Formik
               validationSchema={schema}
               onSubmit={(values) => {
-                dispatch(logIn(values)).then((result) => {
+                dispatch(register(values)).then((result) => {
                   if (!result.error) {
                     navigate('/', { replace: false });
                   }
@@ -44,6 +60,7 @@ const LoginPage = () => {
               initialValues={{
                 username: '',
                 password: '',
+                passwordConfirmation: '',
               }}
             >
               {({
@@ -51,65 +68,77 @@ const LoginPage = () => {
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel
-                      label="Имя"
-                      className="mb-3"
-                    >
+                    <FloatingLabel label="Имя" className="mb-3">
                       <Form.Control
                         type="text"
-                        placeholder={t('userName')}
+                        placeholder={t('.form.userName')}
                         required
                         name="username"
                         value={values.username}
                         onChange={handleChange}
-                        isInvalid={!!errors.username}
+                        isInvalid={!!errors.username | !!feedback} // eslint-disable-line no-bitwise
                         ref={focus}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.username}
-                      </Form.Control.Feedback>
-                    </FloatingLabel>
-                  </Form.Group>
-
-                  <Form.Group controlId="validationFormik04">
-                    <FloatingLabel
-                      label="Пароль"
-                      className="mb-3"
-                    >
-                      <Form.Control
-                        type="password"
-                        placeholder={t('password')}
-                        required
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                        isInvalid={!!errors.password | !!feedback} // eslint-disable-line no-bitwise
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {errors.password}
                         {feedback}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
+
+                  <Form.Group>
+                    <FloatingLabel label="Пароль" className="mb-3">
+                      <Form.Control
+                        type="password"
+                        placeholder={t('form.password')}
+                        required
+                        name="password"
+                        value={values.password}
+                        onChange={handleChange}
+                        isInvalid={!!errors.password}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.password}
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
+                  </Form.Group>
+
+                  <Form.Group>
+                    <FloatingLabel
+                      label={t('form.errors.passwordConfirmation')}
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        type="password"
+                        placeholder={t('form.erorrs.passwordConfirmation')}
+                        required
+                        name="passwordConfirmation"
+                        value={values.passwordConfirmation}
+                        onChange={handleChange}
+                        isInvalid={!!errors.passwordConfirmation}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {errors.passwordConfirmation}
+                      </Form.Control.Feedback>
+                    </FloatingLabel>
+                  </Form.Group>
+
                   <Button
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
                     disabled={status === 'loading'}
                   >
-                    {t('enter')}
+                    {t('form.register')}
                   </Button>
                 </Form>
               )}
             </Formik>
           </Card.Text>
         </Card.Body>
-        <Card.Footer className="text-muted text-center">
-          <Link to="/signup">{t('register')}</Link>
-        </Card.Footer>
       </Card>
     </Container>
   );
 };
 
-export default LoginPage;
+export default SignUp;

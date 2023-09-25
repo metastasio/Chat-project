@@ -3,8 +3,7 @@ import { Button, Navbar, Nav } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import ChannelItem from './ChannelItem';
-import { openModal } from '../store/modal.slice';
-// import { newInstance } from './services/locales';
+import { openModal } from '../../store/modal.slice';
 
 const Channels = () => {
   const { t } = useTranslation();

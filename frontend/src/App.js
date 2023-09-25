@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LoginPage from './components/LoginPage.jsx';
+import LoginPage from './components/Access/LoginPage.jsx';
 import MainPage from './components/MainPage.jsx';
 import NotFound from './components/NotFound.jsx';
-import RequireAuth from './components/RequireAuth.jsx';
+import RequireAuth from './components/Access/RequireAuth.jsx';
 import Header from './components/Header.jsx';
-import SignUp from './components/SignUp.jsx';
+import SignUp from './components/Access/SignUp.jsx';
 
 const App = () => (
   <div className="h-100">

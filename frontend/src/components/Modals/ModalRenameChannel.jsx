@@ -3,10 +3,10 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
-import socket from '../socket';
-import { closeModal, showToast } from '../store/modal.slice';
-import { renameChannelSchema } from '../services/yupSchemas';
+import socket from '../../socket';
+import { closeModal, showToast } from '../../store/modal.slice';
 
 const ModalRenameChannel = () => {
   const { t } = useTranslation();
@@ -17,7 +17,15 @@ const ModalRenameChannel = () => {
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
 
-  const schema = renameChannelSchema(names);
+  const schema = yup.object().shape({
+    name: yup
+      .string()
+      .required(t('form.errors.enterChannelName'))
+      .notOneOf(names, t('form.errors.alreadyCreated'))
+      .min(2, t('form.errors.min'))
+      .max(50, t('form.errors.validation.max'))
+      .trim(),
+  });
 
   const onSubmit = (value) => {
     socket.emit('renameChannel', { id: meta, name: value.name });
