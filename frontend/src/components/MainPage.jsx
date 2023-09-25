@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 
 import socket from '../socket.js';
-import { setMessages, getNewMessages } from '../store/chat.slice';
+import { getNewMessages } from '../store/chat.slice';
 import Channels from './Channels';
 import Chat from './Chat';
 import ModalSwitcher from './ModalSwitcher.jsx';
@@ -51,7 +51,6 @@ const MainPage = () => {
 
   useEffect(() => {
     dispatch(addChannels(token));
-    dispatch(setMessages(token));
   }, [dispatch, token]);
 
   return (
