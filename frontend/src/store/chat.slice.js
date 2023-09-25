@@ -39,7 +39,8 @@ const chatSlice = createSlice({
         state.messages = state.messages.filter(
           (message) => message.channelId !== channelId,
         );
-      });
+      })
+      .addcase();
   },
 });
 

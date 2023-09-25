@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Container, Col, Row, Button, InputGroup, Form,
 } from 'react-bootstrap';
-import { useEffect, useRef } from 'react';
-import { socket } from './socket';
 
+import socket from '../socket';
 import MessageItem from './MessageItem';
 import { showToast } from '../store/modal.slice';
-import { newInstance } from './services/locales';
 
 const Chat = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { entities, currentChannel } = useSelector((state) => state.channels);
   const { messages } = useSelector((state) => state.chats);
@@ -56,12 +57,13 @@ const Chat = () => {
           {chat?.name}
         </span>
         <span className="text-muted">
-          {newInstance.t('key', { count: messagesInChat })}
+          {t('key', { count: messagesInChat })}
         </span>
       </Container>
 
       <Container className="d-flex flex-column overflow-auto px-5">
         {currentChatMessages.map((message) => (
+          /* eslint-disable react/jsx-props-no-spreading */
           <MessageItem key={message.id} {...message} />
         ))}
       </Container>
@@ -79,7 +81,7 @@ const Chat = () => {
                 ref={focus}
               />
               <Button variant="info" type="submit">
-                {newInstance.t('sendMessage')}
+                {t('sendMessage')}
               </Button>
             </InputGroup>
           </Form>

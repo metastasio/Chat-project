@@ -1,13 +1,15 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   Button, Nav, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 
-import { changeActiveChannel } from '../store/channelsSlice';
+import { changeActiveChannel } from '../store/channels.slice';
 import { openModal } from '../store/modal.slice';
-import { newInstance } from './services/locales';
+// import { newInstance } from './services/locales';
 
 const ChannelItem = ({ name, removable, id }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { currentChannel } = useSelector((state) => state.channels);
 
@@ -34,12 +36,12 @@ const ChannelItem = ({ name, removable, id }) => {
               <Dropdown.Item
                 onClick={() => dispatch(openModal({ type: 'renameChannel', meta: id, extra: name }))}
               >
-                {newInstance.t('rename')}
+                {t('rename')}
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => dispatch(openModal({ type: 'removeChannel', meta: id, extra: name }))}
               >
-                {newInstance.t('delete')}
+                {t('delete')}
               </Dropdown.Item>
             </Dropdown.Menu>
           </>

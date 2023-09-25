@@ -2,14 +2,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import { socket } from './socket';
+import socket from '../socket';
 import { closeModal, showToast } from '../store/modal.slice';
 import { changeActiveChannel } from '../store/channels.slice';
-import { newInstance } from './services/locales';
+// import { newInstance } from './services/locales';
 import { addChannelSchema } from '../services/yupSchemas';
 
 const ModalAddChannel = () => {
+  const { t } = useTranslation();
   const { Formik } = formik;
   const dispatch = useDispatch();
   const focus = useRef();
@@ -31,7 +33,7 @@ const ModalAddChannel = () => {
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{newInstance.t('addChannel')}</Modal.Title>
+        <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>
       <Formik
         validationSchema={schema}
@@ -46,7 +48,7 @@ const ModalAddChannel = () => {
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Group className="mb-3" controlId="formControlInputAdd">
-                <Form.Label>{newInstance.t('channelName')}</Form.Label>
+                <Form.Label>{t('channelName')}</Form.Label>
                 <Form.Control
                   type="text"
                   ref={focus}
@@ -66,10 +68,10 @@ const ModalAddChannel = () => {
                 variant="outline-primary"
                 onClick={() => dispatch(closeModal())}
               >
-                {newInstance.t('cancel')}
+                {t('cancel')}
               </Button>
               <Button variant="primary" type="submit">
-                {newInstance.t('add')}
+                {t('add')}
               </Button>
             </Modal.Footer>
           </Form>

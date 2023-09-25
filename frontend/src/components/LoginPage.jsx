@@ -1,18 +1,20 @@
 // import { useFormik } from 'formik';
-import {
-  Button, Form, FloatingLabel, Card, Container,
-} from 'react-bootstrap';
 import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+  Button, Form, FloatingLabel, Card, Container,
+} from 'react-bootstrap';
 
 import { logIn } from '../store/access.slice.js';
-import { newInstance } from './services/locales/index.js';
+// import { newInstance } from './services/locales/index.js';
 import { logInSchema } from '../services/yupSchemas.js';
 
 const LoginPage = () => {
-  const { feedback } = useSelector((state) => state.authorization);
+  const { t } = useTranslation();
+  const { feedback, status } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Formik } = formik;
@@ -27,7 +29,7 @@ const LoginPage = () => {
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className="text-center mb-3">{newInstance.t('enter')}</h1>
+            <h1 className="text-center mb-3">{t('enter')}</h1>
           </Card.Title>
           <Card.Text as="div">
             <Formik
@@ -55,7 +57,7 @@ const LoginPage = () => {
                     >
                       <Form.Control
                         type="text"
-                        placeholder={newInstance.t('userName')}
+                        placeholder={t('userName')}
                         required
                         name="username"
                         value={values.username}
@@ -76,7 +78,7 @@ const LoginPage = () => {
                     >
                       <Form.Control
                         type="password"
-                        placeholder={newInstance.t('password')}
+                        placeholder={t('password')}
                         required
                         name="password"
                         value={values.password}
@@ -93,8 +95,9 @@ const LoginPage = () => {
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
+                    disabled={status === 'loading'}
                   >
-                    {newInstance.t('enter')}
+                    {t('enter')}
                   </Button>
                 </Form>
               )}
@@ -102,7 +105,7 @@ const LoginPage = () => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="text-muted text-center">
-          <Link to="/signup">{newInstance.t('register')}</Link>
+          <Link to="/signup">{t('register')}</Link>
         </Card.Footer>
       </Card>
     </Container>

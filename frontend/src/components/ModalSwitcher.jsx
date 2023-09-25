@@ -14,7 +14,7 @@ const ModalSwitcher = () => {
     case 'removeChannel':
       return <ModalRemoveChannel />;
     default:
-      throw new Error();
+      return null;
   }
 };
 export default ModalSwitcher;

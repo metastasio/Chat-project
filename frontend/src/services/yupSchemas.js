@@ -1,48 +1,46 @@
 import * as yup from 'yup';
 
-import newInstance from '../services/locales'
-
 const singUpSchema = yup.object().shape({
   username: yup
     .string()
-    .required(newInstance.t('enterUserName'))
-    .min(3, newInstance.t('min'))
-    .max(20, newInstance.t('max'))
+    .required('enterUserName')
+    .min(3, 'min')
+    .max(20, 'max')
     .trim(),
   password: yup
     .string()
-    .required(newInstance.t('enterPassword'))
-    .min(6, newInstance.t('min6'))
+    .required('enterPassword')
+    .min(6, 'min6')
     .trim(),
   passwordConfirmation: yup
     .string()
-    .required(newInstance.t('passwordConfirmation'))
-    .oneOf([yup.ref('password')], newInstance.t('passwordsMatch'))
+    .required('passwordConfirmation')
+    .oneOf([yup.ref('password')], 'passwordsMatch')
     .trim(),
 });
 
 const logInSchema = yup.object().shape({
   username: yup.string().required('Введите имя пользователя').trim(),
-  password: yup.string().required(newInstance.t('enterPassword')).trim(),
+  password: yup.string().required('enterPassword').trim(),
 });
 
 const addChannelSchema = (names) => yup.object().shape({
   name: yup
     .string()
-    .required(newInstance.t('enterChannelName'))
-    .notOneOf(names, newInstance.t('alreadyCreated'))
-    .min(2, newInstance.t('min'))
-    .max(20, newInstance.t('max'))
+    .required('enterChannelName')
+    .notOneOf(names, 'alreadyCreated')
+    .min(2, 'min')
+    .max(20, 'max')
     .trim(),
 });
 
 const renameChannelSchema = (names) => yup.object().shape({
   name: yup
     .string()
-    .required(newInstance.t('enterChannelName'))
-    .notOneOf(names, newInstance.t('alreadyCreated'))
-    .min(2, newInstance.t('min'))
-    .max(50, newInstance.t('max'))
+    .required('enterChannelName')
+    .notOneOf(names, 'alreadyCreated')
+    .min(2, 'min')
+    .max(50, 'validation.max')
     .trim(),
 });
 

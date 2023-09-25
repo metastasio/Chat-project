@@ -2,13 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import socket from '../socket';
 import { closeModal, showToast } from '../store/modal.slice';
-import { newInstance } from './services/locales';
-import { renameChannelSchema } from '../services/yup.schemas';
+import { renameChannelSchema } from '../services/yupSchemas';
 
 const ModalRenameChannel = () => {
+  const { t } = useTranslation();
   const { Formik } = formik;
   const dispatch = useDispatch();
   const focus = useRef();
@@ -30,7 +31,7 @@ const ModalRenameChannel = () => {
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
         <Modal.Title>
-          {newInstance.t('renameChannel')}
+          {t('modal.renameChannel')}
           &lsquo;
           {extra}
           &lsquo;
@@ -49,7 +50,7 @@ const ModalRenameChannel = () => {
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Group className="mb-3" controlId="formControlInputRename">
-                <Form.Label>{newInstance.t('channelName')}</Form.Label>
+                <Form.Label>{t('modal.channelName')}</Form.Label>
                 <Form.Control
                   type="text"
                   ref={focus}
@@ -69,10 +70,10 @@ const ModalRenameChannel = () => {
                 variant="outline-primary"
                 onClick={() => dispatch(closeModal())}
               >
-                {newInstance.t('cancel')}
+                {t('modal.cancel')}
               </Button>
               <Button variant="primary" type="submit">
-                {newInstance.t('rename')}
+                {t('rename')}
               </Button>
             </Modal.Footer>
           </Form>

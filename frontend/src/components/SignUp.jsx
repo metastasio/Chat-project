@@ -6,12 +6,14 @@ import * as formik from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { register } from '../store/access.slice.js';
-import { newInstance } from './services/locales/index.js';
 import { singUpSchema } from '../services/yupSchemas.js';
 
 const SignUp = () => {
-  const { feedback } = useSelector((state) => state.authorization);
+  const { t } = useTranslation();
+  const { feedback, status } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Formik } = formik;
@@ -26,7 +28,7 @@ const SignUp = () => {
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className="text-center mb-3">{newInstance.t('signUp')}</h1>
+            <h1 className="text-center mb-3">{t('form.signUp')}</h1>
           </Card.Title>
           <Card.Text as="div">
             <Formik
@@ -52,7 +54,7 @@ const SignUp = () => {
                     <FloatingLabel label="Имя" className="mb-3">
                       <Form.Control
                         type="text"
-                        placeholder={newInstance.t('userName')}
+                        placeholder={t('.form.userName')}
                         required
                         name="username"
                         value={values.username}
@@ -71,7 +73,7 @@ const SignUp = () => {
                     <FloatingLabel label="Пароль" className="mb-3">
                       <Form.Control
                         type="password"
-                        placeholder={newInstance.t('password')}
+                        placeholder={t('form.password')}
                         required
                         name="password"
                         value={values.password}
@@ -86,12 +88,12 @@ const SignUp = () => {
 
                   <Form.Group>
                     <FloatingLabel
-                      label={newInstance.t('passwordConfirmation')}
+                      label={t('form.passwordConfirmation')}
                       className="mb-3"
                     >
                       <Form.Control
                         type="password"
-                        placeholder={newInstance.t('passwordConfirmation')}
+                        placeholder={t('form.passwordConfirmation')}
                         required
                         name="passwordConfirmation"
                         value={values.passwordConfirmation}
@@ -108,8 +110,9 @@ const SignUp = () => {
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
+                    disabled={status === 'loading'}
                   >
-                    {newInstance.t('register')}
+                    {t('form.register')}
                   </Button>
                 </Form>
               )}

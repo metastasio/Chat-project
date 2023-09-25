@@ -1,19 +1,19 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
-import { socket } from './socket.js';
 
+import socket from '../socket.js';
+import { setMessages, getNewMessages } from '../store/chat.slice';
+import Channels from './Channels';
+import Chat from './Chat';
+import ModalSwitcher from './ModalSwitcher.jsx';
+import ToastNotification from './ToastNotification.jsx';
 import {
   addChannels,
   getNewChannel,
   renameChannel,
   removeChannel,
 } from '../store/channels.slice';
-import { setMessages, getNewMessages } from '../store/chat.slice';
-import Channels from './Channels';
-import Chat from './Chat';
-import ModalSwitcher from './ModalSwitcher.jsx';
-import ToastNotification from './ToastNotification.jsx';
 
 const MainPage = () => {
   const dispatch = useDispatch();

@@ -1,18 +1,20 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Navbar, Nav } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import ChannelItem from './ChannelItem';
-import { openModal } from '../store/modalSlice';
-import { newInstance } from './services/locales';
+import { openModal } from '../store/modal.slice';
+// import { newInstance } from './services/locales';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { entities } = useSelector((state) => state.channels);
 
   return (
     <Navbar className="col-4 bg-light col-md-2 h-100 flex-column px-2">
       <Nav.Item className="w-100 d-flex justify-content-between mb-1 p-4">
-        <span className="fw-bold">{newInstance.t('channels')}</span>
+        <span className="fw-bold">{t('channels')}</span>
         <Button
           type="button"
           variant="outline-primary"
@@ -24,6 +26,7 @@ const Channels = () => {
       </Nav.Item>
       <div className="w-100 h-100 overflow-visible">
         {entities.map((channel) => (
+          /* eslint-disable react/jsx-props-no-spreading */
           <ChannelItem key={channel.id} {...channel} />
         ))}
       </div>
