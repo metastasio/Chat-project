@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
-import socket from '../../socket';
+import { socket } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 import { changeActiveChannel } from '../../store/content.slice';
 

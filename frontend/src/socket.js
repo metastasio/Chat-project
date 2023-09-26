@@ -6,4 +6,16 @@ const socket = io(URL, {
   autoConnect: false,
 });
 
-export default socket;
+const handleEmit = async (data, currentChannel, username, callback) => {
+  try {
+    await socket.timeout(10000).emitWithAck('newMessage', {
+      body: data.get('body'),
+      channelId: currentChannel,
+      username,
+    });
+  } catch (err) {
+    callback();
+  }
+};
+
+export { socket, handleEmit };

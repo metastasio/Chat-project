@@ -5,7 +5,7 @@ import {
   Container, Col, Row, Button, InputGroup, Form,
 } from 'react-bootstrap';
 
-import socket from '../../socket';
+import { handleEmit } from '../../socket';
 import MessageItem from './MessageItem';
 import { showToast } from '../../store/modal.slice';
 
@@ -41,20 +41,27 @@ const Chat = () => {
   //   formRef.current.reset();
   // };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const data = new FormData(e.target);
+  //   try {
+  //     await socket.timeout(10000).emitWithAck('newMessage', {
+  //       body: data.get('body'),
+  //       channelId: currentChannel,
+  //       username,
+  //     });
+  //   } catch (err) {
+  //     dispatch(
+  //       showToast(),
+  //     );
+  //   }
+  //   formRef.current.reset();
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    try {
-      await socket.timeout(10000).emitWithAck('newMessage', {
-        body: data.get('body'),
-        channelId: currentChannel,
-        username,
-      });
-    } catch (err) {
-      dispatch(
-        showToast(t('networkError')),
-      );
-    }
+    handleEmit(data, currentChannel, username, dispatch(showToast()));
     formRef.current.reset();
   };
 
@@ -85,7 +92,7 @@ const Chat = () => {
                 autoFocus
                 aria-describedby="basic-addon2"
                 aria-label="Новое сообщение"
-                placeholder="Введите сообщение..."
+                placeholder={t('messagePlaceHolder')}
                 name="body"
                 ref={focus}
               />

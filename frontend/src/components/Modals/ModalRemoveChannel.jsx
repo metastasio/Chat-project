@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import socket from '../../socket.js';
+import { socket } from '../../socket.js';
 import { closeModal, showToast } from '../../store/modal.slice.js';
 import { changeActiveChannel } from '../../store/content.slice.js';
 
