@@ -14,7 +14,7 @@ const ModalRemoveChannel = () => {
   const onClick = () => {
     socket.emit('removeChannel', { id: meta });
     dispatch(closeModal());
-    dispatch(showToast('Канал удален'));
+    dispatch(showToast(t('toast.removed')));
     dispatch(changeActiveChannel(1));
   };
 

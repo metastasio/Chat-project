@@ -6,10 +6,10 @@ import { closeToast } from '../../store/modal.slice';
 
 const ToastNotification = () => {
   const dispatch = useDispatch();
-  const { open, message } = useSelector((state) => state.modal.toast);
+  const { open, message, level } = useSelector((state) => state.modal.toast);
   const classNames = cn({
-    'bg-danger':
-      message === 'Канал удален',
+    'bg-warning':
+      level === 'warning',
   });
 
   return (

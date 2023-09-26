@@ -17,7 +17,10 @@ const Header = () => {
           <Button
             type="button"
             variant="primary"
-            onClick={() => dispatch(logOut())}
+            onClick={() => {
+              dispatch(logOut());
+              localStorage.removeItem('token');
+            }}
           >
             {t('logOut')}
           </Button>

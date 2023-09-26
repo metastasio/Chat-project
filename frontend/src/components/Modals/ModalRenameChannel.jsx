@@ -30,7 +30,7 @@ const ModalRenameChannel = () => {
   const onSubmit = (value) => {
     socket.emit('renameChannel', { id: meta, name: value.name });
     dispatch(closeModal());
-    dispatch(showToast('Канал переименован!'));
+    dispatch(showToast(t('toast.renamed')));
   };
 
   useEffect(() => focus.current && focus.current.focus());

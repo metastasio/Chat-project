@@ -10,6 +10,7 @@ const modalSlice = createSlice({
     toast: {
       open: false,
       message: '',
+      level: 'success',
     },
   },
   reducers: {
@@ -28,12 +29,14 @@ const modalSlice = createSlice({
     },
 
     showToast(state, { payload }) {
+      console.log(payload);
       state.toast.open = true;
       state.toast.message = payload;
     },
     closeToast(state) {
       state.toast.open = false;
       state.toast.message = '';
+      state.toast.level = 'success';
     },
   },
 });

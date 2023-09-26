@@ -37,10 +37,11 @@ const Chat = () => {
         channelId: currentChannel,
         username,
       },
-      (payload) => {
+      (...payload) => {
+        console.log(payload);
         if (payload.status !== 'ok') {
           dispatch(
-            showToast('Сообщение не отправлено, проверьте интернет-содениение'),
+            showToast(t('networkError')),
           );
         }
       },

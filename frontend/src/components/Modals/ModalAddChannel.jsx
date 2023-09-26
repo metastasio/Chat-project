@@ -33,7 +33,7 @@ const ModalAddChannel = () => {
       dispatch(changeActiveChannel(data.id));
     });
     dispatch(closeModal());
-    dispatch(showToast('Канал добавлен!'));
+    dispatch(showToast(t('toast.added')));
   };
 
   useEffect(() => focus.current && focus.current.focus());
