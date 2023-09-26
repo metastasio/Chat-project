@@ -53,7 +53,6 @@ const accessSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(logIn.rejected, (state, { error }) => {
-        console.log(error.code, 'PAYLOAD');
         if (error.code === 'ERR_BAD_REQUEST') {
           state.feedback = 'Неверное имя пользователя или пароль';
           state.status = 'unauthorized';
@@ -70,10 +69,12 @@ const accessSlice = createSlice({
         state.feedback = 'Loading';
         state.status = 'loading';
       })
-      .addCase(register.rejected, (state) => {
-        state.feedback = 'Такой пользователь уже зарегистрирован';
-        state.status = 'unauthorized';
-        state.username = '';
+      .addCase(register.rejected, (state, { error }) => {
+        if (error.code === 'ERR_BAD_REQUEST') {
+          state.feedback = 'Неверное имя пользователя или пароль';
+          state.status = 'unauthorized';
+          state.username = '';
+        }
       });
   },
 });

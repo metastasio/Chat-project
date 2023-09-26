@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
-import { t } from 'i18next';
 
 import socket from '../socket.js';
 import Channels from './Channels/Channels';
 import Chat from './Chat/Chat';
 import ModalSwitcher from './Modals/ModalSwitcher.jsx';
-import ToastNotification from './Modals/ToastNotification.jsx';
 import { showToast } from '../store/modal.slice.js';
 import {
   addChannels,
@@ -26,13 +24,13 @@ const MainPage = () => {
 
     socket.on('disconnect', () => {
       dispatch(
-        showToast(t('networkError')),
+        showToast(),
       );
     });
 
     socket.on('connect_error', () => {
       dispatch(
-        showToast(t('networkError')),
+        showToast(),
       );
     });
 
@@ -76,7 +74,6 @@ const MainPage = () => {
         </Row>
       </Container>
       <ModalSwitcher />
-      <ToastNotification />
     </>
   );
 };

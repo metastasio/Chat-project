@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { t } from 'i18next';
 import { addChannels } from './content.slice';
 import { logIn, register } from './access.slice';
 
@@ -23,14 +22,12 @@ const modalSlice = createSlice({
       state.meta = payload?.meta;
       state.extra = payload.extra;
     },
-
     closeModal(state) {
       state.type = '';
       state.open = false;
       state.meta = null;
       state.extra = null;
     },
-
     showToast(state, { payload }) {
       console.log(payload);
       state.toast.open = true;
@@ -38,28 +35,29 @@ const modalSlice = createSlice({
     },
     closeToast(state) {
       state.toast.open = false;
-      state.toast.message = '';
       state.toast.level = 'success';
+      state.toast.message = '';
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addChannels.rejected, (state) => {
-        state.toast.open = true;
-        state.toast.message = t('networkError');
-        state.toast.level = 'warning';
+      .addCase(addChannels.rejected, (state, { error }) => {
+        if (error.code === 'ERR_NETWORK') {
+          state.toast.open = true;
+          state.toast.level = 'warning';
+        }
       })
       .addCase(logIn.rejected, (state, { error }) => {
         if (error.code === 'ERR_NETWORK') {
           state.toast.open = true;
-          state.toast.message = t('networkError');
           state.toast.level = 'warning';
         }
       })
-      .addCase(register.rejected, (state) => {
-        state.toast.open = true;
-        state.toast.message = t('networkError');
-        state.toast.level = 'warning';
+      .addCase(register.rejected, (state, { error }) => {
+        if (error.code === 'ERR_NETWORK') {
+          state.toast.open = true;
+          state.toast.level = 'warning';
+        }
       });
   },
 });
