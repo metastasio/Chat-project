@@ -27,25 +27,34 @@ const Chat = () => {
   );
   const messagesInChat = currentChatMessages.length;
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const data = new FormData(e.target);
+  //   socket.emit(
+  //     'newMessage',
+  //     {
+  //       body: data.get('body'),
+  //       channelId: currentChannel,
+  //       username,
+  //     },
+  //   );
+  //   formRef.current.reset();
+  // };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    socket.emit(
-      'newMessage',
-      {
+    try {
+      await socket.timeout(10000).emitWithAck('newMessage', {
         body: data.get('body'),
         channelId: currentChannel,
         username,
-      },
-      (...payload) => {
-        console.log(payload);
-        if (payload.status !== 'ok') {
-          dispatch(
-            showToast(t('networkError')),
-          );
-        }
-      },
-    );
+      });
+    } catch (err) {
+      dispatch(
+        showToast(t('networkError')),
+      );
+    }
     formRef.current.reset();
   };
 

@@ -52,10 +52,13 @@ const accessSlice = createSlice({
         state.feedback = 'Loading';
         state.status = 'loading';
       })
-      .addCase(logIn.rejected, (state) => {
-        state.feedback = 'Неверное имя пользователя или пароль';
-        state.status = 'unauthorized';
-        state.username = '';
+      .addCase(logIn.rejected, (state, { error }) => {
+        console.log(error.code, 'PAYLOAD');
+        if (error.code === 'ERR_BAD_REQUEST') {
+          state.feedback = 'Неверное имя пользователя или пароль';
+          state.status = 'unauthorized';
+          state.username = '';
+        }
       })
       .addCase(register.fulfilled, (state, { payload }) => {
         const { token, username } = payload;

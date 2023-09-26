@@ -48,7 +48,6 @@ const channelSlice = createSlice({
       state.entities = set(state.entities, path, payload);
     },
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(addChannels.fulfilled, (state, { payload }) => {
