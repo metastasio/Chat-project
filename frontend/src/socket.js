@@ -9,7 +9,7 @@ const socket = io(URL, {
 const handleEmit = async (data, currentChannel, username, callback) => {
   try {
     await socket.timeout(10000).emitWithAck('newMessage', {
-      body: data.get('body'),
+      body: data,
       channelId: currentChannel,
       username,
     });

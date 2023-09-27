@@ -22,6 +22,7 @@ const translation = {
         alreadyCreated: 'Канал с таким названием уже создан',
         passwordsMatch: 'Пароли должны совпадать',
         passwordConfirmation: 'Подтвердите пароль',
+        filter: 'Пожалуйста, без ругательств',
       },
       messagePlaceHolder: 'Введите сообщение',
       userName: 'Имя пользователя',

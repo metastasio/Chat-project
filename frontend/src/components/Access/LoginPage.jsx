@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as leoProfanity from 'leo-profanity';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
@@ -20,7 +21,7 @@ const LoginPage = () => {
   const focus = useRef();
 
   const schema = yup.object().shape({
-    username: yup.string().required(t('form.errors.enterUserName')).trim(),
+    username: yup.string().required(t('form.errors.enterUserName')).trim().matches(/([^*])\1{3,}/, t('form.errors.filter')),
     password: yup.string().required(t('form.errors.enterPassword')).trim(),
   });
 
@@ -62,7 +63,7 @@ const LoginPage = () => {
                         placeholder={t('userName')}
                         required
                         name="username"
-                        value={values.username}
+                        value={leoProfanity.clean(values.username)}
                         onChange={handleChange}
                         isInvalid={!!errors.username}
                         ref={focus}

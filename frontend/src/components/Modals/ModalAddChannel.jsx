@@ -4,6 +4,7 @@ import * as formik from 'formik';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
+import * as leoProfanity from 'leo-profanity';
 
 import { socket } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
@@ -25,10 +26,12 @@ const ModalAddChannel = () => {
       .notOneOf(names, t('form.errors.alreadyCreated'))
       .min(2, t('form.errors.min'))
       .max(20, t('form.errors.max'))
+      .matches(/([^*])\1{3,}/, t('form.errors.filter'))
       .trim(),
   });
 
   const onSubmit = (value) => {
+    console.log(value);
     socket.emit('newChannel', value, ({ data }) => {
       dispatch(changeActiveChannel(data.id));
     });
@@ -62,7 +65,7 @@ const ModalAddChannel = () => {
                   ref={focus}
                   required
                   name="name"
-                  value={values.name}
+                  value={leoProfanity.clean(values.name)}
                   onChange={handleChange}
                   isInvalid={!!errors.name}
                 />

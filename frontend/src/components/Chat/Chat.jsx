@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import * as leoProfanity from 'leo-profanity';
 import {
   Container, Col, Row, Button, InputGroup, Form,
 } from 'react-bootstrap';
@@ -61,7 +62,8 @@ const Chat = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    handleEmit(data, currentChannel, username, dispatch(showToast()));
+    const dataChecked = leoProfanity.clean(data.get('body'));
+    handleEmit(dataChecked, currentChannel, username, dispatch(showToast()));
     formRef.current.reset();
   };
 
