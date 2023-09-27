@@ -28,42 +28,15 @@ const Chat = () => {
   );
   const messagesInChat = currentChatMessages.length;
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const data = new FormData(e.target);
-  //   socket.emit(
-  //     'newMessage',
-  //     {
-  //       body: data.get('body'),
-  //       channelId: currentChannel,
-  //       username,
-  //     },
-  //   );
-  //   formRef.current.reset();
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const data = new FormData(e.target);
-  //   try {
-  //     await socket.timeout(10000).emitWithAck('newMessage', {
-  //       body: data.get('body'),
-  //       channelId: currentChannel,
-  //       username,
-  //     });
-  //   } catch (err) {
-  //     dispatch(
-  //       showToast(),
-  //     );
-  //   }
-  //   formRef.current.reset();
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
     const dataChecked = leoProfanity.clean(data.get('body'));
-    handleEmit(dataChecked, currentChannel, username, dispatch(showToast()));
+    handleEmit('newMessage', {
+      body: dataChecked,
+      channelId: currentChannel,
+      username,
+    }, () => dispatch(showToast()));
     formRef.current.reset();
   };
 

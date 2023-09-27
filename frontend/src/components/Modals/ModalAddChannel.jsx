@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import * as leoProfanity from 'leo-profanity';
 
-import { socket } from '../../socket';
+import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 import { changeActiveChannel } from '../../store/content.slice';
 
@@ -26,17 +26,22 @@ const ModalAddChannel = () => {
       .notOneOf(names, t('form.errors.alreadyCreated'))
       .min(2, t('form.errors.min'))
       .max(20, t('form.errors.max'))
-      .matches(/([^*])\1{3,}/, t('form.errors.filter'))
+      // .matches(/([^*])\1{3,}/, t('form.errors.filter'))
       .trim(),
   });
 
-  const onSubmit = (value) => {
-    console.log(value);
-    socket.emit('newChannel', value, ({ data }) => {
-      dispatch(changeActiveChannel(data.id));
-    });
+  // const onSubmit = (value) => {
+  //   console.log(value);
+  //   socket.emit('newChannel', value, ({ data }) => {
+  //     dispatch(changeActiveChannel(data.id));
+  //   });
+  //   dispatch(closeModal());
+  //   dispatch(showToast(t('toast.added')));
+  // };
+
+  const onSubmit = async (value) => {
+    handleEmit('newChannel', value, () => dispatch(showToast()), (data) => { dispatch(showToast(t('toast.added'))); dispatch(changeActiveChannel(data)); });
     dispatch(closeModal());
-    dispatch(showToast(t('toast.added')));
   };
 
   useEffect(() => focus.current && focus.current.focus());

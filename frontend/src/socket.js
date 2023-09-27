@@ -6,15 +6,17 @@ const socket = io(URL, {
   autoConnect: false,
 });
 
-const handleEmit = async (data, currentChannel, username, callback) => {
+const handleEmit = async (event, payload, onError, onSuccess) => {
   try {
-    await socket.timeout(10000).emitWithAck('newMessage', {
-      body: data,
-      channelId: currentChannel,
-      username,
-    });
+    const response = await socket.emitWithAck(event, payload);
+    console.log(response, 'RESPONSE');
+    if (response) {
+      if (onSuccess && typeof onSuccess === 'function') {
+        onSuccess(response.data.id);
+      }
+    }
   } catch (err) {
-    callback();
+    onError();
   }
 };
 

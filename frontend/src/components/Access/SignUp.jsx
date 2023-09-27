@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-import * as leoProfanity from 'leo-profanity';
 
 import { register } from '../../store/access.slice.js';
 
@@ -26,7 +25,6 @@ const SignUp = () => {
       .required(t('form.errors.enterUserName'))
       .min(3, t('form.errors.min'))
       .max(20, t('form.errors.max'))
-      .matches(/([^*])\1{3,}/, t('form.errors.filter'))
       .trim(),
     password: yup
       .string()
@@ -76,7 +74,7 @@ const SignUp = () => {
                         placeholder={t('.form.userName')}
                         required
                         name="username"
-                        value={leoProfanity.clean(values.username)}
+                        value={values.username}
                         onChange={handleChange}
                         isInvalid={!!errors.username | !!feedback} // eslint-disable-line no-bitwise
                         ref={focus}
