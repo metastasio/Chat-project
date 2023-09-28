@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import * as leoProfanity from 'leo-profanity';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import store from './store';
 import resources from './services/locales/index.js';
@@ -13,6 +14,11 @@ const init = async () => {
   const russianDictionary = leoProfanity.getDictionary('ru');
   leoProfanity.add(russianDictionary);
 
+  const rollbarConfig = {
+    accessToken: process.env.REACT_APP_RAILWAY_TOKEN,
+    environment: 'production',
+  };
+
   await i18n
     .use(initReactI18next)
     .init({
@@ -22,11 +28,15 @@ const init = async () => {
 
   return (
     <React.StrictMode>
-      <Provider store={store}>
-        <I18nextProvider i18n={i18n}>
-          <App />
-        </I18nextProvider>
-      </Provider>
+      <RollbarProvider config={rollbarConfig}>
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
+          </I18nextProvider>
+        </Provider>
+      </RollbarProvider>
     </React.StrictMode>
   );
 };

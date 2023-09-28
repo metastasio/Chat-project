@@ -30,15 +30,6 @@ const ModalAddChannel = () => {
       .trim(),
   });
 
-  // const onSubmit = (value) => {
-  //   console.log(value);
-  //   socket.emit('newChannel', value, ({ data }) => {
-  //     dispatch(changeActiveChannel(data.id));
-  //   });
-  //   dispatch(closeModal());
-  //   dispatch(showToast(t('toast.added')));
-  // };
-
   const onSubmit = async (value) => {
     handleEmit('newChannel', value, () => dispatch(showToast()), (data) => { dispatch(showToast(t('toast.added'))); dispatch(changeActiveChannel(data.id)); });
     dispatch(closeModal());
