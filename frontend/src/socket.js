@@ -9,7 +9,6 @@ const socket = io(URL, {
 const handleEmit = async (event, payload, onError, onSuccess) => {
   try {
     const response = await socket.emitWithAck(event, payload);
-    console.log(response, 'RESPONSE');
     if (response) {
       if (onSuccess && typeof onSuccess === 'function') {
         onSuccess(response.data);

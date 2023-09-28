@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findIndex, set } from 'lodash-es';
 
 import { getChatContent } from '../services/requestsToServer.js';
+import { logOut } from './access.slice.js';
 
 export const addChannels = createAsyncThunk(
   'channels/getChannelContent',
@@ -65,6 +66,13 @@ const channelSlice = createSlice({
       })
       .addCase(addChannels.rejected, (state) => {
         state.status = 'error';
+      })
+      .addCase(logOut, (state) => {
+        state.ids = [];
+        state.entities = [];
+        state.messages = [];
+        state.currentChannel = '';
+        state.status = '';
       });
   },
 });

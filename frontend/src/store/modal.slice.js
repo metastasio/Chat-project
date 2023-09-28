@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addChannels } from './content.slice';
-import { logIn, register } from './access.slice';
+import { logIn, logOut, register } from './access.slice';
 
 const modalSlice = createSlice({
   name: 'modal',
@@ -29,7 +29,6 @@ const modalSlice = createSlice({
       state.extra = null;
     },
     showToast(state, { payload }) {
-      console.log(payload);
       state.toast.open = true;
       state.toast.message = payload;
     },
@@ -58,6 +57,9 @@ const modalSlice = createSlice({
           state.toast.open = true;
           state.toast.level = 'warning';
         }
+      })
+      .addCase(logOut, (state) => {
+        state.toast.open = false;
       });
   },
 });

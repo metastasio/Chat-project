@@ -29,12 +29,6 @@ const ModalRenameChannel = () => {
       .trim(),
   });
 
-  // const onSubmit = (value) => {
-  //   socket.emit('renameChannel', { id: meta, name: value.name });
-  //   dispatch(closeModal());
-  //   dispatch(showToast(t('toast.renamed')));
-  // };
-
   const onSubmit = async (value) => {
     handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast()), () => { dispatch(showToast(t('toast.removed'))); });
     dispatch(closeModal());

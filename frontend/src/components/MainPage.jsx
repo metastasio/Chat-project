@@ -57,6 +57,8 @@ const MainPage = () => {
       socket.off('newChannel', onNewChannel);
       socket.off('renameChannel', onRenameChannel);
       socket.off('removeChannel', onRemoveChannel);
+      socket.off('disconnect');
+      socket.off('connect_error');
       socket.disconnect();
     };
   }, [dispatch]);
