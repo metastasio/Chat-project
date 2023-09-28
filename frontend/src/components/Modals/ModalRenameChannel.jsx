@@ -23,9 +23,8 @@ const ModalRenameChannel = () => {
       .string()
       .required(t('form.errors.enterChannelName'))
       .notOneOf(names, t('form.errors.alreadyCreated'))
-      .min(2, t('form.errors.min'))
-      .max(50, t('form.errors.validation.max'))
-      .matches(/([^*])\1{3,}/, t('form.errors.filter'))
+      .test('profanity', t('form.errors.filter'), (values) => !leoProfanity.check(values))
+      .max(30, t('form.errors.validation.max'))
       .trim(),
   });
 
@@ -34,13 +33,18 @@ const ModalRenameChannel = () => {
     dispatch(closeModal());
   };
 
-  useEffect(() => focus.current && focus.current.focus());
+  useEffect(() => {
+    if (focus.current) {
+      focus.current.focus();
+    }
+  });
 
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
         <Modal.Title>
           {t('modal.renameChannel')}
+          {' '}
           &lsquo;
           {extra}
           &lsquo;
@@ -65,7 +69,7 @@ const ModalRenameChannel = () => {
                   ref={focus}
                   required
                   name="name"
-                  value={leoProfanity.clean(values.name)}
+                  value={values.name}
                   onChange={handleChange}
                   isInvalid={!!errors.name}
                 />

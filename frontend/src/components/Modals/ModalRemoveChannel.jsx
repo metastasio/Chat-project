@@ -21,6 +21,7 @@ const ModalRemoveChannel = () => {
       <Modal.Header closeButton>
         <Modal.Title>
           {t('modal.deleteChannel')}
+          {' '}
           &lsquo;
           {extra}
           &lsquo;

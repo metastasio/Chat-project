@@ -55,7 +55,7 @@ const accessSlice = createSlice({
       .addCase(logIn.rejected, (state, { error }) => {
         if (error.code === 'ERR_BAD_REQUEST') {
           state.feedback = 'Неверное имя пользователя или пароль';
-          state.status = 'unauthorized';
+          state.status = 'idle';
           state.username = '';
         }
       })

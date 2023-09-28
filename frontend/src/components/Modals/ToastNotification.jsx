@@ -20,7 +20,7 @@ const ToastNotification = () => {
       <Toast
         onClose={() => dispatch(closeToast())}
         show={open}
-        delay={2000}
+        delay={3000}
         autohide
         className={classNames}
       >
