@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import * as leoProfanity from 'leo-profanity';
 
-import { socket } from '../../socket';
+import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 
 const ModalRenameChannel = () => {
@@ -29,10 +29,15 @@ const ModalRenameChannel = () => {
       .trim(),
   });
 
-  const onSubmit = (value) => {
-    socket.emit('renameChannel', { id: meta, name: value.name });
+  // const onSubmit = (value) => {
+  //   socket.emit('renameChannel', { id: meta, name: value.name });
+  //   dispatch(closeModal());
+  //   dispatch(showToast(t('toast.renamed')));
+  // };
+
+  const onSubmit = async (value) => {
+    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast()), () => { dispatch(showToast(t('toast.removed'))); });
     dispatch(closeModal());
-    dispatch(showToast(t('toast.renamed')));
   };
 
   useEffect(() => focus.current && focus.current.focus());

@@ -12,7 +12,7 @@ const handleEmit = async (event, payload, onError, onSuccess) => {
     console.log(response, 'RESPONSE');
     if (response) {
       if (onSuccess && typeof onSuccess === 'function') {
-        onSuccess(response.data.id);
+        onSuccess(response.data);
       }
     }
   } catch (err) {

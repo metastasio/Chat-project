@@ -26,7 +26,7 @@ const ModalAddChannel = () => {
       .notOneOf(names, t('form.errors.alreadyCreated'))
       .min(2, t('form.errors.min'))
       .max(20, t('form.errors.max'))
-      // .matches(/([^*])\1{3,}/, t('form.errors.filter'))
+      .matches(/([^*]){3,}/, t('form.errors.filter'))
       .trim(),
   });
 
@@ -40,7 +40,7 @@ const ModalAddChannel = () => {
   // };
 
   const onSubmit = async (value) => {
-    handleEmit('newChannel', value, () => dispatch(showToast()), (data) => { dispatch(showToast(t('toast.added'))); dispatch(changeActiveChannel(data)); });
+    handleEmit('newChannel', value, () => dispatch(showToast()), (data) => { dispatch(showToast(t('toast.added'))); dispatch(changeActiveChannel(data.id)); });
     dispatch(closeModal());
   };
 

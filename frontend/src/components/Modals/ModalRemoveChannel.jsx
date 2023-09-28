@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import { socket } from '../../socket.js';
+import { handleEmit } from '../../socket.js';
 import { closeModal, showToast } from '../../store/modal.slice.js';
 import { changeActiveChannel } from '../../store/content.slice.js';
 
@@ -11,11 +11,9 @@ const ModalRemoveChannel = () => {
   const dispatch = useDispatch();
   const { open, meta, extra } = useSelector((state) => state.modal);
 
-  const onClick = () => {
-    socket.emit('removeChannel', { id: meta });
+  const onClick = async () => {
+    handleEmit('removeChannel', { id: meta }, () => dispatch(showToast()), () => { dispatch(showToast(t('toast.removed'))); dispatch(changeActiveChannel(1)); });
     dispatch(closeModal());
-    dispatch(showToast(t('toast.removed')));
-    dispatch(changeActiveChannel(1));
   };
 
   return (
