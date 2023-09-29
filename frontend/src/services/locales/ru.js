@@ -23,6 +23,8 @@ const translation = {
         passwordsMatch: 'Пароли должны совпадать',
         passwordConfirmation: 'Подтвердите пароль',
         filter: 'Пожалуйста, без ругательств',
+        wrongData: 'Неверное имя пользователя или пароль',
+        alreadyCreatedUser: 'Пользователь с таким именем уже зарегистрирован',
       },
       messagePlaceHolder: 'Введите сообщение',
       userName: 'Имя пользователя',

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { addChannels } from './content.slice';
-import { logIn, logOut, register } from './access.slice';
+import { logOut } from './access.slice';
 
 const modalSlice = createSlice({
   name: 'modal',
@@ -31,7 +31,7 @@ const modalSlice = createSlice({
     showToast(state, { payload }) {
       state.toast.open = true;
       state.toast.message = payload?.message;
-      state.toast.level = payload?.level;
+      state.toast.level = payload.level;
     },
     closeToast(state) {
       state.toast.open = false;
@@ -42,19 +42,6 @@ const modalSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(addChannels.rejected, (state, { error }) => {
-        if (error.code === 'ERR_NETWORK') {
-          state.toast.open = true;
-          state.toast.level = 'warning';
-        }
-      })
-      .addCase(logIn.rejected, (state, { error }) => {
-        if (error.code === 'ERR_NETWORK') {
-          state.toast.open = true;
-          state.toast.level = 'warning';
-          // state.toast.message = newInstance.t('toast.networkError');
-        }
-      })
-      .addCase(register.rejected, (state, { error }) => {
         if (error.code === 'ERR_NETWORK') {
           state.toast.open = true;
           state.toast.level = 'warning';

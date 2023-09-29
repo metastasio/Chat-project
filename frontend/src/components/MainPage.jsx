@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import { socket } from '../socket.js';
 import Channels from './Channels/Channels';
@@ -16,6 +17,7 @@ import {
 } from '../store/content.slice.js';
 
 const MainPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.authorization);
 
@@ -24,13 +26,13 @@ const MainPage = () => {
 
     socket.on('disconnect', () => {
       dispatch(
-        showToast(),
+        showToast({ message: t('toast.networkError'), level: 'warning' }),
       );
     });
 
     socket.on('connect_error', () => {
       dispatch(
-        showToast(),
+        showToast({ message: t('toast.networkError'), level: 'warning' }),
       );
     });
 
@@ -61,7 +63,7 @@ const MainPage = () => {
       socket.off('connect_error');
       socket.disconnect();
     };
-  }, [dispatch]);
+  }, [dispatch, t]);
 
   useEffect(() => {
     dispatch(addChannels(token));

@@ -9,7 +9,8 @@ import {
 } from 'react-bootstrap';
 import * as yup from 'yup';
 
-import { logIn } from '../../store/access.slice.js';
+import { logIn, setError } from '../../store/access.slice.js';
+import { showToast } from '../../store/modal.slice.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -37,11 +38,19 @@ const LoginPage = () => {
             <Formik
               validationSchema={schema}
               onSubmit={(values) => {
-                dispatch(logIn(values)).then((result) => {
-                  if (!result.error) {
+                dispatch(logIn(values))
+                  .unwrap()
+                  .then(() => {
                     navigate('/', { replace: false });
-                  }
-                });
+                  })
+                  .catch((rejected) => {
+                    if (rejected.code === 'ERR_NETWORK') {
+                      dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
+                    }
+                    if (rejected.code === 'ERR_BAD_REQUEST') {
+                      dispatch(setError(t('form.errors.wrongData')));
+                    }
+                  });
               }}
               initialValues={{
                 username: '',

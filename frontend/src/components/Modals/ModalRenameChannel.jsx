@@ -30,7 +30,7 @@ const ModalRenameChannel = () => {
   });
 
   const onSubmit = async (value) => {
-    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.removed') })); });
+    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.renamed') })); });
     dispatch(closeModal());
   };
 

@@ -1,15 +1,12 @@
 import { Toast, ToastContainer } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
 
 import { closeToast } from '../../store/modal.slice';
 
 const ToastNotification = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { open, level, message } = useSelector((state) => state.modal.toast);
-  const notification = message || t('toast.networkError');
   const classNames = cn({
     'bg-warning':
       level === 'warning',
@@ -20,12 +17,12 @@ const ToastNotification = () => {
       <Toast
         onClose={() => dispatch(closeToast())}
         show={open}
-        delay={3000}
+        delay={2500}
         autohide
         className={classNames}
       >
         <Toast.Body>
-          <p className="text-center">{notification}</p>
+          <p className="text-center">{message}</p>
         </Toast.Body>
       </Toast>
     </ToastContainer>

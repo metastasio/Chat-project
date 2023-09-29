@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { createNewUser, getUserToken } from '../services/requestsToServer.js';
@@ -5,7 +6,7 @@ import { createNewUser, getUserToken } from '../services/requestsToServer.js';
 export const logIn = createAsyncThunk(
   'access/logIn',
   async (userData, { dispatch }) => {
-    dispatch(setError('')); // eslint-disable-line no-use-before-define
+    dispatch(setError(''));
     const { data } = await getUserToken(userData);
     localStorage.setItem('user', JSON.stringify(data));
     return data;
@@ -15,7 +16,7 @@ export const logIn = createAsyncThunk(
 export const register = createAsyncThunk(
   'access/register',
   async (userData, { dispatch }) => {
-    dispatch(setError('')); // eslint-disable-line no-use-before-define
+    dispatch(setError(''));
     const { data } = await createNewUser(userData);
     localStorage.setItem('user', JSON.stringify(data));
     return data;
@@ -23,7 +24,6 @@ export const register = createAsyncThunk(
 );
 
 const userDataParsed = JSON.parse(localStorage.getItem('user'));
-console.log(userDataParsed, 'parsed');
 
 const accessSlice = createSlice({
   name: 'access',
@@ -36,6 +36,7 @@ const accessSlice = createSlice({
   reducers: {
     setError(state, { payload }) {
       state.feedback = payload;
+      state.status = 'idle';
     },
     logOut(state) {
       state.token = null;
@@ -55,16 +56,6 @@ const accessSlice = createSlice({
         state.feedback = 'Loading';
         state.status = 'loading';
       })
-      .addCase(logIn.rejected, (state, { error }) => {
-        if (error.code === 'ERR_BAD_REQUEST') {
-          state.feedback = 'Неверное имя пользователя или пароль';
-          state.status = 'idle';
-          state.username = '';
-        } else if (error.code === 'ERR_NETWORK') {
-          state.status = 'idle';
-          state.username = '';
-        }
-      })
       .addCase(register.fulfilled, (state, { payload }) => {
         const { token, username } = payload;
         state.token = token;
@@ -74,15 +65,6 @@ const accessSlice = createSlice({
       .addCase(register.pending, (state) => {
         state.feedback = 'Loading';
         state.status = 'loading';
-      })
-      .addCase(register.rejected, (state, { error }) => {
-        if (error.code === 'ERR_BAD_REQUEST') {
-          state.feedback = 'Неверное имя пользователя или пароль';
-          state.username = '';
-        } else if (error.code === 'ERR_NETWORK') {
-          state.status = 'idle';
-          state.username = '';
-        }
       });
   },
 });

@@ -10,7 +10,8 @@ import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
-import { register } from '../../store/access.slice.js';
+import { register, setError } from '../../store/access.slice.js';
+import { showToast } from '../../store/modal.slice.js';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -53,11 +54,20 @@ const SignUp = () => {
             <Formik
               validationSchema={schema}
               onSubmit={(values) => {
-                dispatch(register(values)).then((result) => {
-                  if (!result.error) {
+                dispatch(register(values))
+                  .unwrap()
+                  .then(() => {
                     navigate('/', { replace: false });
-                  }
-                });
+                  })
+                  .catch((rejected) => {
+                    console.log(rejected);
+                    if (rejected.code === 'ERR_NETWORK') {
+                      dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
+                    }
+                    if (rejected.code === 'ERR_BAD_REQUEST') {
+                      dispatch(setError(t('form.errors.alreadyCreatedUser')));
+                    }
+                  });
               }}
               initialValues={{
                 username: '',
