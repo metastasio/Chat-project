@@ -23,7 +23,7 @@ const Channels = () => {
           +
         </Button>
       </Nav.Item>
-      <div className="w-100 h-100 overflow-visible">
+      <div className="w-100 h-100 overflow-visible overflow-y-auto overflow-x-hidden">
         {entities.map((channel) => (
           <ChannelItem
             key={channel.id}

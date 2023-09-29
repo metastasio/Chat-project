@@ -41,7 +41,7 @@ const Chat = () => {
   };
 
   return (
-    <Col className="p-0 h-100 d-flex flex-column">
+    <Col className="p-0 h-100 d-flex flex-column overflow-hidden">
       <Container className="bg-light mb-4 p-3 shadow-sm small d-flex flex-column">
         <span className="m-0 fw-bold">
           #
@@ -52,7 +52,7 @@ const Chat = () => {
         </span>
       </Container>
 
-      <Container className="d-flex flex-column overflow-auto px-5">
+      <Container className="px-5 overflow-y-auto overflow-x-hidden">
         {currentChatMessages.map((message) => (
           <MessageItem
             key={message.id}
