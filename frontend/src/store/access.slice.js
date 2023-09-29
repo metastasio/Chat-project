@@ -15,11 +15,15 @@ export const logIn = createAsyncThunk(
 
 export const register = createAsyncThunk(
   'access/register',
-  async (userData, { dispatch }) => {
-    dispatch(setError(''));
-    const { data } = await createNewUser(userData);
-    localStorage.setItem('user', JSON.stringify(data));
-    return data;
+  async (userData, { dispatch, rejectWithValue }) => {
+    try {
+      const { data } = await createNewUser(userData);
+      localStorage.setItem('user', JSON.stringify(data));
+      dispatch(setError(''));
+      return data;
+    } catch (err) {
+      return rejectWithValue({ code: err.code, response: err?.response?.data });
+    }
   },
 );
 
@@ -35,8 +39,8 @@ const accessSlice = createSlice({
   },
   reducers: {
     setError(state, { payload }) {
-      state.feedback = payload;
-      state.status = 'idle';
+      state.feedback = payload?.feedback;
+      state.status = 'error';
     },
     logOut(state) {
       state.token = null;

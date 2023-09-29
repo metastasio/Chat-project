@@ -33,13 +33,16 @@ const channelSlice = createSlice({
       state.messages.push(payload);
     },
     removeChannel(state, { payload }) {
-      const channelId = payload.id;
+      const { id } = payload;
       state.entities = state.entities.filter(
-        (entity) => entity.id !== channelId,
+        (entity) => entity.id !== id,
       );
       state.messages = state.messages.filter(
-        (message) => message.channelId !== channelId,
+        (message) => message.channelId !== id,
       );
+      if (id === state.currentChannel) {
+        state.currentChannel = 1;
+      }
     },
     renameChannel(state, { payload }) {
       const path = findIndex(

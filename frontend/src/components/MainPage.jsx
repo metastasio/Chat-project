@@ -17,8 +17,8 @@ import {
 } from '../store/content.slice.js';
 
 const MainPage = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const { token } = useSelector((state) => state.authorization);
 
   useEffect(() => {

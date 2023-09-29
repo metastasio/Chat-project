@@ -43,6 +43,22 @@ const SignUp = () => {
 
   useEffect(() => focus.current && focus.current.focus());
 
+  const onSubmit = (values) => {
+    dispatch(register(values))
+      .unwrap()
+      .then(() => {
+        navigate('/', { replace: false });
+      })
+      .catch(({ code, response }) => {
+        if (code === 'ERR_NETWORK') {
+          dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
+          dispatch(setError());
+        } else if (response?.statusCode === 409) {
+          dispatch(setError({ feedback: t('form.errors.alreadyCreatedUser') }));
+        }
+      });
+  };
+
   return (
     <Container className="row mx-auto my-auto col-3">
       <Card>
@@ -53,22 +69,7 @@ const SignUp = () => {
           <Card.Text as="div">
             <Formik
               validationSchema={schema}
-              onSubmit={(values) => {
-                dispatch(register(values))
-                  .unwrap()
-                  .then(() => {
-                    navigate('/', { replace: false });
-                  })
-                  .catch((rejected) => {
-                    console.log(rejected);
-                    if (rejected.code === 'ERR_NETWORK') {
-                      dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
-                    }
-                    if (rejected.code === 'ERR_BAD_REQUEST') {
-                      dispatch(setError(t('form.errors.alreadyCreatedUser')));
-                    }
-                  });
-              }}
+              onSubmit={onSubmit}
               initialValues={{
                 username: '',
                 password: '',
