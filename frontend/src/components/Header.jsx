@@ -19,7 +19,7 @@ const Header = () => {
             variant="primary"
             onClick={() => {
               dispatch(logOut());
-              localStorage.removeItem('token');
+              localStorage.removeItem('user');
             }}
           >
             {t('logOut')}

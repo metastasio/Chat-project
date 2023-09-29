@@ -51,6 +51,7 @@ const modalSlice = createSlice({
         if (error.code === 'ERR_NETWORK') {
           state.toast.open = true;
           state.toast.level = 'warning';
+          // state.toast.message = newInstance.t('toast.networkError');
         }
       })
       .addCase(register.rejected, (state, { error }) => {

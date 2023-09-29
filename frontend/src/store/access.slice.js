@@ -7,7 +7,7 @@ export const logIn = createAsyncThunk(
   async (userData, { dispatch }) => {
     dispatch(setError('')); // eslint-disable-line no-use-before-define
     const { data } = await getUserToken(userData);
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data));
     return data;
   },
 );
@@ -17,16 +17,17 @@ export const register = createAsyncThunk(
   async (userData, { dispatch }) => {
     dispatch(setError('')); // eslint-disable-line no-use-before-define
     const { data } = await createNewUser(userData);
-    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data));
     return data;
   },
 );
 
+const userDataParsed = JSON.parse(localStorage.getItem('user'));
 const accessSlice = createSlice({
   name: 'access',
   initialState: {
-    token: localStorage.getItem('token') ? localStorage.getItem('token') : null,
-    username: '',
+    token: userDataParsed.token || null,
+    username: userDataParsed.username || null,
     feedback: '',
     status: 'idle',
   },
