@@ -69,6 +69,7 @@ const SignUp = () => {
           <Card.Text as="div">
             <Formik
               validationSchema={schema}
+              validateOnBlur
               onSubmit={onSubmit}
               initialValues={{
                 username: '',
@@ -77,7 +78,7 @@ const SignUp = () => {
               }}
             >
               {({
-                handleSubmit, handleChange, values, errors,
+                handleSubmit, handleChange, handleBlur, values, errors, touched,
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
@@ -89,7 +90,8 @@ const SignUp = () => {
                         name="username"
                         value={values.username}
                         onChange={handleChange}
-                        isInvalid={!!errors.username | !!feedback} // eslint-disable-line no-bitwise
+                        onBlur={handleBlur}
+                        isInvalid={(errors.username && touched.username) || feedback}
                         ref={focus}
                       />
                       <Form.Control.Feedback type="invalid">
@@ -108,7 +110,8 @@ const SignUp = () => {
                         name="password"
                         value={values.password}
                         onChange={handleChange}
-                        isInvalid={!!errors.password}
+                        onBlur={handleBlur}
+                        isInvalid={errors.password && touched.password}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.password}
@@ -128,7 +131,8 @@ const SignUp = () => {
                         name="passwordConfirmation"
                         value={values.passwordConfirmation}
                         onChange={handleChange}
-                        isInvalid={!!errors.passwordConfirmation}
+                        onBlur={handleBlur}
+                        isInvalid={errors.passwordConfirmation && touched.passwordConfirmation}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.passwordConfirmation}
