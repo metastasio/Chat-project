@@ -54,8 +54,11 @@ const Chat = () => {
 
       <Container className="d-flex flex-column overflow-auto px-5">
         {currentChatMessages.map((message) => (
-          /* eslint-disable react/jsx-props-no-spreading */
-          <MessageItem key={message.id} {...message} />
+          <MessageItem
+            key={message.id}
+            body={message.body}
+            username={message.username}
+          />
         ))}
       </Container>
 

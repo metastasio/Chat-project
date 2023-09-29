@@ -25,8 +25,12 @@ const Channels = () => {
       </Nav.Item>
       <div className="w-100 h-100 overflow-visible">
         {entities.map((channel) => (
-          /* eslint-disable react/jsx-props-no-spreading */
-          <ChannelItem key={channel.id} {...channel} />
+          <ChannelItem
+            key={channel.id}
+            name={channel.name}
+            removable={channel.removable}
+            id={channel.id}
+          />
         ))}
       </div>
     </Navbar>

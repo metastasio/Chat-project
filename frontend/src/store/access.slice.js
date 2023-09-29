@@ -23,11 +23,13 @@ export const register = createAsyncThunk(
 );
 
 const userDataParsed = JSON.parse(localStorage.getItem('user'));
+console.log(userDataParsed, 'parsed');
+
 const accessSlice = createSlice({
   name: 'access',
   initialState: {
-    token: userDataParsed.token || null,
-    username: userDataParsed.username || null,
+    token: userDataParsed?.token,
+    username: userDataParsed?.username,
     feedback: '',
     status: 'idle',
   },
