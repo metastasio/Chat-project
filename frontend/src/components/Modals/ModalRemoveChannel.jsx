@@ -12,7 +12,7 @@ const ModalRemoveChannel = () => {
   const { open, meta, extra } = useSelector((state) => state.modal);
 
   const onClick = async () => {
-    handleEmit('removeChannel', { id: meta }, () => dispatch(showToast()), () => { dispatch(showToast(t('toast.removed'))); dispatch(changeActiveChannel(1)); });
+    handleEmit('removeChannel', { id: meta }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.removed') })); dispatch(changeActiveChannel(1)); });
     dispatch(closeModal());
   };
 

@@ -30,7 +30,8 @@ const modalSlice = createSlice({
     },
     showToast(state, { payload }) {
       state.toast.open = true;
-      state.toast.message = payload;
+      state.toast.message = payload?.message;
+      state.toast.level = payload?.level;
     },
     closeToast(state) {
       state.toast.open = false;

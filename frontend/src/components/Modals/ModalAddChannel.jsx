@@ -24,14 +24,15 @@ const ModalAddChannel = () => {
       .string()
       .required(t('form.errors.enterChannelName'))
       .notOneOf(names, t('form.errors.alreadyCreated'))
-      .min(2, t('form.errors.min'))
+      .test('profanity', t('form.errors.filter'), (values) => !leoProfanity.check(values))
+      .min(3, t('form.errors.min'))
       .max(20, t('form.errors.max'))
       .matches(/([^*]){3,}/, t('form.errors.filter'))
       .trim(),
   });
 
   const onSubmit = async (value) => {
-    handleEmit('newChannel', value, () => dispatch(showToast()), (data) => { dispatch(showToast(t('toast.added'))); dispatch(changeActiveChannel(data.id)); });
+    handleEmit('newChannel', value, () => dispatch(showToast({ level: 'warning' })), (data) => { dispatch(showToast({ message: t('toast.added') })); dispatch(changeActiveChannel(data.id)); });
     dispatch(closeModal());
   };
 
@@ -61,7 +62,7 @@ const ModalAddChannel = () => {
                   ref={focus}
                   required
                   name="name"
-                  value={leoProfanity.clean(values.name)}
+                  value={values.name}
                   onChange={handleChange}
                   isInvalid={!!errors.name}
                 />

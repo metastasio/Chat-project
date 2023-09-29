@@ -24,12 +24,13 @@ const ModalRenameChannel = () => {
       .required(t('form.errors.enterChannelName'))
       .notOneOf(names, t('form.errors.alreadyCreated'))
       .test('profanity', t('form.errors.filter'), (values) => !leoProfanity.check(values))
-      .max(30, t('form.errors.validation.max'))
+      .min(3, t('form.errors.min'))
+      .max(20, t('form.errors.validation.max'))
       .trim(),
   });
 
   const onSubmit = async (value) => {
-    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast()), () => { dispatch(showToast(t('toast.removed'))); });
+    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.removed') })); });
     dispatch(closeModal());
   };
 

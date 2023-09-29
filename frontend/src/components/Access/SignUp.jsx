@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
-// import * as leoProfanity from 'leo-profanity';
+import * as leoProfanity from 'leo-profanity';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
@@ -26,7 +26,7 @@ const SignUp = () => {
       .required(t('form.errors.enterUserName'))
       .min(3, t('form.errors.min'))
       .max(20, t('form.errors.max'))
-      // .matches(/([^*]){3,}/, t('form.errors.filter'))
+      .test('profanity', t('form.errors.filter'), (values) => !leoProfanity.check(values))
       .trim(),
     password: yup
       .string()

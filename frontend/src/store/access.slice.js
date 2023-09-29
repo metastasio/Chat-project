@@ -57,6 +57,9 @@ const accessSlice = createSlice({
           state.feedback = 'Неверное имя пользователя или пароль';
           state.status = 'idle';
           state.username = '';
+        } else if (error.code === 'ERR_NETWORK') {
+          state.status = 'idle';
+          state.username = '';
         }
       })
       .addCase(register.fulfilled, (state, { payload }) => {
@@ -72,7 +75,9 @@ const accessSlice = createSlice({
       .addCase(register.rejected, (state, { error }) => {
         if (error.code === 'ERR_BAD_REQUEST') {
           state.feedback = 'Неверное имя пользователя или пароль';
-          state.status = 'unauthorized';
+          state.username = '';
+        } else if (error.code === 'ERR_NETWORK') {
+          state.status = 'idle';
           state.username = '';
         }
       });
