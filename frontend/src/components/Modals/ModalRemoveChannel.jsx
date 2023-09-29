@@ -9,7 +9,7 @@ import { changeActiveChannel } from '../../store/content.slice.js';
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { open, meta, extra } = useSelector((state) => state.modal);
+  const { open, meta } = useSelector((state) => state.modal);
 
   const onClick = async () => {
     handleEmit('removeChannel', { id: meta }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.removed') })); dispatch(changeActiveChannel(1)); });
@@ -21,10 +21,6 @@ const ModalRemoveChannel = () => {
       <Modal.Header closeButton>
         <Modal.Title>
           {t('modal.deleteChannel')}
-          {' '}
-          &lsquo;
-          {extra}
-          &lsquo;
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{t('modal.confirmDelete')}</Modal.Body>

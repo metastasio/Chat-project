@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 import { socket } from '../socket.js';
 import Channels from './Channels/Channels';
@@ -9,7 +10,7 @@ import Chat from './Chat/Chat';
 import ModalSwitcher from './Modals/ModalSwitcher.jsx';
 import { showToast } from '../store/modal.slice.js';
 import {
-  addChannels,
+  getContent,
   getNewChannel,
   renameChannel,
   removeChannel,
@@ -18,6 +19,7 @@ import {
 
 const MainPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { token } = useSelector((state) => state.authorization);
 
@@ -66,8 +68,10 @@ const MainPage = () => {
   }, [dispatch, t]);
 
   useEffect(() => {
-    dispatch(addChannels(token));
-  }, [dispatch, token]);
+    dispatch(getContent(token))
+      .unwrap()
+      .catch(() => navigate('/login'));
+  }, [dispatch, token, navigate]);
 
   return (
     <>

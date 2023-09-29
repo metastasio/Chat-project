@@ -4,7 +4,7 @@ import { findIndex, set } from 'lodash-es';
 import { getChatContent } from '../services/requestsToServer.js';
 import { logOut } from './access.slice.js';
 
-export const addChannels = createAsyncThunk(
+export const getContent = createAsyncThunk(
   'channels/getChannelContent',
   async (chatData) => {
     const { data } = await getChatContent(chatData);
@@ -54,7 +54,7 @@ const channelSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addChannels.fulfilled, (state, { payload }) => {
+      .addCase(getContent.fulfilled, (state, { payload }) => {
         const { channels, currentChannelId } = payload;
         if (channels.length) {
           state.ids = channels.map((channel) => channel.id);
@@ -64,10 +64,10 @@ const channelSlice = createSlice({
         state.entities = channels;
         state.status = 'idle';
       })
-      .addCase(addChannels.pending, (state) => {
+      .addCase(getContent.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(addChannels.rejected, (state) => {
+      .addCase(getContent.rejected, (state) => {
         state.status = 'error';
       })
       .addCase(logOut, (state) => {

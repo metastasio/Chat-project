@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addChannels } from './content.slice';
+import { getContent } from './content.slice';
 import { logOut } from './access.slice';
 
 const modalSlice = createSlice({
@@ -41,7 +41,7 @@ const modalSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addChannels.rejected, (state, { error }) => {
+      .addCase(getContent.rejected, (state, { error }) => {
         if (error.code === 'ERR_NETWORK') {
           state.toast.open = true;
           state.toast.level = 'warning';

@@ -14,7 +14,7 @@ const ModalRenameChannel = () => {
   const { Formik } = formik;
   const dispatch = useDispatch();
   const focus = useRef();
-  const { open, meta, extra } = useSelector((state) => state.modal);
+  const { open, meta } = useSelector((state) => state.modal);
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
 
@@ -45,10 +45,6 @@ const ModalRenameChannel = () => {
       <Modal.Header closeButton>
         <Modal.Title>
           {t('modal.renameChannel')}
-          {' '}
-          &lsquo;
-          {extra}
-          &lsquo;
         </Modal.Title>
       </Modal.Header>
       <Formik
