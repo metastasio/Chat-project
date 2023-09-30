@@ -1,4 +1,3 @@
-// import { useFormik } from 'formik';
 import * as formik from 'formik';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -50,6 +49,7 @@ const SignUp = () => {
         navigate('/', { replace: false });
       })
       .catch(({ code, response }) => {
+        console.log(response, 'RESPONSE');
         if (code === 'ERR_NETWORK') {
           dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
           dispatch(setError());

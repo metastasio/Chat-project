@@ -5,11 +5,15 @@ import { createNewUser, getUserToken } from '../services/requestsToServer.js';
 
 export const logIn = createAsyncThunk(
   'access/logIn',
-  async (userData, { dispatch }) => {
-    dispatch(setError(''));
-    const { data } = await getUserToken(userData);
-    localStorage.setItem('user', JSON.stringify(data));
-    return data;
+  async (userData, { dispatch, rejectWithValue }) => {
+    try {
+      const { data } = await getUserToken(userData);
+      localStorage.setItem('user', JSON.stringify(data));
+      dispatch(setError(''));
+      return data;
+    } catch (err) {
+      return rejectWithValue({ code: err.code, response: err?.response?.data });
+    }
   },
 );
 

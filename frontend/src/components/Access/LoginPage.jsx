@@ -1,4 +1,3 @@
-// import { useFormik } from 'formik';
 import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,12 +42,21 @@ const LoginPage = () => {
                   .then(() => {
                     navigate('/', { replace: false });
                   })
-                  .catch((rejected) => {
-                    if (rejected.code === 'ERR_NETWORK') {
-                      dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
+                  .catch(({ code, response }) => {
+                    console.log(response, 'RESPONSE');
+                    if (code === 'ERR_NETWORK') {
+                      dispatch(
+                        showToast({
+                          message: t('toast.networkError'),
+                          level: 'warning',
+                        }),
+                      );
+                      dispatch(setError());
                     }
-                    if (rejected.code === 'ERR_BAD_REQUEST') {
-                      dispatch(setError(t('form.errors.wrongData')));
+                    if (response?.statusCode === 401) {
+                      dispatch(
+                        setError({ feedback: t('form.errors.wrongData') }),
+                      );
                     }
                   });
               }}
@@ -58,14 +66,16 @@ const LoginPage = () => {
               }}
             >
               {({
-                handleSubmit, handleChange, values, errors,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                errors,
+                touched,
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel
-                      label="Имя"
-                      className="mb-3"
-                    >
+                    <FloatingLabel label="Имя" className="mb-3">
                       <Form.Control
                         type="text"
                         placeholder={t('userName')}
@@ -73,7 +83,8 @@ const LoginPage = () => {
                         name="username"
                         value={values.username}
                         onChange={handleChange}
-                        isInvalid={!!errors.username}
+                        onBlur={handleBlur}
+                        isInvalid={errors.username && touched.username}
                         ref={focus}
                       />
                       <Form.Control.Feedback type="invalid">
@@ -83,10 +94,7 @@ const LoginPage = () => {
                   </Form.Group>
 
                   <Form.Group controlId="validationFormik04">
-                    <FloatingLabel
-                      label="Пароль"
-                      className="mb-3"
-                    >
+                    <FloatingLabel label="Пароль" className="mb-3">
                       <Form.Control
                         type="password"
                         placeholder={t('password')}
@@ -94,7 +102,8 @@ const LoginPage = () => {
                         name="password"
                         value={values.password}
                         onChange={handleChange}
-                        isInvalid={!!errors.password | !!feedback} // eslint-disable-line no-bitwise
+                        onBlur={handleBlur}
+                        isInvalid={(errors.password && touched.password) || feedback}
                       />
                       <Form.Control.Feedback type="invalid">
                         {errors.password}
