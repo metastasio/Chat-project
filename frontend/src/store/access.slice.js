@@ -5,11 +5,10 @@ import { createNewUser, getUserToken } from '../services/requestsToServer.js';
 
 export const logIn = createAsyncThunk(
   'access/logIn',
-  async (userData, { dispatch, rejectWithValue }) => {
+  async (userData, { rejectWithValue }) => {
     try {
       const { data } = await getUserToken(userData);
       localStorage.setItem('user', JSON.stringify(data));
-      dispatch(setError(''));
       return data;
     } catch (err) {
       return rejectWithValue({ code: err.code, response: err?.response?.data });
@@ -19,11 +18,10 @@ export const logIn = createAsyncThunk(
 
 export const register = createAsyncThunk(
   'access/register',
-  async (userData, { dispatch, rejectWithValue }) => {
+  async (userData, { rejectWithValue }) => {
     try {
       const { data } = await createNewUser(userData);
       localStorage.setItem('user', JSON.stringify(data));
-      dispatch(setError(''));
       return data;
     } catch (err) {
       return rejectWithValue({ code: err.code, response: err?.response?.data });
@@ -42,9 +40,6 @@ const accessSlice = createSlice({
     status: 'idle',
   },
   reducers: {
-    setError(state) {
-      state.status = 'error';
-    },
     logOut(state) {
       state.token = null;
       state.username = '';
@@ -62,6 +57,9 @@ const accessSlice = createSlice({
       .addCase(logIn.pending, (state) => {
         state.status = 'loading';
       })
+      .addCase(logIn.rejected, (state) => {
+        state.status = 'idle';
+      })
       .addCase(register.fulfilled, (state, { payload }) => {
         const { token, username } = payload;
         state.token = token;
@@ -70,10 +68,13 @@ const accessSlice = createSlice({
       })
       .addCase(register.pending, (state) => {
         state.status = 'loading';
+      })
+      .addCase(register.rejected, (state) => {
+        state.status = 'idle';
       });
   },
 });
 
-export const { setError, logOut } = accessSlice.actions;
+export const { logOut } = accessSlice.actions;
 
 export default accessSlice.reducer;

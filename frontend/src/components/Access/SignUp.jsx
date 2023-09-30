@@ -7,7 +7,7 @@ import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
-import { register, setError } from '../../store/access.slice.js';
+import { register } from '../../store/access.slice.js';
 import { showToast } from '../../store/modal.slice.js';
 import { schemaSignUp } from '../../services/yupSchemas.js';
 
@@ -31,10 +31,8 @@ const SignUp = () => {
       .catch(({ code, response }) => {
         if (code === 'ERR_NETWORK') {
           dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
-          dispatch(setError());
         } else if (response?.statusCode === 409) {
           actions.setFieldError('username', t('alreadyCreatedUser'));
-          dispatch(setError());
         }
       });
   };

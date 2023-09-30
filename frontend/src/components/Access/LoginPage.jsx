@@ -7,7 +7,7 @@ import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
-import { logIn, setError } from '../../store/access.slice.js';
+import { logIn } from '../../store/access.slice.js';
 import { showToast } from '../../store/modal.slice.js';
 import { schemaLogIn } from '../../services/yupSchemas.js';
 
@@ -36,11 +36,9 @@ const LoginPage = () => {
               level: 'warning',
             }),
           );
-          dispatch(setError());
         }
         if (response?.statusCode === 401) {
           actions.setFieldError('password', t('wrongData'));
-          dispatch(setError());
         }
       });
   };
