@@ -12,17 +12,18 @@ const Header = () => {
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <Container>
-        <Navbar.Brand href="/">{t('chat')}</Navbar.Brand>
+        <Navbar.Brand href="/">{t('header.title')}</Navbar.Brand>
         {token ? (
           <Button
             type="button"
+            href="/login"
             variant="primary"
             onClick={() => {
               dispatch(logOut());
               localStorage.removeItem('user');
             }}
           >
-            {t('logOut')}
+            {t('header.logOut')}
           </Button>
         ) : null}
       </Container>

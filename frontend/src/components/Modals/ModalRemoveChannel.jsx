@@ -20,16 +20,16 @@ const ModalRemoveChannel = () => {
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
         <Modal.Title>
-          {t('modal.deleteChannel')}
+          {t('form.modal.deleteChannel')}
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>{t('modal.confirmDelete')}</Modal.Body>
+      <Modal.Body>{t('form.modal.confirmDelete')}</Modal.Body>
       <Modal.Footer>
         <Button
           variant="outline-secondary"
           onClick={() => dispatch(closeModal())}
         >
-          {t('modal.cancel')}
+          {t('form.modal.cancel')}
         </Button>
         <Button variant="danger" onClick={onClick}>
           {t('delete')}

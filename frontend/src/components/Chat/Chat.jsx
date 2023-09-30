@@ -51,7 +51,7 @@ const Chat = () => {
           {chat?.name}
         </span>
         <span className="text-muted">
-          {t('key', { count: messagesInChat })}
+          {t('chat.key', { count: messagesInChat })}
         </span>
       </Container>
 
@@ -73,12 +73,12 @@ const Chat = () => {
                 autoFocus
                 aria-describedby="basic-addon2"
                 aria-label="Новое сообщение"
-                placeholder={t('messagePlaceHolder')}
+                placeholder={t('chat.messagePlaceHolder')}
                 name="body"
                 ref={focus}
               />
               <Button variant="info" type="submit">
-                {t('sendMessage')}
+                {t('chat.sendMessage')}
               </Button>
             </InputGroup>
           </Form>

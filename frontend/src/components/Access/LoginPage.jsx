@@ -20,8 +20,8 @@ const LoginPage = () => {
   const focus = useRef();
 
   const schema = yup.object().shape({
-    username: yup.string().required(t('form.errors.enterUserName')).trim(),
-    password: yup.string().required(t('form.errors.enterPassword')).trim(),
+    username: yup.string().required(t('form.errors.required')).trim(),
+    password: yup.string().required(t('form.errors.required')).trim(),
   });
 
   useEffect(() => focus.current && focus.current.focus());
@@ -31,7 +31,7 @@ const LoginPage = () => {
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className="text-center mb-3">{t('enter')}</h1>
+            <h1 className="text-center mb-3">{t('form.signIn.signIn')}</h1>
           </Card.Title>
           <Card.Text as="div">
             <Formik
@@ -43,7 +43,6 @@ const LoginPage = () => {
                     navigate('/', { replace: false });
                   })
                   .catch(({ code, response }) => {
-                    console.log(response, 'RESPONSE');
                     if (code === 'ERR_NETWORK') {
                       dispatch(
                         showToast({
@@ -75,10 +74,10 @@ const LoginPage = () => {
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel label="Имя" className="mb-3">
+                    <FloatingLabel label={t('form.signIn.userName')} className="mb-3">
                       <Form.Control
                         type="text"
-                        placeholder={t('userName')}
+                        placeholder={t('form.signIn.userName')}
                         required
                         name="username"
                         value={values.username}
@@ -94,10 +93,10 @@ const LoginPage = () => {
                   </Form.Group>
 
                   <Form.Group controlId="validationFormik04">
-                    <FloatingLabel label="Пароль" className="mb-3">
+                    <FloatingLabel label={t('form.signIn.password')} className="mb-3">
                       <Form.Control
                         type="password"
-                        placeholder={t('password')}
+                        placeholder={t('form.signIn.password')}
                         required
                         name="password"
                         value={values.password}
@@ -117,7 +116,7 @@ const LoginPage = () => {
                     className="w-100"
                     disabled={status === 'loading'}
                   >
-                    {t('enter')}
+                    {t('form.signIn.signIn')}
                   </Button>
                 </Form>
               )}
@@ -125,7 +124,7 @@ const LoginPage = () => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="text-muted text-center">
-          <Link to="/signup">{t('form.register')}</Link>
+          <Link to="/signup">{t('form.signUp.register')}</Link>
         </Card.Footer>
       </Card>
     </Container>

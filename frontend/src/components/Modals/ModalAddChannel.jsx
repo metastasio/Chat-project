@@ -22,12 +22,11 @@ const ModalAddChannel = () => {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .required(t('form.errors.enterChannelName'))
+      .required(t('form.errors.required'))
       .notOneOf(names, t('form.errors.alreadyCreated'))
-      .test('profanity', t('form.errors.filter'), (values) => !leoProfanity.check(values))
-      .min(3, t('form.errors.min'))
-      .max(20, t('form.errors.max'))
-      .matches(/([^*]){3,}/, t('form.errors.filter'))
+      .test('profanity', t('form.errors.profanity'), (values) => !leoProfanity.check(values))
+      .min(3, t('form.errors.minmax'))
+      .max(20, t('form.errors.minmax'))
       .trim(),
   });
 
@@ -41,7 +40,7 @@ const ModalAddChannel = () => {
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{t('modal.addChannel')}</Modal.Title>
+        <Modal.Title>{t('form.modal.add')}</Modal.Title>
       </Modal.Header>
       <Formik
         validationSchema={schema}
@@ -56,7 +55,7 @@ const ModalAddChannel = () => {
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
               <Form.Group className="mb-3" controlId="formControlInputAdd">
-                <Form.Label>{t('modal.channelName')}</Form.Label>
+                <Form.Label>{t('form.modal.channelName')}</Form.Label>
                 <Form.Control
                   type="text"
                   ref={focus}
@@ -76,10 +75,10 @@ const ModalAddChannel = () => {
                 variant="outline-primary"
                 onClick={() => dispatch(closeModal())}
               >
-                {t('modal.cancel')}
+                {t('form.modal.cancel')}
               </Button>
               <Button variant="primary" type="submit">
-                {t('modal.add')}
+                {t('send')}
               </Button>
             </Modal.Footer>
           </Form>

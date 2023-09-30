@@ -23,19 +23,19 @@ const SignUp = () => {
   const schema = yup.object().shape({
     username: yup
       .string()
-      .required(t('form.errors.enterUserName'))
-      .min(3, t('form.errors.min'))
-      .max(20, t('form.errors.max'))
-      .test('profanity', t('form.errors.filter'), (values) => !leoProfanity.check(values))
+      .required(t('form.errors.required'))
+      .min(3, t('form.errors.minmax'))
+      .max(20, t('form.errors.minmax'))
+      .test('profanity', t('form.errors.profanity'), (values) => !leoProfanity.check(values))
       .trim(),
     password: yup
       .string()
-      .required(t('form.errors.enterPassword'))
-      .min(6, t('form.errors.min6'))
+      .required(t('form.errors.required'))
+      .min(6, t('form.errors.min'))
       .trim(),
     passwordConfirmation: yup
       .string()
-      .required(t('form.errors.passwordConfirmation'))
+      .required(t('form.errors.required'))
       .oneOf([yup.ref('password')], t('form.errors.passwordsMatch'))
       .trim(),
   });
@@ -64,7 +64,7 @@ const SignUp = () => {
       <Card>
         <Card.Body>
           <Card.Title>
-            <h1 className="text-center mb-3">{t('form.signUp')}</h1>
+            <h1 className="text-center mb-3">{t('form.signUp.register')}</h1>
           </Card.Title>
           <Card.Text as="div">
             <Formik
@@ -82,10 +82,9 @@ const SignUp = () => {
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel label="Имя" className="mb-3">
+                    <FloatingLabel label={t('form.signUp.userName')} className="mb-3">
                       <Form.Control
                         type="text"
-                        placeholder={t('.form.userName')}
                         required
                         name="username"
                         value={values.username}
@@ -102,10 +101,9 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group>
-                    <FloatingLabel label="Пароль" className="mb-3">
+                    <FloatingLabel label={t('form.signUp.password')} className="mb-3">
                       <Form.Control
                         type="password"
-                        placeholder={t('form.password')}
                         required
                         name="password"
                         value={values.password}
@@ -121,12 +119,11 @@ const SignUp = () => {
 
                   <Form.Group>
                     <FloatingLabel
-                      label={t('form.errors.passwordConfirmation')}
+                      label={t('form.signUp.passwordConfirmation')}
                       className="mb-3"
                     >
                       <Form.Control
                         type="password"
-                        placeholder={t('form.erorrs.passwordConfirmation')}
                         required
                         name="passwordConfirmation"
                         value={values.passwordConfirmation}
@@ -146,7 +143,7 @@ const SignUp = () => {
                     className="w-100"
                     disabled={status === 'loading'}
                   >
-                    {t('form.register')}
+                    {t('form.signUp.signUp')}
                   </Button>
                 </Form>
               )}
