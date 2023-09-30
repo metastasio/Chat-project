@@ -19,7 +19,7 @@ const modalSlice = createSlice({
     openModal(state, { payload }) {
       state.type = payload.type;
       state.open = true;
-      state.meta = payload?.meta;
+      state.meta = payload.meta;
     },
     closeModal(state) {
       state.type = '';
@@ -28,7 +28,7 @@ const modalSlice = createSlice({
     },
     showToast(state, { payload }) {
       state.toast.open = true;
-      state.toast.message = payload?.message;
+      state.toast.message = payload.message;
       state.toast.level = payload.level;
     },
     closeToast(state) {

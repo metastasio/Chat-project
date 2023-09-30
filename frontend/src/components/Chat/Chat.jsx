@@ -31,7 +31,8 @@ const Chat = () => {
     e.preventDefault();
     const data = new FormData(e.target);
     const dataChecked = leoProfanity.clean(data.get('body'));
-    if (!dataChecked) {
+    if (!dataChecked.trim()) {
+      formRef.current.reset();
       return;
     }
     handleEmit('newMessage', {
