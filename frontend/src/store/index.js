@@ -7,7 +7,7 @@ import modalReducer from './modal.slice.js';
 export default configureStore({
   reducer: {
     authorization: accessReducer,
-    channels: contentReducer,
+    content: contentReducer,
     modal: modalReducer,
   },
 });

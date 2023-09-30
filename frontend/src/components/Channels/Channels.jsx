@@ -7,7 +7,7 @@ import { openModal } from '../../store/modal.slice';
 
 const Channels = () => {
   const { t } = useTranslation();
-  const { entities } = useSelector((state) => state.channels);
+  const { entities } = useSelector((state) => state.content);
   const dispatch = useDispatch();
 
   return (

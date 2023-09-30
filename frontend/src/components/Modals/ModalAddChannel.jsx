@@ -14,7 +14,7 @@ const ModalAddChannel = () => {
   const { Formik } = formik;
   const { t } = useTranslation();
   const { open } = useSelector((state) => state.modal);
-  const { entities } = useSelector((state) => state.channels);
+  const { entities } = useSelector((state) => state.content);
   const names = entities.map((entity) => entity.name);
   const dispatch = useDispatch();
   const focus = useRef();

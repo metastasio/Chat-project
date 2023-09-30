@@ -5,15 +5,15 @@ import { getChatContent } from '../services/requestsToServer.js';
 import { logOut } from './access.slice.js';
 
 export const getContent = createAsyncThunk(
-  'channels/getChannelContent',
+  'content/getChannelContent',
   async (chatData) => {
     const { data } = await getChatContent(chatData);
     return data;
   },
 );
 
-const channelSlice = createSlice({
-  name: 'channels',
+const contentSlice = createSlice({
+  name: 'content',
   initialState: {
     ids: [],
     entities: [],
@@ -86,6 +86,6 @@ export const {
   changeActiveChannel,
   renameChannel,
   getNewMessages,
-} = channelSlice.actions;
+} = contentSlice.actions;
 
-export default channelSlice.reducer;
+export default contentSlice.reducer;
