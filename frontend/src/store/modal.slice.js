@@ -9,7 +9,6 @@ const modalSlice = createSlice({
     open: false,
     type: '',
     meta: null,
-    extra: null,
     toast: {
       open: false,
       message: '',
@@ -21,13 +20,11 @@ const modalSlice = createSlice({
       state.type = payload.type;
       state.open = true;
       state.meta = payload?.meta;
-      state.extra = payload.extra;
     },
     closeModal(state) {
       state.type = '';
       state.open = false;
       state.meta = null;
-      state.extra = null;
     },
     showToast(state, { payload }) {
       state.toast.open = true;

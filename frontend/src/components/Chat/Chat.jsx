@@ -31,6 +31,9 @@ const Chat = () => {
     e.preventDefault();
     const data = new FormData(e.target);
     const dataChecked = leoProfanity.clean(data.get('body'));
+    if (!dataChecked) {
+      return;
+    }
     handleEmit('newMessage', {
       body: dataChecked,
       channelId: currentChannel,
