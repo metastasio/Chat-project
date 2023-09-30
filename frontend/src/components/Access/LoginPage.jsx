@@ -6,25 +6,44 @@ import { useTranslation } from 'react-i18next';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
-import * as yup from 'yup';
 
 import { logIn, setError } from '../../store/access.slice.js';
 import { showToast } from '../../store/modal.slice.js';
+import { schemaLogIn } from '../../services/yupSchemas.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const { feedback, status } = useSelector((state) => state.authorization);
+  const { status } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Formik } = formik;
   const focus = useRef();
-
-  const schema = yup.object().shape({
-    username: yup.string().required(t('form.errors.required')).trim(),
-    password: yup.string().required(t('form.errors.required')).trim(),
-  });
+  const schema = schemaLogIn;
 
   useEffect(() => focus.current && focus.current.focus());
+
+  const onSubmit = (values, actions) => {
+    dispatch(logIn(values))
+      .unwrap()
+      .then(() => {
+        navigate('/', { replace: false });
+      })
+      .catch(({ code, response }) => {
+        if (code === 'ERR_NETWORK') {
+          dispatch(
+            showToast({
+              message: t('toast.networkError'),
+              level: 'warning',
+            }),
+          );
+          dispatch(setError());
+        }
+        if (response?.statusCode === 401) {
+          actions.setFieldError('password', t('wrongData'));
+          dispatch(setError());
+        }
+      });
+  };
 
   return (
     <Container className="row mx-auto my-auto col-3">
@@ -36,29 +55,8 @@ const LoginPage = () => {
           <Card.Text as="div">
             <Formik
               validationSchema={schema}
-              onSubmit={(values) => {
-                dispatch(logIn(values))
-                  .unwrap()
-                  .then(() => {
-                    navigate('/', { replace: false });
-                  })
-                  .catch(({ code, response }) => {
-                    if (code === 'ERR_NETWORK') {
-                      dispatch(
-                        showToast({
-                          message: t('toast.networkError'),
-                          level: 'warning',
-                        }),
-                      );
-                      dispatch(setError());
-                    }
-                    if (response?.statusCode === 401) {
-                      dispatch(
-                        setError({ feedback: t('form.errors.wrongData') }),
-                      );
-                    }
-                  });
-              }}
+              validateOnBlur
+              onSubmit={onSubmit}
               initialValues={{
                 username: '',
                 password: '',
@@ -87,7 +85,7 @@ const LoginPage = () => {
                         ref={focus}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.username}
+                        {t(`form.errors.${errors.username}`)}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
@@ -102,11 +100,10 @@ const LoginPage = () => {
                         value={values.password}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        isInvalid={(errors.password && touched.password) || feedback}
+                        isInvalid={errors.password && touched.password}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.password}
-                        {feedback}
+                        {t(`form.errors.${errors.password}`)}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>

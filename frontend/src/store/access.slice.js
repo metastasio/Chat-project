@@ -42,8 +42,7 @@ const accessSlice = createSlice({
     status: 'idle',
   },
   reducers: {
-    setError(state, { payload }) {
-      state.feedback = payload?.feedback;
+    setError(state) {
       state.status = 'error';
     },
     logOut(state) {
@@ -61,7 +60,6 @@ const accessSlice = createSlice({
         state.status = 'idle';
       })
       .addCase(logIn.pending, (state) => {
-        state.feedback = 'Loading';
         state.status = 'loading';
       })
       .addCase(register.fulfilled, (state, { payload }) => {
@@ -71,7 +69,6 @@ const accessSlice = createSlice({
         state.status = 'idle';
       })
       .addCase(register.pending, (state) => {
-        state.feedback = 'Loading';
         state.status = 'loading';
       });
   },

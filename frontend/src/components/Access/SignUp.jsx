@@ -3,58 +3,38 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
-import * as leoProfanity from 'leo-profanity';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
 import { register, setError } from '../../store/access.slice.js';
 import { showToast } from '../../store/modal.slice.js';
+import { schemaSignUp } from '../../services/yupSchemas.js';
 
 const SignUp = () => {
   const { t } = useTranslation();
-  const { feedback, status } = useSelector((state) => state.authorization);
+  const { status } = useSelector((state) => state.authorization);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { Formik } = formik;
   const focus = useRef();
-
-  const schema = yup.object().shape({
-    username: yup
-      .string()
-      .required(t('form.errors.required'))
-      .min(3, t('form.errors.minmax'))
-      .max(20, t('form.errors.minmax'))
-      .test('profanity', t('form.errors.profanity'), (values) => !leoProfanity.check(values))
-      .trim(),
-    password: yup
-      .string()
-      .required(t('form.errors.required'))
-      .min(6, t('form.errors.min'))
-      .trim(),
-    passwordConfirmation: yup
-      .string()
-      .required(t('form.errors.required'))
-      .oneOf([yup.ref('password')], t('form.errors.passwordsMatch'))
-      .trim(),
-  });
+  const { Formik } = formik;
+  const schema = schemaSignUp;
 
   useEffect(() => focus.current && focus.current.focus());
 
-  const onSubmit = (values) => {
+  const onSubmit = (values, actions) => {
     dispatch(register(values))
       .unwrap()
       .then(() => {
         navigate('/', { replace: false });
       })
       .catch(({ code, response }) => {
-        console.log(response, 'RESPONSE');
         if (code === 'ERR_NETWORK') {
           dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
           dispatch(setError());
         } else if (response?.statusCode === 409) {
-          dispatch(setError({ feedback: t('form.errors.alreadyCreatedUser') }));
+          actions.setFieldError('username', t('alreadyCreatedUser'));
+          dispatch(setError());
         }
       });
   };
@@ -90,12 +70,11 @@ const SignUp = () => {
                         value={values.username}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        isInvalid={(errors.username && touched.username) || feedback}
+                        isInvalid={errors.username && touched.username}
                         ref={focus}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.username}
-                        {feedback}
+                        {t(`form.errors.${errors.username}`)}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
@@ -112,7 +91,7 @@ const SignUp = () => {
                         isInvalid={errors.password && touched.password}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.password}
+                        {t(`form.errors.${errors.password}`)}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
@@ -132,7 +111,7 @@ const SignUp = () => {
                         isInvalid={errors.passwordConfirmation && touched.passwordConfirmation}
                       />
                       <Form.Control.Feedback type="invalid">
-                        {errors.passwordConfirmation}
+                        {t(`form.errors.${errors.passwordConfirmation}`)}
                       </Form.Control.Feedback>
                     </FloatingLabel>
                   </Form.Group>
