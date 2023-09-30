@@ -8,8 +8,8 @@ import { changeActiveChannel } from '../../store/content.slice.js';
 
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { open, meta } = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
 
   const onClick = async () => {
     handleEmit('removeChannel', { id: meta }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.removed') })); dispatch(changeActiveChannel(1)); });

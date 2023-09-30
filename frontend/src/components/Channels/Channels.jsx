@@ -7,8 +7,8 @@ import { openModal } from '../../store/modal.slice';
 
 const Channels = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { entities } = useSelector((state) => state.channels);
+  const dispatch = useDispatch();
 
   return (
     <Navbar className="col-4 bg-light col-md-2 h-100 flex-column px-2">

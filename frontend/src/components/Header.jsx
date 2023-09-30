@@ -6,8 +6,8 @@ import { logOut } from '../store/access.slice';
 
 const Header = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.authorization);
+  const dispatch = useDispatch();
 
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">

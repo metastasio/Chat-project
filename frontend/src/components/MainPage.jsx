@@ -18,10 +18,10 @@ import {
 } from '../store/content.slice.js';
 
 const MainPage = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { t } = useTranslation();
   const { token } = useSelector((state) => state.authorization);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     socket.connect();

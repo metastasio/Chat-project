@@ -9,8 +9,8 @@ import { openModal } from '../../store/modal.slice';
 
 const ChannelItem = ({ name, removable, id }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { currentChannel } = useSelector((state) => state.channels);
+  const dispatch = useDispatch();
 
   return (
     <Dropdown as={ButtonGroup} className="w-100 justify-content-between">

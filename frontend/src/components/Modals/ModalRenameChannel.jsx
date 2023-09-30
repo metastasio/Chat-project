@@ -10,13 +10,13 @@ import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 
 const ModalRenameChannel = () => {
-  const { t } = useTranslation();
   const { Formik } = formik;
-  const dispatch = useDispatch();
-  const focus = useRef();
+  const { t } = useTranslation();
   const { open, meta } = useSelector((state) => state.modal);
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
+  const dispatch = useDispatch();
+  const focus = useRef();
 
   const schema = yup.object().shape({
     name: yup
@@ -29,16 +29,16 @@ const ModalRenameChannel = () => {
       .trim(),
   });
 
-  const onSubmit = async (value) => {
-    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.renamed') })); });
-    dispatch(closeModal());
-  };
-
   useEffect(() => {
     if (focus.current) {
       focus.current.focus();
     }
   });
+
+  const onSubmit = async (value) => {
+    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.renamed') })); });
+    dispatch(closeModal());
+  };
 
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>

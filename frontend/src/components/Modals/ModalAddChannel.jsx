@@ -11,13 +11,13 @@ import { closeModal, showToast } from '../../store/modal.slice';
 import { changeActiveChannel } from '../../store/content.slice';
 
 const ModalAddChannel = () => {
-  const { t } = useTranslation();
   const { Formik } = formik;
-  const dispatch = useDispatch();
-  const focus = useRef();
+  const { t } = useTranslation();
   const { open } = useSelector((state) => state.modal);
   const { entities } = useSelector((state) => state.channels);
   const names = entities.map((entity) => entity.name);
+  const dispatch = useDispatch();
+  const focus = useRef();
 
   const schema = yup.object().shape({
     name: yup
@@ -31,12 +31,12 @@ const ModalAddChannel = () => {
       .trim(),
   });
 
+  useEffect(() => focus.current && focus.current.focus());
+
   const onSubmit = async (value) => {
     handleEmit('newChannel', value, () => dispatch(showToast({ level: 'warning' })), (data) => { dispatch(showToast({ message: t('toast.added') })); dispatch(changeActiveChannel(data.id)); });
     dispatch(closeModal());
   };
-
-  useEffect(() => focus.current && focus.current.focus());
 
   return (
     <Modal show={open} onHide={() => dispatch(closeModal())} centered>

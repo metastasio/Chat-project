@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import accessReducer from './access.slice.js';
 import contentReducer from './content.slice.js';
 import modalReducer from './modal.slice.js';

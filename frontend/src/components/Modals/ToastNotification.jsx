@@ -5,12 +5,12 @@ import cn from 'classnames';
 import { closeToast } from '../../store/modal.slice';
 
 const ToastNotification = () => {
-  const dispatch = useDispatch();
   const { open, level, message } = useSelector((state) => state.modal.toast);
   const classNames = cn({
     'bg-warning':
-      level === 'warning',
+    level === 'warning',
   });
+  const dispatch = useDispatch();
 
   return (
     <ToastContainer position="top-center">

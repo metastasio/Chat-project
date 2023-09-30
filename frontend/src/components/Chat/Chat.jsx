@@ -12,21 +12,20 @@ import { showToast } from '../../store/modal.slice';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { entities, currentChannel, messages } = useSelector((state) => state.channels);
   const { username } = useSelector((state) => state.authorization);
   const focus = useRef();
   const formRef = useRef();
-
-  useEffect(() => focus.current && focus.current.focus());
+  const dispatch = useDispatch();
 
   const getActiveChannel = (element) => element.id === currentChannel;
   const chat = entities.find(getActiveChannel);
-
   const currentChatMessages = messages.filter(
     (message) => message.channelId === currentChannel,
   );
   const messagesInChat = currentChatMessages.length;
+
+  useEffect(() => focus.current && focus.current.focus());
 
   const handleSubmit = async (e) => {
     e.preventDefault();
