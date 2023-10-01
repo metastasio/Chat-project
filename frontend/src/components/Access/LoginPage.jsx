@@ -89,7 +89,7 @@ const LoginPage = () => {
                     </FloatingLabel>
                   </Form.Group>
 
-                  <Form.Group controlId="validationFormik04">
+                  <Form.Group>
                     <FloatingLabel controlId="logInPass" label={t('form.signIn.password')} className="mb-3">
                       <Form.Control
                         id="logInPass"

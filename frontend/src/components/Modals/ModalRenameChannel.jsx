@@ -59,10 +59,9 @@ const ModalRenameChannel = () => {
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group className="mb-3">
-                <Form.Label controlId="formControlInputRename">{t('form.modal.channelName')}</Form.Label>
+              <Form.Group className="mb-3" controlId="formControlInputRename">
+                <Form.Label visuallyHidden>{t('form.modal.channelName')}</Form.Label>
                 <Form.Control
-                  id="formControlInputRename"
                   type="text"
                   ref={focus}
                   required
