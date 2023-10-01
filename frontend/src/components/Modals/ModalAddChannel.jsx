@@ -43,9 +43,10 @@ const ModalAddChannel = () => {
         }) => (
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
-              <Form.Group className="mb-3" controlId="formControlInputAdd">
-                <Form.Label>{t('form.modal.channelName')}</Form.Label>
+              <Form.Group className="mb-3">
+                <Form.Label controlId="formControlInputAdd">{t('form.modal.channelName')}</Form.Label>
                 <Form.Control
+                  id="formControlInputAdd"
                   type="text"
                   ref={focus}
                   required
