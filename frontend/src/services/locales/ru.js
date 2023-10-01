@@ -18,7 +18,7 @@ const translation = {
         renameChannel: 'Переименование канала',
         confirmDelete: 'Уверены?',
         deleteChannel: 'Удаление канала',
-        channelName: 'Назвать канал',
+        channelName: 'Имя канала',
         cancel: 'Отмена',
       },
       errors: {
