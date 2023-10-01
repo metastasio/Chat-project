@@ -26,6 +26,7 @@ const ChannelItem = ({ name, removable, id }) => {
 
       {removable ? (
         <>
+          <span className="visually-hidden">Управление каналом</span>
           <Dropdown.Toggle
             id=""
             split
@@ -33,7 +34,6 @@ const ChannelItem = ({ name, removable, id }) => {
             variant={currentChannel === id ? 'secondary' : 'light'}
           />
           <Dropdown.Menu>
-            <span className="visually-hidden">{t('channels.channelManagement')}</span>
             <Dropdown.Item
               onClick={() => dispatch(openModal({ type: 'renameChannel', meta: id }))}
             >
