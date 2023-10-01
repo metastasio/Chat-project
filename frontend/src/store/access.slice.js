@@ -1,4 +1,6 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-use-before-define */
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { createNewUser, getUserToken } from '../services/requestsToServer.js';
