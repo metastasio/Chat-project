@@ -70,8 +70,9 @@ const LoginPage = () => {
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel label={t('form.signIn.userName')} className="mb-3">
+                    <FloatingLabel controlId="logInName" label={t('form.signIn.userName')} className="mb-3">
                       <Form.Control
+                        id="logInName"
                         type="text"
                         placeholder={t('form.signIn.userName')}
                         required
@@ -89,8 +90,9 @@ const LoginPage = () => {
                   </Form.Group>
 
                   <Form.Group controlId="validationFormik04">
-                    <FloatingLabel label={t('form.signIn.password')} className="mb-3">
+                    <FloatingLabel controlId="logInPass" label={t('form.signIn.password')} className="mb-3">
                       <Form.Control
+                        id="logInPass"
                         type="password"
                         placeholder={t('form.signIn.password')}
                         required

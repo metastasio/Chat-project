@@ -60,9 +60,9 @@ const SignUp = () => {
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
-                    <FloatingLabel controlId="logInName" label={t('form.signUp.userName')} className="mb-3">
+                    <FloatingLabel controlId="signUpName" label={t('form.signUp.userName')} className="mb-3">
                       <Form.Control
-                        id="logInName"
+                        id="signUpName"
                         type="text"
                         required
                         name="username"
@@ -79,9 +79,9 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group>
-                    <FloatingLabel controlId="logInPass" label={t('form.signUp.password')} className="mb-3">
+                    <FloatingLabel controlId="signUpPass" label={t('form.signUp.password')} className="mb-3">
                       <Form.Control
-                        id="logInPass"
+                        id="signUpPass"
                         type="password"
                         required
                         name="password"
@@ -98,12 +98,12 @@ const SignUp = () => {
 
                   <Form.Group>
                     <FloatingLabel
-                      controlId="logInPassConfirm"
+                      controlId="signUpPassConfirm"
                       label={t('form.signUp.passwordConfirmation')}
                       className="mb-3"
                     >
                       <Form.Control
-                        id="logInPassConfirm"
+                        id="signUpPassConfirm"
                         type="password"
                         required
                         name="passwordConfirmation"
