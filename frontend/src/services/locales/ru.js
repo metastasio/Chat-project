@@ -41,6 +41,7 @@ const translation = {
       channels: 'Каналы',
       deleteDropdown: 'Удалить',
       renameDropdown: 'Переименовать',
+      channelManagement: 'Управление каналом',
     },
     chat: {
       messagePlaceHolder: 'Введите сообщение',
