@@ -53,7 +53,7 @@ const translation = {
     },
     toast: {
       added: 'Канал создан',
-      removed: 'Канал удален',
+      removed: 'Канал удалён',
       renamed: 'Канал переименован',
       networkError: 'Ошибка соединения',
     },
