@@ -1,7 +1,6 @@
 import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Button, Form, FloatingLabel, Card, Container,
@@ -17,10 +16,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { Formik } = formik;
-  // const focus = useRef();
   const schema = schemaLogIn;
-
-  // useEffect(() => focus.current && focus.current.focus());
 
   const onSubmit = (values, actions) => {
     dispatch(logIn(values))
@@ -80,7 +76,6 @@ const LoginPage = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         isInvalid={errors.username && touched.username}
-                        // ref={focus}
                       />
                       <Form.Control.Feedback type="invalid">
                         {t(`form.errors.${errors.username}`)}
