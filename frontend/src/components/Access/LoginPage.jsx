@@ -74,7 +74,6 @@ const LoginPage = () => {
                       <Form.Control
                         id="logInName"
                         type="text"
-                        placeholder={t('form.signIn.userName')}
                         required
                         name="username"
                         value={values.username}
@@ -90,11 +89,10 @@ const LoginPage = () => {
                   </Form.Group>
 
                   <Form.Group>
-                    <FloatingLabel controlId="logInPass" label={t('form.signIn.password')} className="mb-3">
+                    <FloatingLabel controlId="logInPass" label={t('form.password')} className="mb-3">
                       <Form.Control
                         id="logInPass"
                         type="password"
-                        placeholder={t('form.signIn.password')}
                         required
                         name="password"
                         value={values.password}

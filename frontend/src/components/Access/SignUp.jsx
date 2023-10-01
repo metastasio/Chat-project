@@ -79,7 +79,7 @@ const SignUp = () => {
                   </Form.Group>
 
                   <Form.Group>
-                    <FloatingLabel controlId="signUpPass" label={t('form.signUp.password')} className="mb-3">
+                    <FloatingLabel controlId="signUpPass" label={t('form.password')} className="mb-3">
                       <Form.Control
                         id="signUpPass"
                         type="password"

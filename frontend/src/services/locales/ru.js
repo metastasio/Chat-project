@@ -1,15 +1,14 @@
 const translation = {
   translation: {
     form: {
+      password: 'Пароль',
       signIn: {
         signIn: 'Войти',
         userName: 'Ваш ник',
-        password: 'Пароль',
       },
       signUp: {
         register: 'Регистрация',
         userName: 'Имя пользователя',
-        password: 'Пароль',
         passwordConfirmation: 'Подтвердите пароль',
         signUp: 'Зарегистрироваться',
       },
@@ -49,7 +48,6 @@ const translation = {
       key_few: '{{count}} сообщения',
       key_many: '{{count}} сообщений',
       key_zero: '{{count}} сообщений',
-      sendMessage: 'Отправить',
     },
     toast: {
       added: 'Канал создан',

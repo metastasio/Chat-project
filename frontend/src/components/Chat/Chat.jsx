@@ -78,7 +78,7 @@ const Chat = () => {
                 ref={focus}
               />
               <Button variant="info" type="submit">
-                {t('chat.sendMessage')}
+                {t('send')}
               </Button>
             </InputGroup>
           </Form>
