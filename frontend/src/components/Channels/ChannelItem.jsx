@@ -31,7 +31,7 @@ const ChannelItem = ({ name, removable, id }) => {
             className="rounded-0"
             variant={currentChannel === id ? 'secondary' : 'light'}
           >
-            <span className="visually-hidden">{t('channels.')}</span>
+            <span className="visually-hidden">{t('channels.channelManagement')}</span>
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
