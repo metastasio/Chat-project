@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-const routes = {
-  loginPath: () => '/api/v1/login',
-  signupPath: () => '/api/v1/signup',
-  contentPath: () => '/api/v1/data',
-};
+import routes from './routes.js';
+
+// const routes = {
+//   loginPath: () => '/api/v1/login',
+//   signupPath: () => '/api/v1/signup',
+//   contentPath: () => '/api/v1/data',
+// };
 
 const axiosConfig = { timeout: 5000 };
 const getUserToken = (userData) => axios.post(routes.loginPath(), userData, axiosConfig);

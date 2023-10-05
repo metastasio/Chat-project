@@ -7,6 +7,7 @@ import RequireAuth from './components/Access/RequireAuth.jsx';
 import Header from './components/Header.jsx';
 import SignUp from './components/Access/SignUp.jsx';
 import ToastNotification from './components/Modals/ToastNotification.jsx';
+import routes from './services/routes.js';
 
 const App = () => (
   <div className="h-100">
@@ -15,7 +16,7 @@ const App = () => (
         <Header />
         <Routes>
           <Route
-            path="/"
+            path={routes.mainPage()}
             element={
               (
                 <RequireAuth>
@@ -24,8 +25,8 @@ const App = () => (
                 )
               }
           />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signup" element={<SignUp />} />
+          <Route path={routes.logInPage()} element={<LoginPage />} />
+          <Route path={routes.signUpPage()} element={<SignUp />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
