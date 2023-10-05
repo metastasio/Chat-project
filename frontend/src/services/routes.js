@@ -4,6 +4,6 @@ const routes = {
   contentPath: () => '/api/v1/data',
   mainPage: () => '/',
   logInPage: () => '/login',
-  signUpPage: () => '/signUpPage',
+  signUpPage: () => '/signup',
 };
 export default routes;

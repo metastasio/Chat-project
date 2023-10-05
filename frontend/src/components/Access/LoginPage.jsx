@@ -9,6 +9,7 @@ import {
 import { logIn } from '../../store/access.slice.js';
 import { showToast } from '../../store/modal.slice.js';
 import { schemaLogIn } from '../../services/yupSchemas.js';
+import routes from '../../services/routes.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -22,7 +23,7 @@ const LoginPage = () => {
     dispatch(logIn(values))
       .unwrap()
       .then(() => {
-        navigate('/', { replace: false });
+        navigate(routes.mainPage(), { replace: false });
       })
       .catch(({ code, response }) => {
         if (code === 'ERR_NETWORK') {
@@ -114,7 +115,7 @@ const LoginPage = () => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="text-muted text-center">
-          <Link to="/signup">{t('form.signUp.register')}</Link>
+          <Link to={routes.signUpPage()}>{t('form.signUp.register')}</Link>
         </Card.Footer>
       </Card>
     </Container>

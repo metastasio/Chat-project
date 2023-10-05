@@ -3,6 +3,7 @@ import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 import { logOut } from '../store/access.slice';
+import routes from '../services/routes';
 
 const Header = () => {
   const { t } = useTranslation();
@@ -16,7 +17,7 @@ const Header = () => {
         {token ? (
           <Button
             type="button"
-            href="/login"
+            href={routes.logInPage()}
             variant="primary"
             onClick={() => {
               dispatch(logOut());

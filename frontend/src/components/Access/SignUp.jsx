@@ -10,6 +10,7 @@ import {
 import { register } from '../../store/access.slice.js';
 import { showToast } from '../../store/modal.slice.js';
 import { schemaSignUp } from '../../services/yupSchemas.js';
+import routes from '../../services/routes.js';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const SignUp = () => {
     dispatch(register(values))
       .unwrap()
       .then(() => {
-        navigate('/', { replace: false });
+        navigate(routes.mainPage(), { replace: false });
       })
       .catch(({ code, response }) => {
         if (code === 'ERR_NETWORK') {
