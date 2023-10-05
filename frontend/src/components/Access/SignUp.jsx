@@ -11,10 +11,11 @@ import { register } from '../../store/access.slice.js';
 import { showToast } from '../../store/modal.slice.js';
 import { schemaSignUp } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
+import { selectAccess } from '../../services/stateSelectors.js';
 
 const SignUp = () => {
   const { t } = useTranslation();
-  const { status } = useSelector((state) => state.authorization);
+  const { status } = useSelector(selectAccess);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const focus = useRef();

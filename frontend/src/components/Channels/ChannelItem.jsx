@@ -6,10 +6,11 @@ import {
 
 import { changeActiveChannel } from '../../store/content.slice';
 import { openModal } from '../../store/modal.slice';
+import { selectChatContent } from '../../services/stateSelectors';
 
 const ChannelItem = ({ name, removable, id }) => {
   const { t } = useTranslation();
-  const { currentChannel } = useSelector((state) => state.content);
+  const { currentChannel } = useSelector(selectChatContent);
   const dispatch = useDispatch();
 
   return (

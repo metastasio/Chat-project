@@ -3,9 +3,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 
 import { closeToast } from '../../store/modal.slice';
+import { selectToastContent } from '../../services/stateSelectors';
 
 const ToastNotification = () => {
-  const { open, level, message } = useSelector((state) => state.modal.toast);
+  const { open, level, message } = useSelector(selectToastContent);
   const classNames = cn({
     'bg-warning':
     level === 'warning',

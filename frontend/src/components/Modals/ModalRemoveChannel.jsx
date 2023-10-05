@@ -5,10 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { handleEmit } from '../../socket.js';
 import { closeModal, showToast } from '../../store/modal.slice.js';
 import { changeActiveChannel } from '../../store/content.slice.js';
+import { selectModal } from '../../services/stateSelectors.js';
 
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
-  const { open, meta } = useSelector((state) => state.modal);
+  const { open, meta } = useSelector(selectModal);
   const dispatch = useDispatch();
 
   const onClick = async () => {

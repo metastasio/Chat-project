@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 
 import ChannelItem from './ChannelItem';
 import { openModal } from '../../store/modal.slice';
+import { selectChatContent } from '../../services/stateSelectors';
 
 const Channels = () => {
   const { t } = useTranslation();
-  const { entities } = useSelector((state) => state.content);
+  const { entities } = useSelector(selectChatContent);
   const dispatch = useDispatch();
 
   return (

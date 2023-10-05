@@ -8,12 +8,13 @@ import * as leoProfanity from 'leo-profanity';
 
 import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
+import { selectModal, selectChatContent } from '../../services/stateSelectors';
 
 const ModalRenameChannel = () => {
   const { Formik } = formik;
   const { t } = useTranslation();
-  const { open, meta } = useSelector((state) => state.modal);
-  const { entities } = useSelector((state) => state.content);
+  const { open, meta } = useSelector(selectModal);
+  const { entities } = useSelector(selectChatContent);
   const names = entities.map((entity) => entity.name);
   const dispatch = useDispatch();
   const focus = useRef();

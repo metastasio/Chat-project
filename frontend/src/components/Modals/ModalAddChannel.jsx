@@ -8,12 +8,13 @@ import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 import { changeActiveChannel } from '../../store/content.slice';
 import { schemaChannel } from '../../services/yupSchemas';
+import { selectModal, selectChatContent } from '../../services/stateSelectors';
 
 const ModalAddChannel = () => {
   const { Formik } = formik;
   const { t } = useTranslation();
-  const { open } = useSelector((state) => state.modal);
-  const { entities } = useSelector((state) => state.content);
+  const { open } = useSelector(selectModal);
+  const { entities } = useSelector(selectChatContent);
   const names = entities.map((entity) => entity.name);
   const schema = schemaChannel(names);
   const focus = useRef();

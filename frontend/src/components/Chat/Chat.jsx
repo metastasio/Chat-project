@@ -9,10 +9,11 @@ import {
 import { handleEmit } from '../../socket';
 import MessageItem from './MessageItem';
 import { showToast } from '../../store/modal.slice';
+import { selectChatContent } from '../../services/stateSelectors';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const { entities, currentChannel, messages } = useSelector((state) => state.content);
+  const { entities, currentChannel, messages } = useSelector(selectChatContent);
   const { username } = useSelector((state) => state.authorization);
   const focus = useRef();
   const formRef = useRef();
