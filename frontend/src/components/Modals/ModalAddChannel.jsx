@@ -1,17 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as formik from 'formik';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { handleEmit } from '../../socket';
+// import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 import { changeActiveChannel } from '../../store/content.slice';
 import { schemaChannel } from '../../services/yupSchemas';
 import { selectModal, selectChatContent } from '../../services/stateSelectors';
+import { SocketContext } from '../../context';
 
 const ModalAddChannel = () => {
   const { Formik } = formik;
+  const { handleEmit } = useContext(SocketContext);
   const { t } = useTranslation();
   const { open } = useSelector(selectModal);
   const { entities } = useSelector(selectChatContent);

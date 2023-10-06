@@ -1,18 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as leoProfanity from 'leo-profanity';
 import {
   Container, Col, Row, Button, InputGroup, Form,
 } from 'react-bootstrap';
 
-import { handleEmit } from '../../socket';
+// import { handleEmit } from '../../socket';
 import MessageItem from './MessageItem';
 import { showToast } from '../../store/modal.slice';
 import { selectChatContent } from '../../services/stateSelectors';
+import { SocketContext } from '../../context';
 
 const Chat = () => {
   const { t } = useTranslation();
+  const { handleEmit } = useContext(SocketContext);
   const { entities, currentChannel, messages } = useSelector(selectChatContent);
   const { username } = useSelector((state) => state.authorization);
   const focus = useRef();

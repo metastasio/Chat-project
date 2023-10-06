@@ -1,14 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useContext } from 'react';
 
-import { handleEmit } from '../../socket.js';
+import { SocketContext } from '../../context.js';
 import { closeModal, showToast } from '../../store/modal.slice.js';
 import { changeActiveChannel } from '../../store/content.slice.js';
 import { selectModal } from '../../services/stateSelectors.js';
 
 const ModalRemoveChannel = () => {
   const { t } = useTranslation();
+  const { handleEmit } = useContext(SocketContext);
   const { open, meta } = useSelector(selectModal);
   const dispatch = useDispatch();
 

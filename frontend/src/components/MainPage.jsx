@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { socket } from '../socket.js';
+// import { socket } from '../socket.js';
 import Channels from './Channels/Channels';
 import Chat from './Chat/Chat';
 import ModalSwitcher from './Modals/ModalSwitcher.jsx';
@@ -16,12 +16,14 @@ import {
   removeChannel,
   getNewMessages,
 } from '../store/content.slice.js';
+import { SocketContext } from '../context.js';
 
 const MainPage = () => {
   const { t } = useTranslation();
   const { token } = useSelector((state) => state.authorization);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     socket.connect();
@@ -65,7 +67,7 @@ const MainPage = () => {
       socket.off('connect_error');
       socket.disconnect();
     };
-  }, [dispatch, t]);
+  }, [dispatch, t, socket]);
 
   useEffect(() => {
     dispatch(getContent(token))

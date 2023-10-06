@@ -1,18 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import * as formik from 'formik';
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import * as leoProfanity from 'leo-profanity';
 
-import { handleEmit } from '../../socket';
+// import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 import { selectModal, selectChatContent } from '../../services/stateSelectors';
+import { SocketContext } from '../../context';
 
 const ModalRenameChannel = () => {
   const { Formik } = formik;
   const { t } = useTranslation();
+  const { handleEmit } = useContext(SocketContext);
   const { open, meta } = useSelector(selectModal);
   const { entities } = useSelector(selectChatContent);
   const names = entities.map((entity) => entity.name);
