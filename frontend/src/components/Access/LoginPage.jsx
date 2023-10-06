@@ -8,7 +8,6 @@ import {
 } from 'react-bootstrap';
 
 import { logIn } from '../../store/access.slice.js';
-// import { showToast } from '../../store/modal.slice.js';
 import { schemaLogIn } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
 import { selectAccess } from '../../services/stateSelectors.js';
@@ -30,12 +29,6 @@ const LoginPage = () => {
       .catch(({ code, response }) => {
         if (code === 'ERR_NETWORK') {
           toast.error(t('toast.networkError'));
-          // dispatch(
-          //   showToast({
-          //     message: t('toast.networkError'),
-          //     level: 'warning',
-          //   }),
-          // );
         }
         if (response?.statusCode === 401) {
           actions.setFieldError('password', t('wrongData'));

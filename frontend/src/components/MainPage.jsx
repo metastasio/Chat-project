@@ -29,16 +29,10 @@ const MainPage = () => {
 
     socket.on('disconnect', () => {
       toast.error(t('toast.networkError'));
-      // dispatch(
-      //   showToast({ message: t('toast.networkError'), level: 'warning' }),
-      // );
     });
 
     socket.on('connect_error', () => {
       toast.error(t('toast.networkError'));
-      // dispatch(
-      //   showToast({ message: t('toast.networkError'), level: 'warning' }),
-      // );
     });
 
     const onNewMessages = (value) => {

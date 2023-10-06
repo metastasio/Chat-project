@@ -9,7 +9,6 @@ import {
 } from 'react-bootstrap';
 
 import { register } from '../../store/access.slice.js';
-// import { showToast } from '../../store/modal.slice.js';
 import { schemaSignUp } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
 import { selectAccess } from '../../services/stateSelectors.js';
@@ -34,7 +33,6 @@ const SignUp = () => {
       .catch(({ code, response }) => {
         if (code === 'ERR_NETWORK') {
           toast.error(t('toast.networkError'));
-          // dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
         } else if (response?.statusCode === 409) {
           actions.setFieldError('username', t('alreadyCreatedUser'));
         }
