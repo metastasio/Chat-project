@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import * as leoProfanity from 'leo-profanity';
 
-// import { handleEmit } from '../../socket';
 import { closeModal, showToast } from '../../store/modal.slice';
 import { selectModal, selectChatContent } from '../../services/stateSelectors';
 import { SocketContext } from '../../context';

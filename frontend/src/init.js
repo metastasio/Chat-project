@@ -9,7 +9,7 @@ import { io } from 'socket.io-client';
 import store from './store';
 import resources from './services/locales/index.js';
 import App from './App.js';
-import { AuthContext, SocketContext } from './context.js';
+import { SocketContext } from './context.js';
 
 const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:5001';
 const socket = io(URL, {
