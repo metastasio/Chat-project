@@ -3,9 +3,9 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import * as formik from 'formik';
 import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
-// import { handleEmit } from '../../socket';
-import { closeModal, showToast } from '../../store/modal.slice';
+import { closeModal } from '../../store/modal.slice';
 import { changeActiveChannel } from '../../store/content.slice';
 import { schemaChannel } from '../../services/yupSchemas';
 import { selectModal, selectChatContent } from '../../services/stateSelectors';
@@ -25,7 +25,9 @@ const ModalAddChannel = () => {
   useEffect(() => focus.current && focus.current.focus());
 
   const onSubmit = async (value) => {
-    handleEmit('newChannel', value, () => dispatch(showToast({ level: 'warning' })), (data) => { dispatch(showToast({ message: t('toast.added') })); dispatch(changeActiveChannel(data.id)); });
+    handleEmit('newChannel', value, () => toast.error(t('toast.networkError')), (data) => {
+      toast.success(t('toast.added')); dispatch(changeActiveChannel(data.id));
+    });
     dispatch(closeModal());
   };
 

@@ -5,8 +5,9 @@ import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import * as leoProfanity from 'leo-profanity';
+import { toast } from 'react-toastify';
 
-import { closeModal, showToast } from '../../store/modal.slice';
+import { closeModal } from '../../store/modal.slice';
 import { selectModal, selectChatContent } from '../../services/stateSelectors';
 import { SocketContext } from '../../context';
 
@@ -38,7 +39,9 @@ const ModalRenameChannel = () => {
   });
 
   const onSubmit = async (value) => {
-    handleEmit('renameChannel', { id: meta, name: value.name }, () => dispatch(showToast({ level: 'warning' })), () => { dispatch(showToast({ message: t('toast.renamed') })); });
+    handleEmit('renameChannel', { id: meta, name: value.name }, () => toast.error(t('toast.networkError')), () => {
+      toast.success(t('toast.renamed'));
+    });
     dispatch(closeModal());
   };
 

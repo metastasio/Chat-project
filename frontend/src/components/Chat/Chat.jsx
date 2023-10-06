@@ -1,14 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as leoProfanity from 'leo-profanity';
+import { toast } from 'react-toastify';
 import {
   Container, Col, Row, Button, InputGroup, Form,
 } from 'react-bootstrap';
 
 // import { handleEmit } from '../../socket';
 import MessageItem from './MessageItem';
-import { showToast } from '../../store/modal.slice';
+// import { showToast } from '../../store/modal.slice';
 import { selectChatContent } from '../../services/stateSelectors';
 import { SocketContext } from '../../context';
 
@@ -19,7 +20,7 @@ const Chat = () => {
   const { username } = useSelector((state) => state.authorization);
   const focus = useRef();
   const formRef = useRef();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const getActiveChannel = (element) => element.id === currentChannel;
   const chat = entities.find(getActiveChannel);
@@ -42,7 +43,8 @@ const Chat = () => {
       body: dataChecked,
       channelId: currentChannel,
       username,
-    }, () => dispatch(showToast()));
+    }, () => toast.error(t('toast.networkError')));
+    // dispatch(showToast())
     formRef.current.reset();
   };
 

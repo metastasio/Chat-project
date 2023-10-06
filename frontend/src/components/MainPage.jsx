@@ -3,12 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-// import { socket } from '../socket.js';
 import Channels from './Channels/Channels';
 import Chat from './Chat/Chat';
 import ModalSwitcher from './Modals/ModalSwitcher.jsx';
-import { showToast } from '../store/modal.slice.js';
 import {
   getContent,
   getNewChannel,
@@ -29,15 +28,17 @@ const MainPage = () => {
     socket.connect();
 
     socket.on('disconnect', () => {
-      dispatch(
-        showToast({ message: t('toast.networkError'), level: 'warning' }),
-      );
+      toast.error(t('toast.networkError'));
+      // dispatch(
+      //   showToast({ message: t('toast.networkError'), level: 'warning' }),
+      // );
     });
 
     socket.on('connect_error', () => {
-      dispatch(
-        showToast({ message: t('toast.networkError'), level: 'warning' }),
-      );
+      toast.error(t('toast.networkError'));
+      // dispatch(
+      //   showToast({ message: t('toast.networkError'), level: 'warning' }),
+      // );
     });
 
     const onNewMessages = (value) => {

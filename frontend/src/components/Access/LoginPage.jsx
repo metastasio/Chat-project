@@ -2,12 +2,13 @@ import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
 import { logIn } from '../../store/access.slice.js';
-import { showToast } from '../../store/modal.slice.js';
+// import { showToast } from '../../store/modal.slice.js';
 import { schemaLogIn } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
 import { selectAccess } from '../../services/stateSelectors.js';
@@ -28,12 +29,13 @@ const LoginPage = () => {
       })
       .catch(({ code, response }) => {
         if (code === 'ERR_NETWORK') {
-          dispatch(
-            showToast({
-              message: t('toast.networkError'),
-              level: 'warning',
-            }),
-          );
+          toast.error(t('toast.networkError'));
+          // dispatch(
+          //   showToast({
+          //     message: t('toast.networkError'),
+          //     level: 'warning',
+          //   }),
+          // );
         }
         if (response?.statusCode === 401) {
           actions.setFieldError('password', t('wrongData'));

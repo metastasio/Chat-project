@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
 import { register } from '../../store/access.slice.js';
-import { showToast } from '../../store/modal.slice.js';
+// import { showToast } from '../../store/modal.slice.js';
 import { schemaSignUp } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
 import { selectAccess } from '../../services/stateSelectors.js';
@@ -32,7 +33,8 @@ const SignUp = () => {
       })
       .catch(({ code, response }) => {
         if (code === 'ERR_NETWORK') {
-          dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
+          toast.error(t('toast.networkError'));
+          // dispatch(showToast({ message: t('toast.networkError'), level: 'warning' }));
         } else if (response?.statusCode === 409) {
           actions.setFieldError('username', t('alreadyCreatedUser'));
         }
