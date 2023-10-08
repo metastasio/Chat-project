@@ -1,39 +1,38 @@
 import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useContext } from 'react';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
-import { logIn } from '../../store/access.slice.js';
 import { schemaLogIn } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
-import { selectAccess } from '../../services/stateSelectors.js';
+import { AuthContext } from '../../context.js';
+import { getUserToken } from '../../services/requestsToServer.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
-  const { status } = useSelector(selectAccess);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { Formik } = formik;
+  const { logIn } = useContext(AuthContext);
+  const navigate = useNavigate();
   const schema = schemaLogIn;
 
-  const onSubmit = (values, actions) => {
-    dispatch(logIn(values))
-      .unwrap()
-      .then(() => {
-        navigate(routes.mainPage(), { replace: false });
-      })
-      .catch(({ code, response }) => {
-        if (code === 'ERR_NETWORK') {
-          toast.error(t('toast.networkError'));
-        }
-        if (response?.statusCode === 401) {
-          actions.setFieldError('password', t('wrongData'));
-        }
-      });
+  const onSubmit = async (values, actions) => {
+    try {
+      const { data } = await getUserToken(values);
+      logIn(data);
+      navigate(routes.mainPage(), { replace: false });
+    } catch ({ code, response }) {
+      if (code === 'ERR_NETWORK') {
+        toast.error(t('toast.networkError'));
+      }
+      if (response?.status === 401) {
+        actions.setFieldError('password', t('wrongData'));
+      }
+    }
   };
 
   return (
@@ -101,7 +100,7 @@ const LoginPage = () => {
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
-                    disabled={status === 'loading'}
+                    // disabled={status === 'loading'}
                   >
                     {t('form.signIn.signIn')}
                   </Button>

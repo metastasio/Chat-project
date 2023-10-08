@@ -3,20 +3,20 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-import { createNewUser, getUserToken } from '../services/requestsToServer.js';
+import { createNewUser } from '../services/requestsToServer.js';
 
-export const logIn = createAsyncThunk(
-  'access/logIn',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const { data } = await getUserToken(userData);
-      localStorage.setItem('user', JSON.stringify(data));
-      return data;
-    } catch (err) {
-      return rejectWithValue({ code: err.code, response: err?.response?.data });
-    }
-  },
-);
+// export const logIn = createAsyncThunk(
+//   'access/logIn',
+//   async (userData, { rejectWithValue }) => {
+//     try {
+//       const { data } = await getUserToken(userData);
+//       localStorage.setItem('user', JSON.stringify(data));
+//       return data;
+//     } catch (err) {
+//       return rejectWithValue({ code: err.code, response: err?.response?.data });
+//     }
+//   },
+// );
 
 export const register = createAsyncThunk(
   'access/register',
@@ -50,18 +50,18 @@ const accessSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(logIn.fulfilled, (state, { payload }) => {
-        const { token, username } = payload;
-        state.token = token;
-        state.username = username;
-        state.status = 'idle';
-      })
-      .addCase(logIn.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(logIn.rejected, (state) => {
-        state.status = 'idle';
-      })
+      // .addCase(logIn.fulfilled, (state, { payload }) => {
+      //   const { token, username } = payload;
+      //   state.token = token;
+      //   state.username = username;
+      //   state.status = 'idle';
+      // })
+      // .addCase(logIn.pending, (state) => {
+      //   state.status = 'loading';
+      // })
+      // .addCase(logIn.rejected, (state) => {
+      //   state.status = 'idle';
+      // })
       .addCase(register.fulfilled, (state, { payload }) => {
         const { token, username } = payload;
         state.token = token;

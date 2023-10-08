@@ -1,31 +1,29 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 
-import { logOut } from '../store/access.slice';
 import routes from '../services/routes';
+import { AuthContext } from '../context';
 
 const Header = () => {
   const { t } = useTranslation();
   const { token } = useSelector((state) => state.authorization);
-  const dispatch = useDispatch();
+  const { logOut } = useContext(AuthContext);
 
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <Container>
-        {/* <Navbar.Brand href="/">{t('header.title')}</Navbar.Brand> */}
         <Navbar.Brand as={Link} to={routes.mainPage()}>{t('header.title')}</Navbar.Brand>
         {token ? (
           <Button
             as={Link}
             to={routes.logInPage()}
             type="button"
-            // href={routes.logInPage()}
             variant="primary"
             onClick={() => {
-              dispatch(logOut());
-              localStorage.removeItem('user');
+              logOut();
             }}
           >
             {t('header.logOut')}

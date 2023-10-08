@@ -8,30 +8,32 @@ import NotFound from './components/NotFound.jsx';
 import RequireAuth from './components/Access/RequireAuth.jsx';
 import Header from './components/Header.jsx';
 import SignUp from './components/Access/SignUp.jsx';
-// import ToastNotification from './components/Modals/ToastNotification.jsx';
 import routes from './services/routes.js';
+import AuthProvider from './components/AuthProvider.jsx';
 
 const App = () => (
   <div className="h-100">
     <div className="d-flex flex-column h-100">
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route
-            path={routes.mainPage()}
-            element={
+      <AuthProvider>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route
+              path={routes.mainPage()}
+              element={
               (
                 <RequireAuth>
                   <MainPage />
                 </RequireAuth>
                 )
               }
-          />
-          <Route path={routes.logInPage()} element={<LoginPage />} />
-          <Route path={routes.signUpPage()} element={<SignUp />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+            />
+            <Route path={routes.logInPage()} element={<LoginPage />} />
+            <Route path={routes.signUpPage()} element={<SignUp />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
