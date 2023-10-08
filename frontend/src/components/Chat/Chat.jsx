@@ -9,13 +9,13 @@ import {
 
 import MessageItem from './MessageItem';
 import { selectChatContent } from '../../services/stateSelectors';
-import { SocketContext } from '../../context';
+import { AuthContext, SocketContext } from '../../context';
 
 const Chat = () => {
   const { t } = useTranslation();
   const { handleEmit } = useContext(SocketContext);
   const { entities, currentChannel, messages } = useSelector(selectChatContent);
-  const { username } = useSelector((state) => state.authorization);
+  const { authData } = useContext(AuthContext);
   const focus = useRef();
   const formRef = useRef();
 
@@ -39,7 +39,7 @@ const Chat = () => {
     handleEmit('newMessage', {
       body: dataChecked,
       channelId: currentChannel,
-      username,
+      username: authData.username,
     }, () => toast.error(t('toast.networkError')));
     formRef.current.reset();
   };

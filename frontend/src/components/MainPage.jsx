@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import Channels from './Channels/Channels';
 import Chat from './Chat/Chat';
 import ModalSwitcher from './Modals/ModalSwitcher.jsx';
+import { AuthContext, SocketContext } from '../context.js';
 import {
   getContent,
   getNewChannel,
@@ -15,11 +16,11 @@ import {
   removeChannel,
   getNewMessages,
 } from '../store/content.slice.js';
-import { SocketContext } from '../context.js';
 
 const MainPage = () => {
   const { t } = useTranslation();
-  const { token } = useSelector((state) => state.authorization);
+  // const { token } = useSelector((state) => state.authorization);
+  const { authData } = useContext(AuthContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { socket } = useContext(SocketContext);
@@ -65,10 +66,10 @@ const MainPage = () => {
   }, [dispatch, t, socket]);
 
   useEffect(() => {
-    dispatch(getContent(token))
+    dispatch(getContent(authData.token))
       .unwrap()
       .catch(() => navigate('/login'));
-  }, [dispatch, token, navigate]);
+  }, [dispatch, authData.token, navigate]);
 
   return (
     <>

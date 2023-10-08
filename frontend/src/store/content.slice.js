@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findIndex, set } from 'lodash-es';
 
 import { getChatContent } from '../services/requestsToServer.js';
-import { logOut } from './access.slice.js';
+// import { logOut } from './access.slice.js';
 
 export const getContent = createAsyncThunk(
   'content/getChannelContent',
@@ -71,14 +71,14 @@ const contentSlice = createSlice({
       })
       .addCase(getContent.rejected, (state) => {
         state.status = 'error';
-      })
-      .addCase(logOut, (state) => {
-        state.ids = [];
-        state.entities = [];
-        state.messages = [];
-        state.currentChannel = '';
-        state.status = '';
       });
+    // .addCase(logOut, (state) => {
+    //   state.ids = [];
+    //   state.entities = [];
+    //   state.messages = [];
+    //   state.currentChannel = '';
+    //   state.status = '';
+    // });
   },
 });
 

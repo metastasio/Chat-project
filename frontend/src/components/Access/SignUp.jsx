@@ -1,42 +1,44 @@
 import * as formik from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useRef } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
+import { useContext, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
-import { register } from '../../store/access.slice.js';
+// import { register } from '../../store/access.slice.js';
 import { schemaSignUp } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
-import { selectAccess } from '../../services/stateSelectors.js';
+// import { selectAccess } from '../../services/stateSelectors.js';
+import { AuthContext } from '../../context.js';
+import { createNewUser } from '../../services/requestsToServer.js';
 
 const SignUp = () => {
   const { t } = useTranslation();
-  const { status } = useSelector(selectAccess);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const focus = useRef();
+  // const { status } = useSelector(selectAccess);
   const { Formik } = formik;
+  const { logIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  const focus = useRef();
   const schema = schemaSignUp;
 
   useEffect(() => focus.current && focus.current.focus());
 
-  const onSubmit = (values, actions) => {
-    dispatch(register(values))
-      .unwrap()
-      .then(() => {
-        navigate(routes.mainPage(), { replace: false });
-      })
-      .catch(({ code, response }) => {
-        if (code === 'ERR_NETWORK') {
-          toast.error(t('toast.networkError'));
-        } else if (response?.statusCode === 409) {
-          actions.setFieldError('username', t('alreadyCreatedUser'));
-        }
-      });
+  const onSubmit = async (values, actions) => {
+    try {
+      const { data } = await createNewUser(values);
+      logIn(data);
+      navigate(routes.mainPage(), { replace: false });
+    } catch ({ code, response }) {
+      if (code === 'ERR_NETWORK') {
+        toast.error(t('toast.networkError'));
+      } else if (response?.status === 409) {
+        actions.setFieldError('username', t('alreadyCreatedUser'));
+      }
+    }
   };
 
   return (
@@ -124,7 +126,7 @@ const SignUp = () => {
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
-                    disabled={status === 'loading'}
+                    // disabled={status === 'loading'}
                   >
                     {t('form.signUp.signUp')}
                   </Button>

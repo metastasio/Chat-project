@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -9,14 +9,13 @@ import { AuthContext } from '../context';
 
 const Header = () => {
   const { t } = useTranslation();
-  const { token } = useSelector((state) => state.authorization);
-  const { logOut } = useContext(AuthContext);
+  const { authData, logOut } = useContext(AuthContext);
 
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
       <Container>
         <Navbar.Brand as={Link} to={routes.mainPage()}>{t('header.title')}</Navbar.Brand>
-        {token ? (
+        {authData?.token ? (
           <Button
             as={Link}
             to={routes.logInPage()}
