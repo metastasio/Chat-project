@@ -1,14 +1,10 @@
-// import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../../context';
+import { useAuthContext } from '../../hooks';
 
 const RequireAuth = ({ children }) => {
-  // const { token } = useSelector((state) => state.authorization);
-  const { authData } = useContext(AuthContext);
-  console.log(authData, 'AUTHDATA');
+  const { authData } = useAuthContext();
 
-  if (!authData.token) {
+  if (!authData?.token) {
     return <Navigate to="/login" replace />;
   }
   return children;

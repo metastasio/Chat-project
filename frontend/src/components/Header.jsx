@@ -1,15 +1,13 @@
-// import { useSelector } from 'react-redux';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { useContext } from 'react';
 
 import routes from '../services/routes';
-import { AuthContext } from '../context';
+import { useAuthContext } from '../hooks';
 
 const Header = () => {
   const { t } = useTranslation();
-  const { authData, logOut } = useContext(AuthContext);
+  const { authData, logOut } = useAuthContext();
 
   return (
     <Navbar className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">

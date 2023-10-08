@@ -4,7 +4,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findIndex, set } from 'lodash-es';
 
 import { getChatContent } from '../services/requestsToServer.js';
-// import { logOut } from './access.slice.js';
 
 export const getContent = createAsyncThunk(
   'content/getChannelContent',
@@ -53,6 +52,13 @@ const contentSlice = createSlice({
       );
       state.entities = set(state.entities, path, payload);
     },
+    resetContentData(state) {
+      state.ids = [];
+      state.entities = [];
+      state.messages = [];
+      state.currentChannel = '';
+      state.status = '';
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -72,13 +78,6 @@ const contentSlice = createSlice({
       .addCase(getContent.rejected, (state) => {
         state.status = 'error';
       });
-    // .addCase(logOut, (state) => {
-    //   state.ids = [];
-    //   state.entities = [];
-    //   state.messages = [];
-    //   state.currentChannel = '';
-    //   state.status = '';
-    // });
   },
 });
 
@@ -88,6 +87,7 @@ export const {
   changeActiveChannel,
   renameChannel,
   getNewMessages,
+  resetContentData,
 } = contentSlice.actions;
 
 export default contentSlice.reducer;

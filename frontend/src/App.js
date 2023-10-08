@@ -12,41 +12,39 @@ import routes from './services/routes.js';
 import AuthProvider from './components/AuthProvider.jsx';
 
 const App = () => (
-  <div className="h-100">
-    <div className="d-flex flex-column h-100">
-      <AuthProvider>
-        <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route
-              path={routes.mainPage()}
-              element={
-              (
-                <RequireAuth>
-                  <MainPage />
-                </RequireAuth>
-                )
-              }
-            />
-            <Route path={routes.logInPage()} element={<LoginPage />} />
-            <Route path={routes.signUpPage()} element={<SignUp />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </AuthProvider>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable
-        pauseOnHover
-      />
-    </div>
-  </div>
+  <>
+    <AuthProvider>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route
+            path={routes.mainPage()}
+            element={
+            (
+              <RequireAuth>
+                <MainPage />
+              </RequireAuth>
+              )
+            }
+          />
+          <Route path={routes.logInPage()} element={<LoginPage />} />
+          <Route path={routes.signUpPage()} element={<SignUp />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+    <ToastContainer
+      position="bottom-center"
+      autoClose={2000}
+      hideProgressBar
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover
+    />
+  </>
 );
 
 export default App;

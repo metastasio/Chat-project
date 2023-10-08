@@ -1,27 +1,22 @@
 import * as formik from 'formik';
 import { useNavigate } from 'react-router-dom';
-// import { useDispatch, useSelector } from 'react-redux';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
-// import { register } from '../../store/access.slice.js';
 import { schemaSignUp } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
-// import { selectAccess } from '../../services/stateSelectors.js';
-import { AuthContext } from '../../context.js';
 import { createNewUser } from '../../services/requestsToServer.js';
+import { useAuthContext } from '../../hooks/index.js';
 
 const SignUp = () => {
   const { t } = useTranslation();
-  // const { status } = useSelector(selectAccess);
   const { Formik } = formik;
-  const { logIn } = useContext(AuthContext);
+  const { logIn } = useAuthContext();
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
   const focus = useRef();
   const schema = schemaSignUp;
 
@@ -35,8 +30,10 @@ const SignUp = () => {
     } catch ({ code, response }) {
       if (code === 'ERR_NETWORK') {
         toast.error(t('toast.networkError'));
+        actions.setSubmitting(false);
       } else if (response?.status === 409) {
         actions.setFieldError('username', t('alreadyCreatedUser'));
+        actions.setSubmitting(false);
       }
     }
   };
@@ -60,13 +57,18 @@ const SignUp = () => {
               }}
             >
               {({
-                handleSubmit, handleChange, handleBlur, values, errors, touched,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                isSubmitting,
+                values,
+                errors,
+                touched,
               }) => (
                 <Form noValidate onSubmit={handleSubmit}>
                   <Form.Group>
                     <FloatingLabel controlId="signUpName" label={t('form.signUp.userName')} className="mb-3">
                       <Form.Control
-                        id="signUpName"
                         type="text"
                         required
                         name="username"
@@ -85,7 +87,6 @@ const SignUp = () => {
                   <Form.Group>
                     <FloatingLabel controlId="signUpPass" label={t('form.password')} className="mb-3">
                       <Form.Control
-                        id="signUpPass"
                         type="password"
                         required
                         name="password"
@@ -107,7 +108,6 @@ const SignUp = () => {
                       className="mb-3"
                     >
                       <Form.Control
-                        id="signUpPassConfirm"
                         type="password"
                         required
                         name="passwordConfirmation"
@@ -126,7 +126,7 @@ const SignUp = () => {
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
-                    // disabled={status === 'loading'}
+                    disabled={isSubmitting}
                   >
                     {t('form.signUp.signUp')}
                   </Button>

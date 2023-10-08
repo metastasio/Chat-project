@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,6 @@ import { toast } from 'react-toastify';
 import Channels from './Channels/Channels';
 import Chat from './Chat/Chat';
 import ModalSwitcher from './Modals/ModalSwitcher.jsx';
-import { AuthContext, SocketContext } from '../context.js';
 import {
   getContent,
   getNewChannel,
@@ -16,14 +15,14 @@ import {
   removeChannel,
   getNewMessages,
 } from '../store/content.slice.js';
+import { useAuthContext, useSocketContext } from '../hooks';
 
 const MainPage = () => {
   const { t } = useTranslation();
-  // const { token } = useSelector((state) => state.authorization);
-  const { authData } = useContext(AuthContext);
+  const { authData } = useAuthContext();
+  const { socket } = useSocketContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { socket } = useContext(SocketContext);
 
   useEffect(() => {
     socket.connect();

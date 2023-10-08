@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import ChannelItem from './ChannelItem';
 import { openModal } from '../../store/modal.slice';
-import { selectChatContent } from '../../services/stateSelectors';
+import { selectChatContent } from '../../store/stateSelectors';
 
 const Channels = () => {
   const { t } = useTranslation();

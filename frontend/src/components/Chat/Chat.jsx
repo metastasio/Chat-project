@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
@@ -8,14 +8,14 @@ import {
 } from 'react-bootstrap';
 
 import MessageItem from './MessageItem';
-import { selectChatContent } from '../../services/stateSelectors';
-import { AuthContext, SocketContext } from '../../context';
+import { selectChatContent } from '../../store/stateSelectors';
+import { useAuthContext, useSocketContext } from '../../hooks';
 
 const Chat = () => {
   const { t } = useTranslation();
-  const { handleEmit } = useContext(SocketContext);
+  const { handleEmit } = useSocketContext();
+  const { authData } = useAuthContext();
   const { entities, currentChannel, messages } = useSelector(selectChatContent);
-  const { authData } = useContext(AuthContext);
   const focus = useRef();
   const formRef = useRef();
 

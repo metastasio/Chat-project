@@ -1,22 +1,20 @@
 import * as formik from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useContext } from 'react';
 import {
   Button, Form, FloatingLabel, Card, Container,
 } from 'react-bootstrap';
 
 import { schemaLogIn } from '../../services/yupSchemas.js';
 import routes from '../../services/routes.js';
-import { AuthContext } from '../../context.js';
 import { getUserToken } from '../../services/requestsToServer.js';
+import { useAuthContext } from '../../hooks/index.js';
 
 const LoginPage = () => {
   const { t } = useTranslation();
   const { Formik } = formik;
-  const { logIn } = useContext(AuthContext);
+  const { logIn } = useAuthContext();
   const navigate = useNavigate();
   const schema = schemaLogIn;
 
@@ -28,9 +26,11 @@ const LoginPage = () => {
     } catch ({ code, response }) {
       if (code === 'ERR_NETWORK') {
         toast.error(t('toast.networkError'));
+        actions.setSubmitting(false);
       }
       if (response?.status === 401) {
         actions.setFieldError('password', t('wrongData'));
+        actions.setSubmitting(false);
       }
     }
   };
@@ -56,6 +56,7 @@ const LoginPage = () => {
                 handleSubmit,
                 handleChange,
                 handleBlur,
+                isSubmitting,
                 values,
                 errors,
                 touched,
@@ -64,7 +65,6 @@ const LoginPage = () => {
                   <Form.Group>
                     <FloatingLabel controlId="logInName" label={t('form.signIn.userName')} className="mb-3">
                       <Form.Control
-                        id="logInName"
                         type="text"
                         required
                         name="username"
@@ -82,7 +82,6 @@ const LoginPage = () => {
                   <Form.Group>
                     <FloatingLabel controlId="logInPass" label={t('form.password')} className="mb-3">
                       <Form.Control
-                        id="logInPass"
                         type="password"
                         required
                         name="password"
@@ -100,7 +99,7 @@ const LoginPage = () => {
                     type="submit"
                     variant="outline-primary"
                     className="w-100"
-                    // disabled={status === 'loading'}
+                    disabled={isSubmitting}
                   >
                     {t('form.signIn.signIn')}
                   </Button>
