@@ -20,7 +20,7 @@ const SignUp = () => {
   const focus = useRef();
   const schema = schemaSignUp;
 
-  useEffect(() => focus.current && focus.current.focus());
+  useEffect(() => focus.current && focus.current.focus(), []);
 
   const onSubmit = async (values, actions) => {
     try {
