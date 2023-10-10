@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { closeModal } from '../../store/modal.slice';
 import { changeActiveChannel } from '../../store/content.slice';
 import { schemaChannel } from '../../services/yupSchemas';
-import { selectModal, selectChatContent } from '../../store/stateSelectors';
+import { selectModal, selectNames } from '../../store/stateSelectors';
 import { useSocketContext } from '../../hooks';
 
 const ModalAddChannel = () => {
@@ -16,8 +16,7 @@ const ModalAddChannel = () => {
   const { handleEmit } = useSocketContext();
   const { t } = useTranslation();
   const { open } = useSelector(selectModal);
-  const { entities } = useSelector(selectChatContent);
-  const names = entities.map((entity) => entity.name);
+  const names = useSelector(selectNames);
   const schema = schemaChannel(names);
   const focus = useRef();
   const dispatch = useDispatch();

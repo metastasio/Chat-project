@@ -8,22 +8,20 @@ import {
 } from 'react-bootstrap';
 
 import MessageItem from './MessageItem';
-import { selectChatContent } from '../../store/stateSelectors';
+import { selectChatContent, selectCurrentChatMessages } from '../../store/stateSelectors';
 import { useAuthContext, useSocketContext } from '../../hooks';
 
 const Chat = () => {
   const { t } = useTranslation();
   const { handleEmit } = useSocketContext();
   const { authData } = useAuthContext();
-  const { entities, currentChannel, messages } = useSelector(selectChatContent);
+  const { entities, currentChannel } = useSelector(selectChatContent);
   const focus = useRef();
   const formRef = useRef();
 
   const getActiveChannel = (element) => element.id === currentChannel;
   const chat = entities.find(getActiveChannel);
-  const currentChatMessages = messages.filter(
-    (message) => message.channelId === currentChannel,
-  );
+  const currentChatMessages = useSelector(selectCurrentChatMessages(currentChannel));
   const messagesInChat = currentChatMessages.length;
 
   useEffect(() => focus.current && focus.current.focus(), [chat]);
