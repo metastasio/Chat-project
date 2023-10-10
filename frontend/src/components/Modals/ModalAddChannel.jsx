@@ -22,7 +22,7 @@ const ModalAddChannel = () => {
   const focus = useRef();
   const dispatch = useDispatch();
 
-  useEffect(() => focus.current && focus.current.focus());
+  useEffect(() => focus.current && focus.current.focus(), []);
 
   const onSubmit = async (value) => {
     handleEmit('newChannel', value, () => toast.error(t('toast.networkError')), (data) => {

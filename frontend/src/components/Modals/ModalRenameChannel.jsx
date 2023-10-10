@@ -36,7 +36,7 @@ const ModalRenameChannel = () => {
     if (focus.current) {
       focus.current.focus();
     }
-  });
+  }, []);
 
   const onSubmit = async (value) => {
     handleEmit('renameChannel', { id: meta, name: value.name }, () => toast.error(t('toast.networkError')), () => {

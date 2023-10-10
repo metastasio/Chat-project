@@ -26,7 +26,7 @@ const Chat = () => {
   );
   const messagesInChat = currentChatMessages.length;
 
-  useEffect(() => focus.current && focus.current.focus());
+  useEffect(() => focus.current && focus.current.focus(), [chat]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +34,7 @@ const Chat = () => {
     const dataChecked = leoProfanity.clean(data.get('body'));
     if (!dataChecked.trim()) {
       formRef.current.reset();
+      focus.current.focus();
       return;
     }
     handleEmit('newMessage', {
@@ -42,6 +43,7 @@ const Chat = () => {
       username: authData.username,
     }, () => toast.error(t('toast.networkError')));
     formRef.current.reset();
+    focus.current.focus();
   };
 
   return (
@@ -71,7 +73,6 @@ const Chat = () => {
           <Form onSubmit={handleSubmit} ref={formRef}>
             <InputGroup className="mb-3">
               <Form.Control
-                autoFocus
                 aria-describedby="basic-addon2"
                 aria-label="Новое сообщение"
                 placeholder={t('chat.messagePlaceHolder')}
