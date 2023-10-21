@@ -25,7 +25,8 @@ const ModalAddChannel = () => {
 
   const onSubmit = async (value) => {
     handleEmit('newChannel', value, () => toast.error(t('toast.networkError')), (data) => {
-      toast.success(t('toast.added')); dispatch(changeActiveChannel(data.id));
+      toast.success(t('toast.added'));
+      dispatch(changeActiveChannel(data.id));
     });
     dispatch(closeModal());
   };

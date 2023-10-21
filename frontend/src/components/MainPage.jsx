@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, Row } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Channels from './Channels/Channels';
@@ -19,10 +18,9 @@ import { useAuthContext, useSocketContext } from '../hooks';
 
 const MainPage = () => {
   const { t } = useTranslation();
-  const { authData } = useAuthContext();
   const { socket } = useSocketContext();
+  const { authData, logOut } = useAuthContext();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     socket.connect();
@@ -67,8 +65,8 @@ const MainPage = () => {
   useEffect(() => {
     dispatch(getContent(authData.token))
       .unwrap()
-      .catch(() => navigate('/login'));
-  }, [dispatch, authData.token, navigate]);
+      .catch(() => logOut());
+  }, [dispatch, authData.token, logOut]);
 
   return (
     <>
